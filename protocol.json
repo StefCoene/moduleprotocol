@@ -2890,6 +2890,7 @@
          "Version" : "edition 1 _ rev7"
       },
       "09" : {
+         "AllChannelStatus" : "FF",
          "ChannelNumbers" : {
             "Name" : {
                "Map" : {
