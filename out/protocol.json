@@ -71,6 +71,11 @@
                   "Set" : "yes"
                }
             },
+            "0A" : {
+               "Action" : {
+                  "Set" : "yes"
+               }
+            },
             "0B" : {
                "Action" : {
                   "Get" : "yes",
@@ -224,7 +229,7 @@
                }
             }
          },
-         "Modules" : "01,05,0B,16,17,18,1E,1F,20,21,22,28,2D,30,33,34,35,36,37,38,3A,3B,3C,3D,3E,41,42,43",
+         "Modules" : "01,05,0A,0B,16,17,18,1E,1F,20,21,22,28,2D,30,33,34,35,36,37,38,3A,3B,3C,3D,3E,41,42,43",
          "Set" : {
             "Match" : {
                "OFF" : {
@@ -257,6 +262,11 @@
                   "Set" : "yes"
                }
             },
+            "0A" : {
+               "Action" : {
+                  "Set" : "yes"
+               }
+            },
             "0B" : {
                "Action" : {
                   "Get" : "yes",
@@ -410,7 +420,7 @@
                }
             }
          },
-         "Modules" : "01,05,0B,16,17,18,1E,1F,20,21,22,28,2D,30,33,34,35,36,37,38,3A,3B,3C,3D,3E,41,42,43",
+         "Modules" : "01,05,0A,0B,16,17,18,1E,1F,20,21,22,28,2D,30,33,34,35,36,37,38,3A,3B,3C,3D,3E,41,42,43",
          "Set" : {
             "Match" : {
                "OFF" : {
@@ -3095,6 +3105,48 @@
          "Version" : "edition 1 _ rev4"
       },
       "0A" : {
+         "Channels" : {
+            "01" : {
+               "Editable" : "yes",
+               "Name" : "Channel 1",
+               "Type" : "Button"
+            },
+            "02" : {
+               "Editable" : "yes",
+               "Name" : "Channel 2",
+               "Type" : "Button"
+            },
+            "03" : {
+               "Editable" : "yes",
+               "Name" : "Channel 3",
+               "Type" : "Button"
+            },
+            "04" : {
+               "Editable" : "yes",
+               "Name" : "Channel 4",
+               "Type" : "Button"
+            },
+            "05" : {
+               "Editable" : "yes",
+               "Name" : "Channel 5",
+               "Type" : "Button"
+            },
+            "06" : {
+               "Editable" : "yes",
+               "Name" : "Channel 6",
+               "Type" : "Button"
+            },
+            "07" : {
+               "Editable" : "yes",
+               "Name" : "Channel 7",
+               "Type" : "Button"
+            },
+            "08" : {
+               "Editable" : "yes",
+               "Name" : "Channel 8",
+               "Type" : "Button"
+            }
+         },
          "File" : "protocol_vmb8ir.txt",
          "Info" : "Infrared remote control receiver module",
          "Messages" : {
@@ -26503,5 +26555,5 @@
          "Version" : "edition 3"
       }
    },
-   "Version" : "20220516"
+   "Version" : "20220517"
 }
