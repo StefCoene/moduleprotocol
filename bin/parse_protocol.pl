@@ -296,7 +296,9 @@ foreach my $file (sort keys(%{$file{PerFile}})) {
          foreach my $line (split "\n", $file{PerFile}{$file}{Messages}{$counter}{DATABYTE} ) {
             # First databyte contains the type of message
             if ( $line =~ /DATABYTE1/ ) {
-               if ( $line =~ /DATABYTE1=(.+) \(H’(..)’\)/ or
+               if ( $line =~ /DATABYTE1\d/) {
+
+               } elsif ( $line =~ /DATABYTE1=(.+) \(H’(..)’\)/ or
                     $line =~ /DATABYTE1 (.+) \(H’(..)’\)/ or
                     $line =~ /DATABYTE1=(.+) \(0x(.+)\)/ or
                     $line =~ /DATABYTE1=(COMMAND_CANCEL_INHIBIT) \(0(17)\)/) {
@@ -622,6 +624,14 @@ foreach my $file (sort keys(%{$file{PerFile}})) {
 
       $file{ModuleTypes}{'45'}{Type} = "VMBDALI" ;
       $file{ModuleTypes}{'5A'}{Type} = "VMBDALI-20" ;
+
+   # VMBELO = 37
+   # VMBELO-20 = 52
+   } elsif ( $ModuleType eq "37" ) {
+      %{$file{ModuleTypes}{'52'}} = %{$file{ModuleTypes}{'37'}} ;
+
+      $file{ModuleTypes}{'37'}{Type} = "VMBELO" ;
+      $file{ModuleTypes}{'52'}{Type} = "VMBELO-20" ;
    }
 }
 
