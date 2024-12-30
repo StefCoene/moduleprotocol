@@ -612,6 +612,14 @@ foreach my $file (sort keys(%{$file{PerFile}})) {
       $file{ModuleTypes}{'54'}{Type} = "VMBGP1-20" ;
       $file{ModuleTypes}{'55'}{Type} = "VMBGP2-20" ;
       $file{ModuleTypes}{'56'}{Type} = "VMBGP4-20" ;
+
+   # VMBDALI = 45
+   # VMBDALI-20 = 5A
+   } elsif ( $ModuleType eq "45" ) {
+      %{$file{ModuleTypes}{'5A'}} = %{$file{ModuleTypes}{'45'}} ;
+
+      $file{ModuleTypes}{'45'}{Type} = "VMBDALI" ;
+      $file{ModuleTypes}{'5A'}{Type} = "VMBDALI-20" ;
    }
 }
 
