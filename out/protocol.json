@@ -28517,6 +28517,566 @@
          "Type" : "VMBGP1-20",
          "Version" : "edition 2"
       },
+      "55" : {
+         "File" : "protocol_vmbgp1_20_vmbgp2_20_vmbgp4_20.txt",
+         "Info" : "VMBGP2-20 VMBGP4-20",
+         "Messages" : {
+            "00" : {
+               "Info" : "Transmits the channel switch status",
+               "Name" : "COMMAND_PUSH_BUTTON_STATUS",
+               "Prio" : "High"
+            },
+            "01" : {
+               "Info" : "Switch open collector output off command received",
+               "Name" : "COMMAND_SWITCH_RELAY_OFF",
+               "Prio" : "High"
+            },
+            "02" : {
+               "Info" : "Switch open collector output on command received",
+               "Name" : "COMMAND_SWITCH_RELAY_ON",
+               "Prio" : "High"
+            },
+            "03" : {
+               "Info" : "Start open collector timer command received",
+               "Name" : "COMMAND_START_RELAY_TIMER",
+               "Prio" : "High"
+            },
+            "12" : {
+               "Info" : "Lock channel command received",
+               "Name" : "COMMAND_FORCED_OFF",
+               "Prio" : "High"
+            },
+            "13" : {
+               "Info" : "Unlock channel command received",
+               "Name" : "COMMAND_CANCEL_FORCED_OFF",
+               "Prio" : "High"
+            },
+            "B0" : {
+               "Info" : "Transmits the module subtype",
+               "Name" : "COMMAND_SUBTYPE",
+               "Prio" : "Low"
+            },
+            "B1" : {
+               "Info" : "Disable Channel Program command received",
+               "Name" : "COMMAND_DISABLE_PROGRAM",
+               "Prio" : "Low"
+            },
+            "B2" : {
+               "Info" : "Enable Channel Program command received",
+               "Name" : "COMMAND_ENABLE_PROGRAM",
+               "Prio" : "Low"
+            },
+            "B3" : {
+               "Info" : "Select Program command received",
+               "Name" : "COMMAND_SELECT_PROGRAM",
+               "Prio" : "Low"
+            },
+            "B5" : {
+               "Info" : "Set or Clear test mode command received",
+               "Name" : "COMMAND_SET_CLR_LEARN_MODE",
+               "Prio" : "Low"
+            },
+            "B9" : {
+               "Info" : "Transmit the fourth part of the sensor settings",
+               "Name" : "COMMAND_TEMP_SENSOR_SETTINGS_PART4",
+               "Prio" : "Low"
+            },
+            "C0" : {
+               "Info" : "Read program step command received",
+               "Name" : "COMMAND_READ_PROGRAM_STEP",
+               "Prio" : "Low"
+            },
+            "C1" : {
+               "Info" : "Transmits program step info",
+               "Name" : "COMMAND_PROGRAM_STEP_INFO",
+               "Prio" : "Low"
+            },
+            "C2" : {
+               "Info" : "Write program step command received",
+               "Name" : "COMMAND_WRITE_PROGRAM_STEP",
+               "Prio" : "Low"
+            },
+            "C5" : {
+               "Info" : "Set sensor zone number command received",
+               "Name" : "COMMAND_SET_SENSOR_ZONE_NUMBER",
+               "Prio" : "Low"
+            },
+            "C6" : {
+               "Info" : "Transmit the third part of the sensor settings",
+               "Name" : "COMMAND_TEMP_SENSOR_SETTINGS_PART3",
+               "Prio" : "Low"
+            },
+            "C9" : {
+               "Info" : "Read data block from memory command received",
+               "Name" : "COMMAND_READ_MEMORY_BLOCK",
+               "Prio" : "Low"
+            },
+            "CA" : {
+               "Info" : "Or;Write memory block command received",
+               "Name" : "COMMAND_WRITE_MEMORY_BLOCK",
+               "Prio" : "Low"
+            },
+            "CB" : {
+               "Info" : "Memory dump request command received",
+               "Name" : "COMMAND_MEMORY_DUMP_REQUEST",
+               "Prio" : "Low"
+            },
+            "CC" : {
+               "Info" : "Transmits memory data block (4 bytes);Transmits memory data block (5...60 bytes)(only allowed for CAN FD frames)",
+               "Name" : "COMMAND_MEMORY_DATA_BLOCK",
+               "Prio" : "Low"
+            },
+            "D9" : {
+               "Info" : "Bus error counter status request command received",
+               "Name" : "COMMAND_BUS_ERROR_COUNTER_STATUS_REQUEST",
+               "Prio" : "Low"
+            },
+            "DA" : {
+               "Info" : "Transmit Bus error counter status",
+               "Name" : "COMMAND_BUSERROR_COUNTER_STATUS",
+               "Prio" : "Low"
+            },
+            "DB" : {
+               "Info" : "Switch to comfort mode command received",
+               "Name" : "COMMAND_SWITCH_TO_COMFORT_MODE",
+               "Prio" : "Low"
+            },
+            "DC" : {
+               "Info" : "Switch to day mode command received",
+               "Name" : "COMMAND_SWITCH_TO_DAY_MODE",
+               "Prio" : "Low"
+            },
+            "DD" : {
+               "Info" : "Switch to night mode command received",
+               "Name" : "COMMAND_SWITCH_TO_NIGHT_MODE",
+               "Prio" : "Low"
+            },
+            "DE" : {
+               "Info" : "Switch to safe temperature mode command received",
+               "Name" : "COMMAND_SWITCH_TO_SAFE_MODE",
+               "Prio" : "Low"
+            },
+            "DF" : {
+               "Info" : "Set cooling mode command received",
+               "Name" : "COMMAND_SET_COOLING_MODE",
+               "Prio" : "Low"
+            },
+            "E0" : {
+               "Info" : "Set heating mode command received",
+               "Name" : "COMMAND_SET_HEATING_MODE",
+               "Prio" : "Low"
+            },
+            "E3" : {
+               "Info" : "Set default sleep time command received",
+               "Name" : "COMMAND_SET_DEFAULT_SLEEP_TIME",
+               "Prio" : "Low"
+            },
+            "E4" : {
+               "Info" : "Set temperature command received",
+               "Name" : "COMMAND_SET_TEMP",
+               "Prio" : "Low"
+            },
+            "E5" : {
+               "Info" : "Sensor temperature request command received",
+               "Name" : "COMMAND_SENSOR_TEMP_REQUEST",
+               "Prio" : "Low"
+            },
+            "E6" : {
+               "Info" : "Transmit the sensor temperature",
+               "Name" : "COMMAND_SENSOR_TEMPERATURE",
+               "Prio" : "Low"
+            },
+            "E7" : {
+               "Info" : "Sensor settings request command received",
+               "Name" : "COMMAND_TEMP_SENSOR_SETTINGS_REQUEST",
+               "Prio" : "Low"
+            },
+            "E8" : {
+               "Info" : "Transmit the first part of the sensor settings",
+               "Name" : "COMMAND_TEMP_SENSOR_SETTINGS_PART1",
+               "Prio" : "Low"
+            },
+            "E9" : {
+               "Info" : "Transmit the second part of the sensor settings",
+               "Name" : "COMMAND_TEMP_SENSOR_SETTINGS_PART2",
+               "Prio" : "Low"
+            },
+            "EA" : {
+               "Info" : "Transmit the sensor status",
+               "Name" : "COMMAND_TEMP_SENSOR_STATUS",
+               "Prio" : "Low"
+            },
+            "ED" : {
+               "Info" : "Transmits the module status",
+               "Name" : "COMMAND_MODULE_STATUS",
+               "Prio" : "Low"
+            },
+            "EF" : {
+               "Info" : "Channel name request command received",
+               "Name" : "COMMAND_CHANNEL_NAME_REQUEST",
+               "Prio" : "Low"
+            },
+            "F0" : {
+               "Info" : "Transmits the first part of channel name",
+               "Name" : "COMMAND_CHANNEL_NAME_PART1",
+               "Prio" : "Low"
+            },
+            "F1" : {
+               "Info" : "Transmits the second part of the channel name",
+               "Name" : "COMMAND_CHANNEL_NAME_PART2",
+               "Prio" : "Low"
+            },
+            "F2" : {
+               "Info" : "Transmits the third part of the channel name",
+               "Name" : "COMMAND_CHANNEL_NAME_PART3",
+               "Prio" : "Low"
+            },
+            "F4" : {
+               "Info" : "Update channel LEDs command received",
+               "Name" : "COMMAND_UPDATE_LED_STATUS",
+               "Prio" : "Low"
+            },
+            "F5" : {
+               "Info" : "Clear channel LED command received",
+               "Name" : "COMMAND_CLEAR_LED",
+               "Prio" : "Low"
+            },
+            "F6" : {
+               "Info" : "Set channel LED command received",
+               "Name" : "COMMAND_SET_LED",
+               "Prio" : "Low"
+            },
+            "F7" : {
+               "Info" : "Slow blink channel LED command received",
+               "Name" : "COMMAND_SLOW_BLINK_LED",
+               "Prio" : "Low"
+            },
+            "F8" : {
+               "Info" : "Fast blink channel LED command received",
+               "Name" : "COMMAND_FAST_BLINK_LED",
+               "Prio" : "Low"
+            },
+            "F9" : {
+               "Info" : "Very fast blink channel LED command received",
+               "Name" : "COMMAND_VERY_FAST_BLINK_LED",
+               "Prio" : "Low"
+            },
+            "FA" : {
+               "Info" : "Module status request command received",
+               "Name" : "COMMAND_MODULE_STATUS_REQUEST",
+               "Prio" : "Low"
+            },
+            "FC" : {
+               "Info" : "Write data to memory command received",
+               "Name" : "COMMAND_WRITE_DATA_TO_MEMORY",
+               "Prio" : "Low"
+            },
+            "FD" : {
+               "Info" : "Read data from memory command received",
+               "Name" : "COMMAND_READ_DATA_FROM_MEMORY",
+               "Prio" : "Low"
+            },
+            "FE" : {
+               "Info" : "Transmits the memory data",
+               "Name" : "COMMAND_MEMORY_DATA",
+               "Prio" : "Low"
+            },
+            "FF" : {
+               "Data" : {
+                  "BuildWeek" : "7",
+                  "BuildYear" : "6",
+                  "MemoryMap" : "5",
+                  "SerialHigh" : "3",
+                  "SerialLow" : "4"
+               },
+               "Info" : "Transmits the module type",
+               "Name" : "COMMAND_MODULETYPE",
+               "Prio" : "Low"
+            }
+         },
+         "Type" : "VMBGP2-20",
+         "Version" : "edition 2"
+      },
+      "56" : {
+         "File" : "protocol_vmbgp1_20_vmbgp2_20_vmbgp4_20.txt",
+         "Info" : "VMBGP2-20 VMBGP4-20",
+         "Messages" : {
+            "00" : {
+               "Info" : "Transmits the channel switch status",
+               "Name" : "COMMAND_PUSH_BUTTON_STATUS",
+               "Prio" : "High"
+            },
+            "01" : {
+               "Info" : "Switch open collector output off command received",
+               "Name" : "COMMAND_SWITCH_RELAY_OFF",
+               "Prio" : "High"
+            },
+            "02" : {
+               "Info" : "Switch open collector output on command received",
+               "Name" : "COMMAND_SWITCH_RELAY_ON",
+               "Prio" : "High"
+            },
+            "03" : {
+               "Info" : "Start open collector timer command received",
+               "Name" : "COMMAND_START_RELAY_TIMER",
+               "Prio" : "High"
+            },
+            "12" : {
+               "Info" : "Lock channel command received",
+               "Name" : "COMMAND_FORCED_OFF",
+               "Prio" : "High"
+            },
+            "13" : {
+               "Info" : "Unlock channel command received",
+               "Name" : "COMMAND_CANCEL_FORCED_OFF",
+               "Prio" : "High"
+            },
+            "B0" : {
+               "Info" : "Transmits the module subtype",
+               "Name" : "COMMAND_SUBTYPE",
+               "Prio" : "Low"
+            },
+            "B1" : {
+               "Info" : "Disable Channel Program command received",
+               "Name" : "COMMAND_DISABLE_PROGRAM",
+               "Prio" : "Low"
+            },
+            "B2" : {
+               "Info" : "Enable Channel Program command received",
+               "Name" : "COMMAND_ENABLE_PROGRAM",
+               "Prio" : "Low"
+            },
+            "B3" : {
+               "Info" : "Select Program command received",
+               "Name" : "COMMAND_SELECT_PROGRAM",
+               "Prio" : "Low"
+            },
+            "B5" : {
+               "Info" : "Set or Clear test mode command received",
+               "Name" : "COMMAND_SET_CLR_LEARN_MODE",
+               "Prio" : "Low"
+            },
+            "B9" : {
+               "Info" : "Transmit the fourth part of the sensor settings",
+               "Name" : "COMMAND_TEMP_SENSOR_SETTINGS_PART4",
+               "Prio" : "Low"
+            },
+            "C0" : {
+               "Info" : "Read program step command received",
+               "Name" : "COMMAND_READ_PROGRAM_STEP",
+               "Prio" : "Low"
+            },
+            "C1" : {
+               "Info" : "Transmits program step info",
+               "Name" : "COMMAND_PROGRAM_STEP_INFO",
+               "Prio" : "Low"
+            },
+            "C2" : {
+               "Info" : "Write program step command received",
+               "Name" : "COMMAND_WRITE_PROGRAM_STEP",
+               "Prio" : "Low"
+            },
+            "C5" : {
+               "Info" : "Set sensor zone number command received",
+               "Name" : "COMMAND_SET_SENSOR_ZONE_NUMBER",
+               "Prio" : "Low"
+            },
+            "C6" : {
+               "Info" : "Transmit the third part of the sensor settings",
+               "Name" : "COMMAND_TEMP_SENSOR_SETTINGS_PART3",
+               "Prio" : "Low"
+            },
+            "C9" : {
+               "Info" : "Read data block from memory command received",
+               "Name" : "COMMAND_READ_MEMORY_BLOCK",
+               "Prio" : "Low"
+            },
+            "CA" : {
+               "Info" : "Or;Write memory block command received",
+               "Name" : "COMMAND_WRITE_MEMORY_BLOCK",
+               "Prio" : "Low"
+            },
+            "CB" : {
+               "Info" : "Memory dump request command received",
+               "Name" : "COMMAND_MEMORY_DUMP_REQUEST",
+               "Prio" : "Low"
+            },
+            "CC" : {
+               "Info" : "Transmits memory data block (4 bytes);Transmits memory data block (5...60 bytes)(only allowed for CAN FD frames)",
+               "Name" : "COMMAND_MEMORY_DATA_BLOCK",
+               "Prio" : "Low"
+            },
+            "D9" : {
+               "Info" : "Bus error counter status request command received",
+               "Name" : "COMMAND_BUS_ERROR_COUNTER_STATUS_REQUEST",
+               "Prio" : "Low"
+            },
+            "DA" : {
+               "Info" : "Transmit Bus error counter status",
+               "Name" : "COMMAND_BUSERROR_COUNTER_STATUS",
+               "Prio" : "Low"
+            },
+            "DB" : {
+               "Info" : "Switch to comfort mode command received",
+               "Name" : "COMMAND_SWITCH_TO_COMFORT_MODE",
+               "Prio" : "Low"
+            },
+            "DC" : {
+               "Info" : "Switch to day mode command received",
+               "Name" : "COMMAND_SWITCH_TO_DAY_MODE",
+               "Prio" : "Low"
+            },
+            "DD" : {
+               "Info" : "Switch to night mode command received",
+               "Name" : "COMMAND_SWITCH_TO_NIGHT_MODE",
+               "Prio" : "Low"
+            },
+            "DE" : {
+               "Info" : "Switch to safe temperature mode command received",
+               "Name" : "COMMAND_SWITCH_TO_SAFE_MODE",
+               "Prio" : "Low"
+            },
+            "DF" : {
+               "Info" : "Set cooling mode command received",
+               "Name" : "COMMAND_SET_COOLING_MODE",
+               "Prio" : "Low"
+            },
+            "E0" : {
+               "Info" : "Set heating mode command received",
+               "Name" : "COMMAND_SET_HEATING_MODE",
+               "Prio" : "Low"
+            },
+            "E3" : {
+               "Info" : "Set default sleep time command received",
+               "Name" : "COMMAND_SET_DEFAULT_SLEEP_TIME",
+               "Prio" : "Low"
+            },
+            "E4" : {
+               "Info" : "Set temperature command received",
+               "Name" : "COMMAND_SET_TEMP",
+               "Prio" : "Low"
+            },
+            "E5" : {
+               "Info" : "Sensor temperature request command received",
+               "Name" : "COMMAND_SENSOR_TEMP_REQUEST",
+               "Prio" : "Low"
+            },
+            "E6" : {
+               "Info" : "Transmit the sensor temperature",
+               "Name" : "COMMAND_SENSOR_TEMPERATURE",
+               "Prio" : "Low"
+            },
+            "E7" : {
+               "Info" : "Sensor settings request command received",
+               "Name" : "COMMAND_TEMP_SENSOR_SETTINGS_REQUEST",
+               "Prio" : "Low"
+            },
+            "E8" : {
+               "Info" : "Transmit the first part of the sensor settings",
+               "Name" : "COMMAND_TEMP_SENSOR_SETTINGS_PART1",
+               "Prio" : "Low"
+            },
+            "E9" : {
+               "Info" : "Transmit the second part of the sensor settings",
+               "Name" : "COMMAND_TEMP_SENSOR_SETTINGS_PART2",
+               "Prio" : "Low"
+            },
+            "EA" : {
+               "Info" : "Transmit the sensor status",
+               "Name" : "COMMAND_TEMP_SENSOR_STATUS",
+               "Prio" : "Low"
+            },
+            "ED" : {
+               "Info" : "Transmits the module status",
+               "Name" : "COMMAND_MODULE_STATUS",
+               "Prio" : "Low"
+            },
+            "EF" : {
+               "Info" : "Channel name request command received",
+               "Name" : "COMMAND_CHANNEL_NAME_REQUEST",
+               "Prio" : "Low"
+            },
+            "F0" : {
+               "Info" : "Transmits the first part of channel name",
+               "Name" : "COMMAND_CHANNEL_NAME_PART1",
+               "Prio" : "Low"
+            },
+            "F1" : {
+               "Info" : "Transmits the second part of the channel name",
+               "Name" : "COMMAND_CHANNEL_NAME_PART2",
+               "Prio" : "Low"
+            },
+            "F2" : {
+               "Info" : "Transmits the third part of the channel name",
+               "Name" : "COMMAND_CHANNEL_NAME_PART3",
+               "Prio" : "Low"
+            },
+            "F4" : {
+               "Info" : "Update channel LEDs command received",
+               "Name" : "COMMAND_UPDATE_LED_STATUS",
+               "Prio" : "Low"
+            },
+            "F5" : {
+               "Info" : "Clear channel LED command received",
+               "Name" : "COMMAND_CLEAR_LED",
+               "Prio" : "Low"
+            },
+            "F6" : {
+               "Info" : "Set channel LED command received",
+               "Name" : "COMMAND_SET_LED",
+               "Prio" : "Low"
+            },
+            "F7" : {
+               "Info" : "Slow blink channel LED command received",
+               "Name" : "COMMAND_SLOW_BLINK_LED",
+               "Prio" : "Low"
+            },
+            "F8" : {
+               "Info" : "Fast blink channel LED command received",
+               "Name" : "COMMAND_FAST_BLINK_LED",
+               "Prio" : "Low"
+            },
+            "F9" : {
+               "Info" : "Very fast blink channel LED command received",
+               "Name" : "COMMAND_VERY_FAST_BLINK_LED",
+               "Prio" : "Low"
+            },
+            "FA" : {
+               "Info" : "Module status request command received",
+               "Name" : "COMMAND_MODULE_STATUS_REQUEST",
+               "Prio" : "Low"
+            },
+            "FC" : {
+               "Info" : "Write data to memory command received",
+               "Name" : "COMMAND_WRITE_DATA_TO_MEMORY",
+               "Prio" : "Low"
+            },
+            "FD" : {
+               "Info" : "Read data from memory command received",
+               "Name" : "COMMAND_READ_DATA_FROM_MEMORY",
+               "Prio" : "Low"
+            },
+            "FE" : {
+               "Info" : "Transmits the memory data",
+               "Name" : "COMMAND_MEMORY_DATA",
+               "Prio" : "Low"
+            },
+            "FF" : {
+               "Data" : {
+                  "BuildWeek" : "7",
+                  "BuildYear" : "6",
+                  "MemoryMap" : "5",
+                  "SerialHigh" : "3",
+                  "SerialLow" : "4"
+               },
+               "Info" : "Transmits the module type",
+               "Name" : "COMMAND_MODULETYPE",
+               "Prio" : "Low"
+            }
+         },
+         "Type" : "VMBGP4-20",
+         "Version" : "edition 2"
+      },
       "57" : {
          "File" : "protocol_vmbgpo_20.txt",
          "Info" : "Touch panel with Oled display",
