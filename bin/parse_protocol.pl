@@ -100,6 +100,8 @@ my %file ; # Contains all raw info read from the files
 # Loop all files and process the raw input.
 foreach my $file (sort `ls txt/protocol*.txt`) {
    chomp $file ;
+   next if $file eq "txt/protocol_vmbelo.txt" ; # New file is txt/protocol_vmbelo_vmbelo_20.txt
+
    print "   - $file\n" if defined $global{opts}{verbose} ;
 
    open (FILE,"<$file") ;

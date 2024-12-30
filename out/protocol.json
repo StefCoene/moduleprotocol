@@ -20652,8 +20652,8 @@
                "Type" : "Memo"
             }
          },
-         "File" : "protocol_vmbelo.txt",
-         "Info" : "Edge-lit touch panel with Oled display",
+         "File" : "protocol_vmbelo_vmbelo_20.txt",
+         "Info" : "VMBELO-20 Edge-lit touch panel with Oled",
          "Memory" : {
             "1" : {
                "Address" : {
@@ -20936,6 +20936,11 @@
                "Name" : "COMMAND_CANCEL_FORCED_OFF",
                "Prio" : "High"
             },
+            "A4" : {
+               "Info" : "Counter value command received",
+               "Name" : "COMMAND_COUNTER_VALUE",
+               "Prio" : "Low"
+            },
             "AC" : {
                "Data" : {
                   "PerMessage" : {
@@ -20965,6 +20970,11 @@
             "B3" : {
                "Info" : "Select Program command received",
                "Name" : "COMMAND_SELECT_PROGRAM",
+               "Prio" : "Low"
+            },
+            "B5" : {
+               "Info" : "Set or Clear test mode command received",
+               "Name" : "COMMAND_SET_CLR_LEARN_MODE",
                "Prio" : "Low"
             },
             "B9" : {
@@ -21003,7 +21013,7 @@
                "Prio" : "Low"
             },
             "CA" : {
-               "Info" : "Write memory block command received",
+               "Info" : "Or;Write memory block command received",
                "Name" : "COMMAND_WRITE_MEMORY_BLOCK",
                "Prio" : "Low"
             },
@@ -21013,7 +21023,7 @@
                "Prio" : "Low"
             },
             "CC" : {
-               "Info" : "Transmits memory data block (4 bytes)",
+               "Info" : "Transmits memory data block (4 bytes);Transmits memory data block (5...60 bytes)(only allowed for CAN FD frames)",
                "Name" : "COMMAND_MEMORY_DATA_BLOCK",
                "Prio" : "Low"
             },
@@ -21376,7 +21386,7 @@
          "TemperatureChannel" : "33",
          "ThermostatAddr" : "3",
          "Type" : "VMBELO",
-         "Version" : "edition 3"
+         "Version" : "edition 1"
       },
       "38" : {
          "AllChannelStatus" : "FF",
