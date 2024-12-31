@@ -6,6 +6,9 @@ The upstream repository contains the protocol pdf files and this README. I just 
 # Velbus module protocol
 This repository collects all module protocol manuals.
 
+The development branch contains the script to parse the protocol files. If there are new modules I use the development branch to generate a new protocol.json file and copy this file manually to the master branch.
+I'm not sure if this is the correct way to do, but when you include the protocol.json file in an other git repository, you don't want to include too much files so I want to keep the master branch as clean as possible.
+
 ## List of modules and their ID
 
 | Module ID | Name | |
