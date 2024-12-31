@@ -9498,6 +9498,10 @@
                "Prio" : "Low"
             }
          },
+         "SameModule" : {
+            "1F" : "VMBGP2",
+            "20" : "VMBGP4"
+         },
          "TemperatureChannel" : "10",
          "ThermostatAddr" : "0",
          "Type" : "VMBGP1",
@@ -10166,6 +10170,10 @@
                "Prio" : "Low"
             }
          },
+         "SameModule" : {
+            "1F" : "VMBGP2",
+            "20" : "VMBGP4"
+         },
          "TemperatureChannel" : "10",
          "ThermostatAddr" : "0",
          "Type" : "VMBGP2",
@@ -10833,6 +10841,10 @@
                "Name" : "COMMAND_MODULETYPE",
                "Prio" : "Low"
             }
+         },
+         "SameModule" : {
+            "1F" : "VMBGP2",
+            "20" : "VMBGP4"
          },
          "TemperatureChannel" : "10",
          "ThermostatAddr" : "0",
@@ -19086,6 +19098,10 @@
                "Prio" : "Low"
             }
          },
+         "SameModule" : {
+            "35" : "VMBEL2",
+            "36" : "VMBEL4"
+         },
          "TemperatureChannel" : "09",
          "ThermostatAddr" : "0",
          "Type" : "VMBEL1",
@@ -19757,6 +19773,10 @@
                "Prio" : "Low"
             }
          },
+         "SameModule" : {
+            "35" : "VMBEL2",
+            "36" : "VMBEL4"
+         },
          "TemperatureChannel" : "09",
          "ThermostatAddr" : "0",
          "Type" : "VMBEL2",
@@ -20427,6 +20447,10 @@
                "Name" : "COMMAND_MODULETYPE",
                "Prio" : "Low"
             }
+         },
+         "SameModule" : {
+            "35" : "VMBEL2",
+            "36" : "VMBEL4"
          },
          "TemperatureChannel" : "09",
          "ThermostatAddr" : "0",
@@ -21383,6 +21407,9 @@
                "Prio" : "Low"
             }
          },
+         "SameModule" : {
+            "52" : "VMBELO-20"
+         },
          "TemperatureChannel" : "33",
          "ThermostatAddr" : "3",
          "Type" : "VMBELO",
@@ -21836,6 +21863,10 @@
                "Name" : "COMMAND_MODULETYPE",
                "Prio" : "Low"
             }
+         },
+         "SameModule" : {
+            "3F" : "VMCM3",
+            "40" : "VMBUSBIP"
          },
          "Type" : "VMBSIG",
          "Version" : "edition 3"
@@ -22502,6 +22533,10 @@
                "Name" : "COMMAND_MODULETYPE",
                "Prio" : "Low"
             }
+         },
+         "SameModule" : {
+            "3B" : "VMBGP2",
+            "3C" : "VMBGP4"
          },
          "TemperatureChannel" : "10",
          "ThermostatAddr" : "0",
@@ -23171,9 +23206,13 @@
                "Prio" : "Low"
             }
          },
+         "SameModule" : {
+            "3B" : "VMBGP2",
+            "3C" : "VMBGP4"
+         },
          "TemperatureChannel" : "10",
          "ThermostatAddr" : "0",
-         "Type" : "VMBGP2-2",
+         "Type" : "VMBGP2",
          "Version" : "version 1"
       },
       "3C" : {
@@ -23839,9 +23878,13 @@
                "Prio" : "Low"
             }
          },
+         "SameModule" : {
+            "3B" : "VMBGP2",
+            "3C" : "VMBGP4"
+         },
          "TemperatureChannel" : "10",
          "ThermostatAddr" : "0",
-         "Type" : "VMBGP4-2",
+         "Type" : "VMBGP4",
          "Version" : "version 1"
       },
       "3D" : {
@@ -25377,6 +25420,10 @@
                "Prio" : "Low"
             }
          },
+         "SameModule" : {
+            "3F" : "VMCM3",
+            "40" : "VMBUSBIP"
+         },
          "Type" : "VMCM3",
          "Version" : "edition 3"
       },
@@ -25439,6 +25486,10 @@
                "Name" : "COMMAND_MODULETYPE",
                "Prio" : "Low"
             }
+         },
+         "SameModule" : {
+            "3F" : "VMCM3",
+            "40" : "VMBUSBIP"
          },
          "Type" : "VMBUSBIP",
          "Version" : "edition 3"
@@ -26973,6 +27024,9 @@
                "Name" : "COMMAND_MODULETYPE",
                "Prio" : "Low"
             }
+         },
+         "SameModule" : {
+            "5A" : "VMBDALI-20"
          },
          "Type" : "VMBDALI",
          "Version" : "edition 1"
@@ -28773,6 +28827,9 @@
                "Prio" : "Low"
             }
          },
+         "SameModule" : {
+            "52" : "VMBELO-20"
+         },
          "Type" : "VMBELO-20",
          "Version" : "edition 1"
       },
@@ -29052,6 +29109,10 @@
                "Name" : "COMMAND_MODULETYPE",
                "Prio" : "Low"
             }
+         },
+         "SameModule" : {
+            "55" : "VMBGP2-20",
+            "56" : "VMBGP4-20"
          },
          "Type" : "VMBGP1-20",
          "Version" : "edition 2"
@@ -29333,6 +29394,10 @@
                "Prio" : "Low"
             }
          },
+         "SameModule" : {
+            "55" : "VMBGP2-20",
+            "56" : "VMBGP4-20"
+         },
          "Type" : "VMBGP2-20",
          "Version" : "edition 2"
       },
@@ -29612,6 +29677,10 @@
                "Name" : "COMMAND_MODULETYPE",
                "Prio" : "Low"
             }
+         },
+         "SameModule" : {
+            "55" : "VMBGP2-20",
+            "56" : "VMBGP4-20"
          },
          "Type" : "VMBGP4-20",
          "Version" : "edition 2"
@@ -30162,6 +30231,9 @@
                "Name" : "COMMAND_MODULETYPE",
                "Prio" : "Low"
             }
+         },
+         "SameModule" : {
+            "5A" : "VMBDALI-20"
          },
          "Type" : "VMBDALI-20",
          "Version" : "edition 1"
