@@ -602,9 +602,9 @@ foreach my $file (sort keys(%{$file{PerFile}})) {
       %{$file{ModuleTypes}{'39'}} = %{$file{ModuleTypes}{'3F'}} ;
       %{$file{ModuleTypes}{'40'}} = %{$file{ModuleTypes}{'3F'}} ;
 
-      $file{ModuleTypes}{'39'}{Type} = "VMCM3" ;
-      $file{ModuleTypes}{'3F'}{Type} = "VMBUSBIP" ;
-      $file{ModuleTypes}{'40'}{Type} = "VMBSIG" ;
+      $file{ModuleTypes}{'3F'}{Type} = "VMCM3" ;
+      $file{ModuleTypes}{'40'}{Type} = "VMBUSBIP" ;
+      $file{ModuleTypes}{'39'}{Type} = "VMBSIG" ;
 
    # VMBGP1-20 = 54
    # VMBGP2-20 = 55

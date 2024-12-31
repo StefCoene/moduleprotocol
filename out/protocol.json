@@ -21837,7 +21837,7 @@
                "Prio" : "Low"
             }
          },
-         "Type" : "VMCM3",
+         "Type" : "VMBSIG",
          "Version" : "edition 3"
       },
       "3A" : {
@@ -25377,7 +25377,7 @@
                "Prio" : "Low"
             }
          },
-         "Type" : "VMBUSBIP",
+         "Type" : "VMCM3",
          "Version" : "edition 3"
       },
       "40" : {
@@ -25440,7 +25440,7 @@
                "Prio" : "Low"
             }
          },
-         "Type" : "VMBSIG",
+         "Type" : "VMBUSBIP",
          "Version" : "edition 3"
       },
       "41" : {
@@ -30752,5 +30752,5 @@
          "Version" : "edition 2"
       }
    },
-   "Version" : "20241230"
+   "Version" : "20241231"
 }
