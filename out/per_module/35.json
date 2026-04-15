@@ -1,0 +1,173 @@
+{
+   "AllChannelStatus" : "FF",
+   "ChannelNumbers" : {
+      "Name" : {
+         "Convert" : "hex"
+      }
+   },
+   "Channels" : {
+      "01" : {
+         "Editable" : "yes",
+         "Name" : "Push button 1",
+         "Type" : "Button"
+      },
+      "02" : {
+         "Editable" : "yes",
+         "Name" : "Push button 2",
+         "Type" : "Button"
+      },
+      "03" : {
+         "Editable" : "yes",
+         "Name" : "Virtual button 3",
+         "Type" : "Button"
+      },
+      "04" : {
+         "Editable" : "yes",
+         "Name" : "Virtual button 4",
+         "Type" : "Button"
+      },
+      "05" : {
+         "Editable" : "yes",
+         "Name" : "Virtual button 5",
+         "Type" : "Button"
+      },
+      "06" : {
+         "Editable" : "yes",
+         "Name" : "Virtual button 6",
+         "Type" : "Button"
+      },
+      "07" : {
+         "Editable" : "yes",
+         "Name" : "Virtual button 7",
+         "Type" : "Button"
+      },
+      "08" : {
+         "Editable" : "yes",
+         "Name" : "Virtual button 8",
+         "Type" : "Button"
+      },
+      "09" : {
+         "Editable" : "yes",
+         "Name" : "Temperature",
+         "Type" : "Temperature"
+      },
+      "10" : {
+         "Name" : "Heater",
+         "Type" : "ThermostatChannel"
+      },
+      "11" : {
+         "Name" : "Boost",
+         "Type" : "ThermostatChannel"
+      },
+      "12" : {
+         "Name" : "Pump",
+         "Type" : "ThermostatChannel"
+      },
+      "13" : {
+         "Name" : "Cooler",
+         "Type" : "ThermostatChannel"
+      },
+      "14" : {
+         "Name" : "Alarm 1",
+         "Type" : "ThermostatChannel"
+      },
+      "15" : {
+         "Name" : "Alarm 2",
+         "Type" : "ThermostatChannel"
+      },
+      "16" : {
+         "Name" : "Alarm 3",
+         "Type" : "ThermostatChannel"
+      },
+      "17" : {
+         "Name" : "Alarm 4",
+         "Type" : "ThermostatChannel"
+      },
+      "18" : {
+         "Editable" : "yes",
+         "Name" : "Output",
+         "Subdevice" : "yes",
+         "Type" : "Relay"
+      },
+      "97" : {
+         "Name" : "Edge Lit",
+         "Type" : "EdgeLit"
+      }
+   },
+   "Info" : "VMBEL2-20 VMBEL4",
+   "Memory" : {
+      "ModuleName" : "06C0:06FF",
+      "StatusAddress" : "06C0;06C1;06C2;06C3;06C4;06C5;06C6;06C7;06C8;06C9;06CA;06CB;06CC;06CD;06CE;06CF"
+   },
+   "MemoryMap" : {
+      "Channel" : {
+         "Push button 1" : {
+            "Memory" : "001C:002B"
+         },
+         "Push button 2" : {
+            "Memory" : "0030:003F"
+         }
+      },
+      "ChannelTemp" : {
+         "Channel 8" : {
+            "Memory" : "00A8:00B7",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "00A8",
+               "15" : "00B6",
+               "16" : "00B7",
+               "2" : "00A9"
+            }
+         },
+         "Color palette 0" : {
+            "Memory" : "00C8:00D7",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "00C8",
+               "15" : "00D6",
+               "16" : "00D7",
+               "2" : "00C9"
+            }
+         },
+         "Color palette 31" : {
+            "Memory" : "0334:0343",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0334",
+               "15" : "0342",
+               "16" : "0343",
+               "2" : "0335"
+            }
+         },
+         "Open collector output" : {
+            "Memory" : "03CC:03DB",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "03CC",
+               "15" : "03DA",
+               "16" : "03DB",
+               "2" : "03CD"
+            }
+         },
+         "Sensor" : {
+            "Memory" : "0398:03A7",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0398",
+               "15" : "03A6",
+               "16" : "03A7",
+               "2" : "0399"
+            }
+         }
+      }
+   },
+   "TemperatureChannel" : "09",
+   "ThermostatAddr" : "0",
+   "Type" : "VMBEL2",
+   "Version" : "edition 2"
+}

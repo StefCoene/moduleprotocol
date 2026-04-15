@@ -1,0 +1,10 @@
+{
+   "Channels" : {},
+   "Info" : "Motion detector with four touch buttons module",
+   "Memory" : {},
+   "MemoryMap" : {
+      "ChannelTemp" : {}
+   },
+   "Type" : "VMBGP4PIR-20",
+   "Version" : "edition 3"
+}

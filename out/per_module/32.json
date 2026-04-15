@@ -1,0 +1,215 @@
+{
+   "AllChannelStatus" : "FF",
+   "ChannelNumbers" : {
+      "ConvertChannel" : {
+         "Convert" : "hex"
+      },
+      "MakeMessage" : {
+         "Convert" : "hex"
+      },
+      "Name" : {
+         "Convert" : "hex"
+      }
+   },
+   "Channels" : {
+      "01" : {
+         "Name" : "Alarm 1",
+         "Type" : "Sensor"
+      },
+      "02" : {
+         "Name" : "Alarm 2",
+         "Type" : "Sensor"
+      },
+      "03" : {
+         "Name" : "Alarm 3",
+         "Type" : "Sensor"
+      },
+      "04" : {
+         "Name" : "Alarm 4",
+         "Type" : "Sensor"
+      },
+      "05" : {
+         "Name" : "Alarm 5",
+         "Type" : "Sensor"
+      },
+      "06" : {
+         "Name" : "Alarm 6",
+         "Type" : "Sensor"
+      },
+      "07" : {
+         "Name" : "Alarm 7",
+         "Type" : "Sensor"
+      },
+      "08" : {
+         "Name" : "Alarm 8",
+         "Type" : "Sensor"
+      },
+      "09" : {
+         "Name" : "Sensor 1",
+         "Type" : "SensorNumber"
+      },
+      "10" : {
+         "Name" : "Sensor 2",
+         "Type" : "SensorNumber"
+      },
+      "11" : {
+         "Name" : "Sensor 3",
+         "Type" : "SensorNumber"
+      },
+      "12" : {
+         "Name" : "Sensor 4",
+         "Type" : "SensorNumber"
+      }
+   },
+   "Info" : "Analog I/O module",
+   "Memory" : {
+      "ModuleName" : "0000:003F",
+      "StatusAddress" : "0000;0001;0002;0003;0004;0005;0006;0007;0008;0009;000A;000B;000C;000D;000E;000F;0010;0011;0012;0013;0014;0015;0016;0017;0018;0019;001A;001B;001C;001D;001E;001F;0020;0021;0022;0023;0024;0025;0026;0027;0028;0029;002A;002B;002C;002D;002E;002F;0030;0031;0032;0033;0034;0035;0036;0037;0038;0039;003A;003B;003C;003D;003E;003F;02E0;02E1;02E2;02E3;02E4;02E5;02E6;0412;0413;0414;0415;0416;0417;0418;0544;0545;0546;0547;0548;0549;054A;0676;0677;0678;0679;067A;067B;067C",
+      "Unit" : {
+         "09" : "02E0-02E6",
+         "10" : "0412-0418",
+         "11" : "0544-054A",
+         "12" : "0676-067C"
+      }
+   },
+   "MemoryMap" : {
+      "Channel" : {
+         "Sensor 1" : {
+            "Memory" : "027E:028D"
+         },
+         "Sensor 2" : {
+            "Memory" : "03B0:03BF"
+         },
+         "Sensor 3" : {
+            "Memory" : "04E2:04F1"
+         },
+         "Sensor 4" : {
+            "Memory" : "0614:0623"
+         }
+      },
+      "ChannelTemp" : {
+         "Alarm output 1" : {
+            "Memory" : "0083:0091",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0083",
+               "15" : "0090",
+               "16" : "0091"
+            }
+         },
+         "Alarm output 2" : {
+            "Memory" : "0093:00A1",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0093",
+               "15" : "00A0",
+               "16" : "00A1"
+            }
+         },
+         "Alarm output 3" : {
+            "Memory" : "00A3:00B1",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "00A3",
+               "15" : "00B0",
+               "16" : "00B1"
+            }
+         },
+         "Alarm output 4" : {
+            "Memory" : "00B3:00C1",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "00B3",
+               "15" : "00C0",
+               "16" : "00C1"
+            }
+         },
+         "Alarm output 5" : {
+            "Memory" : "00C3:00D1",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "00C3",
+               "15" : "00D0",
+               "16" : "00D1"
+            }
+         },
+         "Alarm output 6" : {
+            "Memory" : "00D3:00E1",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "00D3",
+               "15" : "00E0",
+               "16" : "00E1"
+            }
+         },
+         "Alarm output 7" : {
+            "Memory" : "00E3:00F1",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "00E3",
+               "15" : "00F0",
+               "16" : "00F1"
+            }
+         },
+         "Alarm output 8" : {
+            "Memory" : "00F3:0101",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "00F3",
+               "15" : "0100",
+               "16" : "0101"
+            }
+         },
+         "Analog output 1" : {
+            "Memory" : "0747:0755",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0747",
+               "15" : "0754",
+               "16" : "0755"
+            }
+         },
+         "Analog output 2" : {
+            "Memory" : "0757:0765",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0757",
+               "15" : "0764",
+               "16" : "0765"
+            }
+         },
+         "Analog output 3" : {
+            "Memory" : "0767:0775",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0767",
+               "15" : "0774",
+               "16" : "0775"
+            }
+         },
+         "Analog output 4" : {
+            "Memory" : "0777:0785",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0777",
+               "15" : "0784",
+               "16" : "0785"
+            }
+         }
+      }
+   },
+   "Type" : "VMB4AN",
+   "Version" : "edition 3"
+}

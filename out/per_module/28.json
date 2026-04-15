@@ -1,0 +1,338 @@
+{
+   "AllChannelStatus" : "FF",
+   "ChannelNumbers" : {
+      "Name" : {
+         "Convert" : "hex",
+         "Map" : {
+            "21" : "34"
+         }
+      }
+   },
+   "Channels" : {
+      "01" : {
+         "Editable" : "yes",
+         "Name" : "Push button 1",
+         "Type" : "Button"
+      },
+      "02" : {
+         "Editable" : "yes",
+         "Name" : "Push button 2",
+         "Type" : "Button"
+      },
+      "03" : {
+         "Editable" : "yes",
+         "Name" : "Push button 3",
+         "Type" : "Button"
+      },
+      "04" : {
+         "Editable" : "yes",
+         "Name" : "Push button 4",
+         "Type" : "Button"
+      },
+      "05" : {
+         "Editable" : "yes",
+         "Name" : "Push button 5",
+         "Type" : "Button"
+      },
+      "06" : {
+         "Editable" : "yes",
+         "Name" : "Push button 6",
+         "Type" : "Button"
+      },
+      "07" : {
+         "Editable" : "yes",
+         "Name" : "Push button 7",
+         "Type" : "Button"
+      },
+      "08" : {
+         "Editable" : "yes",
+         "Name" : "Push button 8",
+         "Type" : "Button"
+      },
+      "09" : {
+         "Editable" : "yes",
+         "Name" : "Push button 9",
+         "Type" : "Button"
+      },
+      "10" : {
+         "Editable" : "yes",
+         "Name" : "Push button 10",
+         "Type" : "Button"
+      },
+      "11" : {
+         "Editable" : "yes",
+         "Name" : "Push button 11",
+         "Type" : "Button"
+      },
+      "12" : {
+         "Editable" : "yes",
+         "Name" : "Push button 12",
+         "Type" : "Button"
+      },
+      "13" : {
+         "Editable" : "yes",
+         "Name" : "Push button 13",
+         "Type" : "Button"
+      },
+      "14" : {
+         "Editable" : "yes",
+         "Name" : "Push button 14",
+         "Type" : "Button"
+      },
+      "15" : {
+         "Editable" : "yes",
+         "Name" : "Push button 15",
+         "Type" : "Button"
+      },
+      "16" : {
+         "Editable" : "yes",
+         "Name" : "Push button 16",
+         "Type" : "Button"
+      },
+      "17" : {
+         "Editable" : "yes",
+         "Name" : "Push button 17",
+         "Type" : "Button"
+      },
+      "18" : {
+         "Editable" : "yes",
+         "Name" : "Push button 18",
+         "Type" : "Button"
+      },
+      "19" : {
+         "Editable" : "yes",
+         "Name" : "Push button 19",
+         "Type" : "Button"
+      },
+      "20" : {
+         "Editable" : "yes",
+         "Name" : "Push button 10",
+         "Type" : "Button"
+      },
+      "21" : {
+         "Editable" : "yes",
+         "Name" : "Push button 21",
+         "Type" : "Button"
+      },
+      "22" : {
+         "Editable" : "yes",
+         "Name" : "Push button 22",
+         "Type" : "Button"
+      },
+      "23" : {
+         "Editable" : "yes",
+         "Name" : "Push button 23",
+         "Type" : "Button"
+      },
+      "24" : {
+         "Editable" : "yes",
+         "Name" : "Push button 24",
+         "Type" : "Button"
+      },
+      "25" : {
+         "Editable" : "yes",
+         "Name" : "Push button 25",
+         "Type" : "Button"
+      },
+      "26" : {
+         "Editable" : "yes",
+         "Name" : "Push button 26",
+         "Type" : "Button"
+      },
+      "27" : {
+         "Editable" : "yes",
+         "Name" : "Push button 27",
+         "Type" : "Button"
+      },
+      "28" : {
+         "Editable" : "yes",
+         "Name" : "Push button 28",
+         "Type" : "Button"
+      },
+      "29" : {
+         "Editable" : "yes",
+         "Name" : "Push button 29",
+         "Type" : "Button"
+      },
+      "30" : {
+         "Editable" : "yes",
+         "Name" : "Push button 30",
+         "Type" : "Button"
+      },
+      "31" : {
+         "Editable" : "yes",
+         "Name" : "Push button 31",
+         "Type" : "Button"
+      },
+      "32" : {
+         "Editable" : "yes",
+         "Name" : "Push button 32",
+         "Type" : "Button"
+      },
+      "34" : {
+         "Editable" : "yes",
+         "Name" : "Temperature",
+         "Type" : "Temperature"
+      },
+      "35" : {
+         "Name" : "Heater",
+         "Type" : "ThermostatChannel"
+      },
+      "36" : {
+         "Name" : "Boost",
+         "Type" : "ThermostatChannel"
+      },
+      "37" : {
+         "Name" : "Pump",
+         "Type" : "ThermostatChannel"
+      },
+      "38" : {
+         "Name" : "Cooler",
+         "Type" : "ThermostatChannel"
+      },
+      "39" : {
+         "Name" : "Alarm 1",
+         "Type" : "ThermostatChannel"
+      },
+      "40" : {
+         "Name" : "Alarm 2",
+         "Type" : "ThermostatChannel"
+      },
+      "41" : {
+         "Name" : "Alarm 3",
+         "Type" : "ThermostatChannel"
+      },
+      "42" : {
+         "Name" : "Alarm 4",
+         "Type" : "ThermostatChannel"
+      },
+      "98" : {
+         "Name" : "Memo Text",
+         "Type" : "Memo"
+      }
+   },
+   "Info" : "Touch panel with Oled display",
+   "Memory" : {
+      "ModuleName" : "09BE:09FD",
+      "StatusAddress" : "09BE;09BF;09C0;09C1;09C2;09C3;09C4;09C5;09C6;09C7;09C8;09C9;09CA;09CB;09CC;09CD;09CE;09CF;09D0;09D1;09D2;09D3;09D4;09D5;09D6;09D7;09D8;09D9;09DA;09DB;09DC;09DD;09DE;09DF;09E0;09E1;09E2;09E3;09E4;09E5;09E6;09E7;09E8;09E9;09EA;09EB;09EC;09ED;09EE;09EF;09F0;09F1;09F2;09F3;09F4;09F5;09F6;09F7;09F8;09F9;09FA;09FB;09FC;09FD"
+   },
+   "MemoryMap" : {
+      "Channel" : {},
+      "ChannelTemp" : {
+         "Channel 1" : {
+            "Memory" : "0000:000F",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0000",
+               "15" : "000E",
+               "16" : "000F",
+               "2" : "0001"
+            }
+         },
+         "Channel 2" : {
+            "Memory" : "0014:0023",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0014",
+               "15" : "0022",
+               "16" : "0023",
+               "2" : "0015"
+            }
+         },
+         "Channel 32" : {
+            "Memory" : "026C:027B",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "026C",
+               "15" : "027A",
+               "16" : "027B",
+               "2" : "026D"
+            }
+         },
+         "Counter 1" : {
+            "Memory" : "02F8:0307",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "02F8",
+               "15" : "0306",
+               "16" : "0307",
+               "2" : "02F9"
+            }
+         },
+         "Counter 4" : {
+            "Memory" : "032E:033D",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "032E",
+               "15" : "033C",
+               "16" : "033D",
+               "2" : "032F"
+            }
+         },
+         "Remote Analog sensor 1" : {
+            "Memory" : "041A:0429",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "041A",
+               "15" : "0428",
+               "16" : "0429",
+               "2" : "041B"
+            }
+         },
+         "Remote Analog sensor 4" : {
+            "Memory" : "0450:045F",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0450",
+               "15" : "045E",
+               "16" : "045F",
+               "2" : "0451"
+            }
+         },
+         "Remote Temperature sensor 1" : {
+            "Memory" : "0342:0351",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0342",
+               "15" : "0350",
+               "16" : "0351",
+               "2" : "0343"
+            }
+         },
+         "Remote Temperature sensor 12" : {
+            "Memory" : "0408:0417",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0408",
+               "15" : "0416",
+               "16" : "0417",
+               "2" : "0409"
+            }
+         },
+         "Sensor" : {
+            "Memory" : "02C1:02D0",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "02C1",
+               "16" : "02D0",
+               "2" : "02C2",
+               "3" : "02C3"
+            }
+         }
+      }
+   },
+   "TemperatureChannel" : "34",
+   "ThermostatAddr" : "3",
+   "Type" : "VMBGPOD",
+   "Version" : "edition 6"
+}

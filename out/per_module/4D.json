@@ -1,0 +1,12 @@
+{
+   "Channels" : {},
+   "Info" : "Mini PIR detector module",
+   "Memory" : {
+      "ModuleName" : "03BC:03FB"
+   },
+   "MemoryMap" : {
+      "ChannelTemp" : {}
+   },
+   "Type" : "VMBPIR-20",
+   "Version" : "edition 1"
+}

@@ -1,0 +1,10 @@
+{
+   "Channels" : {},
+   "Info" : "VMBDALI-20 DALI gateway module",
+   "Memory" : {},
+   "MemoryMap" : {
+      "ChannelTemp" : {}
+   },
+   "Type" : "VMBDALI-20",
+   "Version" : "edition 2"
+}

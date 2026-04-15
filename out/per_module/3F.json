@@ -1,0 +1,13 @@
+{
+   "Channels" : {},
+   "Info" : " Home automatization over internet",
+   "Memory" : {
+      "ModuleName" : "0000:003F",
+      "StatusAddress" : "0000"
+   },
+   "MemoryMap" : {
+      "ChannelTemp" : {}
+   },
+   "Type" : "VMCM3",
+   "Version" : "edition 3"
+}

@@ -1,0 +1,52 @@
+{
+   "ChannelNumbers" : {
+      "Name" : {
+         "Map" : {
+            "03" : "01"
+         }
+      }
+   },
+   "Channels" : {
+      "01" : {
+         "Editable" : "yes",
+         "Name" : "Blind",
+         "Subdevice" : "yes",
+         "Type" : "Blind"
+      }
+   },
+   "Info" : "Blind Control Module",
+   "Memory" : {
+      "ModuleName" : "0070:007F"
+   },
+   "MemoryMap" : {
+      "Channel" : {
+         "Blind" : {
+            "Memory" : "0071:007F"
+         }
+      },
+      "ChannelTemp" : {
+         "Local Down Push button" : {
+            "Memory" : "0060:006E",
+            "max" : "15",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0060",
+               "15" : "006E",
+               "2" : "0061"
+            }
+         },
+         "Local Up Push button" : {
+            "Memory" : "0050:005E",
+            "max" : "15",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0050",
+               "15" : "005E",
+               "2" : "0061"
+            }
+         }
+      }
+   },
+   "Type" : "VMB1BL",
+   "Version" : "edition 1 _ rev4"
+}

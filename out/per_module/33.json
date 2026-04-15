@@ -1,0 +1,54 @@
+{
+   "Channels" : {
+      "01" : {
+         "Name" : "Motion 1",
+         "Type" : "Sensor"
+      },
+      "02" : {
+         "Name" : "Motion 2",
+         "Type" : "Sensor"
+      },
+      "03" : {
+         "Name" : "Bell 1",
+         "Type" : "Button"
+      },
+      "04" : {
+         "Name" : "Bell 2",
+         "Type" : "Button"
+      },
+      "05" : {
+         "Name" : "Door 1",
+         "Type" : "Sensor"
+      },
+      "06" : {
+         "Name" : "Door 2",
+         "Type" : "Sensor"
+      },
+      "07" : {
+         "Name" : "Virtual button 1",
+         "Type" : "Button"
+      },
+      "08" : {
+         "Name" : "Virtual button 2",
+         "Type" : "Button"
+      }
+   },
+   "Info" : "Doorbird interface module",
+   "Memory" : {
+      "ModuleName" : "00B0:00EF",
+      "StatusAddress" : "00B0;00B1;00B2;00B3;00B4;00B5;00B6;00B7;00B8;00B9;00BA;00BB;00BC;00BD;00BE;00BF;00C0;00C1;00C2;00C3;00C4;00C5;00C6;00C7;00C8;00C9;00CA;00CB;00CC;00CD;00CE;00CF;00D0;00D1;00D2;00D3;00D4;00D5;00D6;00D7;00D8;00D9;00DA;00DB;00DC;00DD;00DE;00DF;00E0;00E1;00E2;00E3;00E4;00E5;00E6;00E7;00E8;00E9;00EA;00EB;00EC;00ED;00EE;00EF"
+   },
+   "MemoryMap" : {
+      "Channel" : {
+         "Virtual button 1" : {
+            "Memory" : "0000:000F"
+         },
+         "Virtual button 2" : {
+            "Memory" : "0010:001F"
+         }
+      },
+      "ChannelTemp" : {}
+   },
+   "Type" : "VMBVP1",
+   "Version" : "edition 1"
+}

@@ -1,0 +1,35 @@
+{
+   "Channels" : {},
+   "Info" : "8 channel 0 to 10 V dimmer control module",
+   "Memory" : {
+      "ModuleName" : "049C:04DB"
+   },
+   "MemoryMap" : {
+      "ChannelTemp" : {
+         "Channel 1" : {
+            "Memory" : "0000:000F",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0000",
+               "15" : "000E",
+               "16" : "000F",
+               "2" : "0001"
+            }
+         },
+         "Channel 8" : {
+            "Memory" : "0070:007F",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0070",
+               "15" : "007F",
+               "16" : "007F",
+               "2" : "0071"
+            }
+         }
+      }
+   },
+   "Type" : "VMB8DC-20",
+   "Version" : "edition 3"
+}

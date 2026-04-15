@@ -1,0 +1,60 @@
+{
+   "Channels" : {
+      "01" : {
+         "Editable" : "yes",
+         "Name" : "Relay 1",
+         "Subdevice" : "yes",
+         "Type" : "Relay"
+      },
+      "02" : {
+         "Editable" : "yes",
+         "Name" : "Relay 2",
+         "Subdevice" : "yes",
+         "Type" : "Relay"
+      },
+      "03" : {
+         "Editable" : "yes",
+         "Name" : "Relay 3",
+         "Subdevice" : "yes",
+         "Type" : "Relay"
+      },
+      "04" : {
+         "Editable" : "yes",
+         "Name" : "Relay 4",
+         "Subdevice" : "yes",
+         "Type" : "Relay"
+      },
+      "05" : {
+         "Editable" : "yes",
+         "Name" : "Virtual relay",
+         "Type" : "Relay"
+      }
+   },
+   "Info" : "4 channel relay module with normal open contacts",
+   "Memory" : {
+      "ModuleName" : "00E3:04EE",
+      "StatusAddress" : "00E3;00E4;00E5;00E6;00E7;00E8;00E9;00EA;00EB;00EC;00ED;00EE;00EF;01E3;01E4;01E5;01E6;01E7;01E8;01E9;01EA;01EB;01EC;01ED;01EE;01EF;02E3;02E4;02E5;02E6;02E7;02E8;02E9;02EA;02EB;02EC;02ED;02EE;02EF;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;04E3;04E4;04E5;04E6;04E7;04E8;04E9;04EA;04EB;04EC;04ED;04EE"
+   },
+   "MemoryMap" : {
+      "Channel" : {
+         "Relay 1" : {
+            "Memory" : "00F0:00FF"
+         },
+         "Relay 2" : {
+            "Memory" : "01F0:01FF"
+         },
+         "Relay 3" : {
+            "Memory" : "02F0:02FF"
+         },
+         "Relay 4" : {
+            "Memory" : "03F0:03FF"
+         },
+         "Virtual relay" : {
+            "Memory" : "04F0:04FF"
+         }
+      },
+      "ChannelTemp" : {}
+   },
+   "Type" : "VMB4RYNO",
+   "Version" : "edition 5"
+}

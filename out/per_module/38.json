@@ -1,0 +1,159 @@
+{
+   "AllChannelStatus" : "FF",
+   "ChannelNumbers" : {
+      "Name" : {
+         "Convert" : "hex"
+      }
+   },
+   "Channels" : {
+      "01" : {
+         "Editable" : "yes",
+         "Name" : "Push button",
+         "Type" : "Button"
+      },
+      "02" : {
+         "Editable" : "yes",
+         "Name" : "Virtual button",
+         "Type" : "Button"
+      },
+      "03" : {
+         "Name" : "Dark output",
+         "Type" : "Sensor"
+      },
+      "04" : {
+         "Name" : "Light output",
+         "Type" : "Sensor"
+      },
+      "05" : {
+         "Name" : "Motion output",
+         "Type" : "Sensor"
+      },
+      "06" : {
+         "Name" : "Motion output 1 (LD)",
+         "Type" : "Sensor"
+      },
+      "07" : {
+         "Name" : "Motion output 2 (LD)",
+         "Type" : "Sensor"
+      },
+      "08" : {
+         "Name" : "Absence output",
+         "Type" : "Sensor"
+      },
+      "09" : {
+         "Editable" : "yes",
+         "Name" : "Temperature",
+         "Type" : "Temperature"
+      },
+      "10" : {
+         "Name" : "Heater",
+         "Type" : "ThermostatChannel"
+      },
+      "11" : {
+         "Name" : "Boost",
+         "Type" : "ThermostatChannel"
+      },
+      "12" : {
+         "Name" : "Pump",
+         "Type" : "ThermostatChannel"
+      },
+      "13" : {
+         "Name" : "Cooler",
+         "Type" : "ThermostatChannel"
+      },
+      "14" : {
+         "Name" : "Alarm 1",
+         "Type" : "ThermostatChannel"
+      },
+      "15" : {
+         "Name" : "Alarm 2",
+         "Type" : "ThermostatChannel"
+      },
+      "16" : {
+         "Name" : "Alarm 3",
+         "Type" : "ThermostatChannel"
+      },
+      "17" : {
+         "Name" : "Alarm 4",
+         "Type" : "ThermostatChannel"
+      },
+      "18" : {
+         "Editable" : "yes",
+         "Name" : "Output",
+         "Subdevice" : "yes",
+         "Type" : "Relay"
+      },
+      "97" : {
+         "Name" : "Edge Lit",
+         "Type" : "EdgeLit"
+      },
+      "99" : {
+         "Name" : "Light value",
+         "Type" : "LightSensor"
+      }
+   },
+   "Info" : "VMBEL1PIR-20 VMBEL2PIR",
+   "Memory" : {
+      "ModuleName" : "0678:06B7"
+   },
+   "MemoryMap" : {
+      "Channel" : {
+         "Push button" : {
+            "Memory" : "001C:002B"
+         },
+         "Virtual button" : {
+            "Memory" : "0030:003F"
+         }
+      },
+      "ChannelTemp" : {
+         "Color palette 0" : {
+            "Memory" : "007C:008B",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "007C",
+               "15" : "008A",
+               "16" : "008B",
+               "2" : "007D"
+            }
+         },
+         "Color palette 31" : {
+            "Memory" : "02E8:02F7",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "02E8",
+               "15" : "02F6",
+               "16" : "02F7",
+               "2" : "02E9"
+            }
+         },
+         "Open collector output" : {
+            "Memory" : "0384:0393",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0384",
+               "15" : "0392",
+               "16" : "0393",
+               "2" : "0385"
+            }
+         },
+         "Sensor" : {
+            "Memory" : "0350:035F",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0350",
+               "15" : "035E",
+               "16" : "035F",
+               "2" : "0351"
+            }
+         }
+      }
+   },
+   "TemperatureChannel" : "09",
+   "ThermostatAddr" : "0",
+   "Type" : "VMBEL1PIR",
+   "Version" : "edition 2"
+}

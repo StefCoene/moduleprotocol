@@ -1,0 +1,47 @@
+{
+   "Channels" : {
+      "01" : {
+         "Name" : "Dark output",
+         "Type" : "Sensor"
+      },
+      "02" : {
+         "Name" : "Light output",
+         "Type" : "Sensor"
+      },
+      "03" : {
+         "Name" : "Motion output 1",
+         "Type" : "Sensor"
+      },
+      "04" : {
+         "Name" : "Motion output 1 (LD)",
+         "Type" : "Sensor"
+      },
+      "05" : {
+         "Name" : "Motion output 2",
+         "Type" : "Sensor"
+      },
+      "06" : {
+         "Name" : "Motion output 2 (LD)",
+         "Type" : "Sensor"
+      },
+      "07" : {
+         "Name" : "Absence output",
+         "Type" : "Sensor"
+      },
+      "99" : {
+         "Name" : "Light value",
+         "Type" : "LightSensor"
+      }
+   },
+   "Info" : "Ceiling PIR detector module",
+   "Memory" : {
+      "ModuleName" : "00B0:00EF",
+      "StatusAddress" : "00B0;00B1;00B2;00B3;00B4;00B5;00B6;00B7;00B8;00B9;00BA;00BB;00BC;00BD;00BE;00BF;00C0;00C1;00C2;00C3;00C4;00C5;00C6;00C7;00C8;00C9;00CA;00CB;00CC;00CD;00CE;00CF;00D0;00D1;00D2;00D3;00D4;00D5;00D6;00D7;00D8;00D9;00DA;00DB;00DC;00DD;00DE;00DF;00E0;00E1;00E2;00E3;00E4;00E5;00E6;00E7;00E8;00E9;00EA;00EB;00EC;00ED;00EE;00EF"
+   },
+   "MemoryMap" : {
+      "Channel" : {},
+      "ChannelTemp" : {}
+   },
+   "Type" : "VMBPIRC",
+   "Version" : "edition 3"
+}

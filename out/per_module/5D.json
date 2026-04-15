@@ -1,0 +1,79 @@
+{
+   "Channels" : {},
+   "Info" : "Motion detector with four touch buttons module",
+   "Memory" : {
+      "ModuleName" : "06A8:06E7"
+   },
+   "MemoryMap" : {
+      "ChannelTemp" : {
+         "Channel 1" : {
+            "Memory" : "001C:002B",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "001C",
+               "15" : "002A",
+               "16" : "002B",
+               "2" : "001D"
+            }
+         },
+         "Channel 4" : {
+            "Memory" : "0058:0067",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0058",
+               "15" : "0066",
+               "16" : "0067",
+               "2" : "0059"
+            }
+         },
+         "Color palette 0" : {
+            "Memory" : "0098:00A7",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0098",
+               "15" : "00A6",
+               "16" : "00A7",
+               "2" : "0099"
+            }
+         },
+         "Color palette 31" : {
+            "Memory" : "0304:0313",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0304",
+               "15" : "0312",
+               "16" : "0313",
+               "2" : "0305"
+            }
+         },
+         "Open collector output" : {
+            "Memory" : "03A0:03AF",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "03A0",
+               "15" : "03AE",
+               "16" : "03AF",
+               "2" : "03A1"
+            }
+         },
+         "Sensor" : {
+            "Memory" : "036C:037B",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "036C",
+               "15" : "037A",
+               "16" : "037B",
+               "2" : "036D"
+            }
+         }
+      }
+   },
+   "Type" : "VMBEL4PIR-20",
+   "Version" : "edition 2"
+}

@@ -1,0 +1,12 @@
+{
+   "Channels" : {},
+   "Info" : "PSU Manager",
+   "Memory" : {
+      "ModuleName" : "07BC:07FB"
+   },
+   "MemoryMap" : {
+      "ChannelTemp" : {}
+   },
+   "Type" : "VMBPSUMNGR-20",
+   "Version" : "edition 1"
+}

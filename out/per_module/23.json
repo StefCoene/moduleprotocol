@@ -1,0 +1,24 @@
+{
+   "Channels" : {},
+   "Info" : "Outdoor PIR detector module",
+   "Memory" : {
+      "ModuleName" : "00B0:00EF"
+   },
+   "MemoryMap" : {
+      "ChannelTemp" : {
+         "Temperature sensor" : {
+            "Memory" : "0080:008F",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0080",
+               "15" : "008E",
+               "16" : "008F",
+               "2" : "0081"
+            }
+         }
+      }
+   },
+   "Type" : "VMBPIRO-10",
+   "Version" : "edition 1"
+}

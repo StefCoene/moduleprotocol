@@ -1,0 +1,35 @@
+{
+   "Channels" : {},
+   "Info" : "2 channel blind module",
+   "Memory" : {
+      "ModuleName" : "004C:008B"
+   },
+   "MemoryMap" : {
+      "ChannelTemp" : {
+         "Blind 1" : {
+            "Memory" : "0000:000F",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0000",
+               "15" : "000E",
+               "16" : "000F",
+               "2" : "0001"
+            }
+         },
+         "Blind 2" : {
+            "Memory" : "0010:001F",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0010",
+               "15" : "001E",
+               "16" : "001F",
+               "2" : "0011"
+            }
+         }
+      }
+   },
+   "Type" : "VMB2BLE-10",
+   "Version" : "edition 1"
+}

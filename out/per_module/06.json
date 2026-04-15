@@ -1,0 +1,35 @@
+{
+   "Channels" : {},
+   "Info" : "4 channel led PWM dimmer module",
+   "Memory" : {
+      "ModuleName" : "062C:066B"
+   },
+   "MemoryMap" : {
+      "ChannelTemp" : {
+         "Channel 1" : {
+            "Memory" : "0000:000F",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0000",
+               "15" : "000E",
+               "16" : "000F",
+               "2" : "0001"
+            }
+         },
+         "Channel 4" : {
+            "Memory" : "0030:003F",
+            "max" : "16",
+            "min" : "1",
+            "tmp" : {
+               "1" : "0030",
+               "15" : "003F",
+               "16" : "003F",
+               "2" : "0031"
+            }
+         }
+      }
+   },
+   "Type" : "VMB4LEDPWM-20",
+   "Version" : "edition 2"
+}
