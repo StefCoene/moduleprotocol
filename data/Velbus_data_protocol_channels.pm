@@ -234,17 +234,17 @@ $json{ModuleTypes}{'18'}{Channels}{"01"}{Name} = "Push button 1" ;
 $json{ModuleTypes}{'18'}{Channels}{"01"}{Type} = "Button" ;
 $json{ModuleTypes}{'18'}{Channels}{"02"}{Name} = "Push button 2" ;
 $json{ModuleTypes}{'18'}{Channels}{"02"}{Type} = "Button" ;
-$json{ModuleTypes}{'18'}{Channels}{"03"}{Name} = "Virtual button" ;
+$json{ModuleTypes}{'18'}{Channels}{"03"}{Name} = "Virtual button 1" ;
 $json{ModuleTypes}{'18'}{Channels}{"03"}{Type} = "Button" ;
-$json{ModuleTypes}{'18'}{Channels}{"04"}{Name} = "Virtual button" ;
+$json{ModuleTypes}{'18'}{Channels}{"04"}{Name} = "Virtual button 2" ;
 $json{ModuleTypes}{'18'}{Channels}{"04"}{Type} = "Button" ;
-$json{ModuleTypes}{'18'}{Channels}{"05"}{Name} = "Virtual button" ;
+$json{ModuleTypes}{'18'}{Channels}{"05"}{Name} = "Virtual button 3" ;
 $json{ModuleTypes}{'18'}{Channels}{"05"}{Type} = "Button" ;
-$json{ModuleTypes}{'18'}{Channels}{"06"}{Name} = "Virtual button" ;
+$json{ModuleTypes}{'18'}{Channels}{"06"}{Name} = "Virtual button 4" ;
 $json{ModuleTypes}{'18'}{Channels}{"06"}{Type} = "Button" ;
-$json{ModuleTypes}{'18'}{Channels}{"07"}{Name} = "Virtual button" ;
+$json{ModuleTypes}{'18'}{Channels}{"07"}{Name} = "Virtual button 5" ;
 $json{ModuleTypes}{'18'}{Channels}{"07"}{Type} = "Button" ;
-$json{ModuleTypes}{'18'}{Channels}{"08"}{Name} = "Virtual button" ;
+$json{ModuleTypes}{'18'}{Channels}{"08"}{Name} = "Virtual button 6" ;
 $json{ModuleTypes}{'18'}{Channels}{"08"}{Type} = "Button" ;
 
 # Push button interface module for 4 or 6 NIKO push buttons : VMB6PBN
@@ -260,9 +260,9 @@ $json{ModuleTypes}{'17'}{Channels}{"05"}{Name} = "Push button 5" ;
 $json{ModuleTypes}{'17'}{Channels}{"05"}{Type} = "Button" ;
 $json{ModuleTypes}{'17'}{Channels}{"06"}{Name} = "Push button 6" ;
 $json{ModuleTypes}{'17'}{Channels}{"06"}{Type} = "Button" ;
-$json{ModuleTypes}{'17'}{Channels}{"07"}{Name} = "Virtual button" ;
+$json{ModuleTypes}{'17'}{Channels}{"07"}{Name} = "Virtual button 1" ;
 $json{ModuleTypes}{'17'}{Channels}{"07"}{Type} = "Button" ;
-$json{ModuleTypes}{'17'}{Channels}{"08"}{Name} = "Virtual button" ;
+$json{ModuleTypes}{'17'}{Channels}{"08"}{Name} = "Virtual button 2" ;
 $json{ModuleTypes}{'17'}{Channels}{"08"}{Type} = "Button" ;
 
 # 7-channel input: VMB7IN
@@ -767,7 +767,7 @@ foreach my $ModuleType (sort keys %{$json{ModuleTypes}}) {
                if ( defined $json{ModuleTypes}{$ModuleType}{Messages}{'F0'} ) {
                   $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Editable} = "yes" ;
                } else {
-                  print "ERROR: ModuleType=$ModuleType=$json{ModuleTypes}{$ModuleType}{Type} ($json{ModuleTypes}{$ModuleType}{Info}), Channel=$Channel marked as Editable but no message F0 found for module type\n" ;
+                  print "Warning: ModuleType=$ModuleType=$json{ModuleTypes}{$ModuleType}{Type} ($json{ModuleTypes}{$ModuleType}{Info}), Channel=$Channel marked as Editable but no message F0 found for module type\n" ;
                }
             } elsif (
                # These types are not editable:

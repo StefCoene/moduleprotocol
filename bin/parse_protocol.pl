@@ -1,5 +1,9 @@
 #!/usr/bin/perl
 
+# for file in *.json; do 
+#   jq -S . "${file}" > "$file.tmp" && mv "$file.tmp" "$file"
+# done
+
 my %global ;
 
 use Getopt::Long ;
@@ -66,13 +70,13 @@ $json{Version} = "$year$mon$mday" ;
 
 `mkdir -p txt` ;
 
+# Convert the pdf's to text
 if ( ! $global{opts}{skiptxt} ) {
    print "Convert pdf files to txt\n" ;
-   # Convert the pdf's to text
    foreach my $pdf (sort `ls protocol*.pdf`) {
       chomp $pdf ;
 
-      # skip pdf's that are not protocol files
+      # Skip pdf's that are not protocol files
       next if $pdf eq "protocol_vmb1rs.pdf" ;
       next if $pdf eq "protocol_vmb1usb.pdf" ;
       next if $pdf eq "protocol_vmb4pd_ir.pdf" ;
@@ -85,6 +89,9 @@ if ( ! $global{opts}{skiptxt} ) {
       next if $pdf eq "protocol_vmb1tcw.pdf" ; # This is the same as protocol_vmb1tc.pdf
       next if $pdf eq "protocol_vmb1tsw.pdf" ; # This is the same as protocol_vmb1ts.pdf
 
+      next if $pdf eq "protocol_vmbelo.pdf" ;   # New file is protocol_vmbelo_vmbelo_20.pdf
+      next if $pdf eq "protocol_vmbelpir.pdf" ; # New file is protocol_vmbelpir_vmbel1pir_20_vmbel2pir_vmbel2pir_20.pdf
+
       my $txt = $pdf ;
       $txt =~ s/\.pdf/.txt/g ;
       print "   - pdftotext -layout $pdf txt/$txt\n" if defined $global{opts}{verbose} ;
@@ -93,14 +100,13 @@ if ( ! $global{opts}{skiptxt} ) {
 }
 
 print "\n" ;
-print "Read txt files\n" ;
+print "Read txt files: extract general information, messages and memory layout\n" ;
 
 my %file ; # Contains all raw info read from the files
 
 # Loop all files and process the raw input.
 foreach my $file (sort `ls txt/protocol*.txt`) {
    chomp $file ;
-   next if $file eq "txt/protocol_vmbelo.txt" ; # New file is txt/protocol_vmbelo_vmbelo_20.txt
 
    print "   - $file\n" if defined $global{opts}{verbose} ;
 
@@ -151,11 +157,11 @@ foreach my $file (sort `ls txt/protocol*.txt`) {
    $file{PerFile}{$file}{Info}{ModuleText} =~ s/for ?VELBUS//ig ; # Clean op some of the text
    $file{PerFile}{$file}{Info}{ModuleText} =~ s/ +$//g ; # Clean op some of the text
 
-   my $counter = 0 ; #  Counter will be incremented per found message
+   my $counter ; #  Counter will be incremented per found message
 
    my $previousline ;
 
-   foreach my $line (@file) {
+   while (my $line = shift @file) {
       chomp $line ;
       next if $line eq "" ; # Skip empty lines
 
@@ -164,6 +170,8 @@ foreach my $file (sort `ls txt/protocol*.txt`) {
       $line =~ s/^\s+//g ; # Remove spaces at start of line
       $line =~ s/\s+$//g ; # Remove spaces at end of line
       $line =~ s/\s+=\s+/=/g ; # Remove spaces around =
+
+      next if $Line eq "Or" ;
 
       # The page footer contains the text 'PROTOCOL –'.
       # The page footer contains some information about the version of the document
@@ -174,41 +182,140 @@ foreach my $file (sort `ls txt/protocol*.txt`) {
          next ;
       }
 
-      my @split = split "=", $line ;
-      # Priority of the message
-      if ( $split[0] eq "SID10-SID9" ) {
-         if ( $split[1] =~ /\((.+ priority)\)/ ) {
-            $counter ++ ; # Incrementing the message counter
-            $file{PerFile}{$file}{Messages}{$counter}{Prio} = $1 ;
+      my $data, $value ;
+      # These 2 files are using a table for the message. So we can not used = to split the line
+      if ( $file =~ /protocol_vmbsig_20.txt/ or
+           $file =~ /protocol_vmbsig_21.txt/ ) {
+         my @split = split " ", $line ;
+         $data = shift @split ;
+         $value = join " ", @split ;
+      } else {
+         ($data,$value) = @split = split "=", $line ;
+      }
 
-            # The previous line is the tekst that belongs to this message
-            $previousline =~ s/\(build\d+ or higher\)// ; # Filter out some unwanted text
-            $previousline =~ s/\(build \d+ or higher\)// ; # Filter out some unwanted text
-            $file{PerFile}{$file}{Messages}{$counter}{Info} = &clean($previousline) ;
+      # The first time we have "SID10-SID9" we initialize $counter
+      if ( $data eq "SID10-SID9" and ! defined $counter) {
+         $counter = 0 ;
+      }
+
+      # $counter is defined when the first message is found in the pdf file
+      if ( defined $counter ) {
+         # Priority of the message
+         if ( $data eq "SID10-SID9" ) {
+            if ( $value =~ /\((.+ priority)\)/ ) {
+               $counter ++ ; # Incrementing the message counter
+
+               $file{PerFile}{$file}{Messages}{$counter}{Prio} = $1 ;
+
+               # The previous line is the header that belongs to this message
+               $previousline =~ s/\(build\d+ or higher\)// ; # Filter out some unwanted text
+               $previousline =~ s/\(build \d+ or higher\)// ; # Filter out some unwanted text
+               $file{PerFile}{$file}{Messages}{$counter}{Info} = &clean($previousline) ;
+
+            } else {
+               print "Error: SID10-SID9 not correctly parsed: $line\n" ;
+            }
+
+         # Filtering out the address
+         } elsif ( $data eq "SID8...SID1" ) {
+            $file{PerFile}{$file}{Messages}{$counter}{MessageAddress} .= $value ;
+
+         # Info about RTR in the message
+         } elsif ( $data eq "RTR" ) {
+            $file{PerFile}{$file}{Messages}{$counter}{RTR} = $value ;
+
+         # Info about the databytes in the message
+         } elsif ( $data =~ /^DATABYTE/ ) {
+            $file{PerFile}{$file}{Messages}{$counter}{DATABYTE} .= $line . "\n" ;
+
+         } elsif ( $line =~ /^Memory map/i ) {
+            last ;
 
          } else {
-            print "Error: SID10-SID9 not correctly parsed: $line\n" ;
          }
+      }
 
-      # Filtering out the address
-      } elsif ( $split[0] eq "SID8...SID1" ) {
-         $file{PerFile}{$file}{Messages}{$counter}{MessageAddress} .= $split[1] ;
+      $previousline = $line ;
+   }
 
-      # Info about RTR in the message
-      } elsif ( $split[0] eq "RTR" ) {
-         $file{PerFile}{$file}{Messages}{$counter}{RTR} = $split[1] ;
+   # Rest is memory dump
+   my %MemoryMap ;
+   foreach $line (@file) {
+      chomp $line;
 
-      # Info about the databytes in the message
-      } elsif ( $split[0] =~ /^DATABYTE/ ) {
-         $file{PerFile}{$file}{Messages}{$counter}{DATABYTE} .= $line . "\n" ;
+      next if $line eq "" ;
+      next if $line =~ /^'.../;
 
-      } elsif ( $line =~ /Memory map:/i or
-                $line =~ /Memory map build/i ) {
-         last ;
+      $line =~ s/^\s+|\s+$//g;   # trim spates
+      $line =~ s/’/___/g;        # remove quotes
+      $line =~ s/0x(....)/H___$1___/g;        # Soms is het 0x00DC ipv 'H'
+
+      $line =~ s/Channel (name character.+ Channel 1 name character 2)/Channel 1$1/g ; # Fixing missing '1', VMB6PBN
+      $line =~ s/Channel 1name/Channel 1 name/ ; # Fixing missing space
+
+      if ( $line =~ /H___(....)___\.\.\.H___(....)___\s+Name of (.+)\s*H___/ or # H___0000___...H___000E___     Name of push button 1
+           $line =~ /H___(....)___\.\.\.H___(....)\s+Name of (.+)\s*H___/ ) {   # H’0070’...H’007E       Name of push button 8    H’007F’      Response time for push button 8
+         my $min = $1 ;
+         my $max = $2 ;
+         my $ChannelName = $3 ;
+         $ChannelName =~ s/^\s+|\s+$//g ; # trim voor/na
+
+         $MemoryMap{ChannelTemp}{$ChannelName}{Memory} = "$min:$max" ;
 
       } else {
-         $previousline = $line ;
+         my @kolommen = split(/(?=H___....)/, $line);
+         foreach my $kolom (@kolommen) {
+            #print "kolom: $kolom\n" ;
+            if ( $kolom =~ /H___(....)___\s+(.+)\s*name\s+character\s+(\d+)/ or
+                 $kolom =~ /H___(....)\s+(.+)\s*name\s+character\s+(\d+)/ ) { # VMB7IN: H’03AD      Module name character 2
+               my $hex     = $1 ;
+               my $ChannelName = $2 ;
+               my $char    = $3 ;
+
+               $ChannelName =~ s/^\s+|\s+$//g;   # trim voor/na
+
+               $ChannelName =~ s/Ch(\d).+/Channel $1/g; # Fix 'Ch1 local Down Push button' -> 'Channel 1'
+               $ChannelName =~ s/\s*\(.+\)\s*//g; # Fix 'Channel 1 (counter alarm output)' -> ''Channel 1'
+
+               # Fixing typo errors
+               $ChannelName =~ s/Temperature sensor e/Temperature sensor/g ;
+
+               $ChannelName = "Module" if $ChannelName eq "" ; # For protocol_vmbsig_vmbusbip_vmcm3: 'name character 1'
+
+               #print "  $hex      $ChannelName    $char\n" ;
+
+               if ( ! $MemoryMap{ChannelTemp}{$ChannelName}{min} or $char < $MemoryMap{ChannelTemp}{$ChannelName}{min} ) {
+                  $MemoryMap{ChannelTemp}{$ChannelName}{min} = $char ;
+               }
+               if ( ! $MemoryMap{ChannelTemp}{$ChannelName}{max} or $char > $MemoryMap{ChannelTemp}{$ChannelName}{max} ) {
+                  $MemoryMap{ChannelTemp}{$ChannelName}{max} = $char ;
+               }
+               $MemoryMap{ChannelTemp}{$ChannelName}{tmp}{$char} = $hex ;
+            }
+         }
       }
+      #print "\n" ;
+   }
+
+   if ( %MemoryMap ) {
+      #print "channel info gevonden\n" ;
+      foreach my $ChannelName (sort keys %{$MemoryMap{ChannelTemp}}) {
+         if ( $MemoryMap{ChannelTemp}{$ChannelName}{min} and $MemoryMap{ChannelTemp}{$ChannelName}{max} ) {
+            my $min = $MemoryMap{ChannelTemp}{$ChannelName}{min} ;
+            my $max = $MemoryMap{ChannelTemp}{$ChannelName}{max} ;
+            $MemoryMap{ChannelTemp}{$ChannelName}{Memory} = "$MemoryMap{ChannelTemp}{$ChannelName}{tmp}{$min}:$MemoryMap{ChannelTemp}{$ChannelName}{tmp}{$max}" ;
+         }
+      }
+
+      #delete $MemoryMap{ChannelTemp} ;
+      #print Dumper \%MemoryMap ;
+      %{$file{PerFile}{$file}{MemoryMap}} = %MemoryMap ;
+   } else {
+      print "   Warning: Geen memory info gevonden in $file\n" ;
+   }
+
+   if ( $counter == 0 ) {
+      print "ERROR: file $file: start of possible messages not detected\n" ;
    }
 }
 
@@ -221,7 +328,6 @@ my %data ; # Contains al parsed data
 foreach my $file (sort keys(%{$file{PerFile}})) {
    print "   - $file\n" if defined $global{opts}{verbose} ;
    my $Module = $file{PerFile}{$file}{Info}{Module} ; # Handier var
-
    # Make sure we see each ModuleType only once
    if ( defined $file{PerType}{$Module} ) {
       print "Error: file $file: We already had type $Module in file $file{PerType}{$Module}{File}\n" ;
@@ -297,6 +403,7 @@ foreach my $file (sort keys(%{$file{PerFile}})) {
                } elsif ( $line =~ /DATABYTE1=(.+) \(H’(..)’\)/ or
                     $line =~ /DATABYTE1 (.+) \(H’(..)’\)/ or
                     $line =~ /DATABYTE1=(.+) \(0x(.+)\)/ or
+                    $line =~ /DATABYTE1\s*(.+) \(0x(.+)\)/ or
                     $line =~ /DATABYTE1=(COMMAND_CANCEL_INHIBIT) \(0(17)\)/) {
                   my $CommandText = $1 ;
                   my $Command  = $2 ;
@@ -322,10 +429,16 @@ foreach my $file (sort keys(%{$file{PerFile}})) {
                   # Ignore
                   #  DATABYTE1: <SOF-SID10...SID0-RTR-IDE-r0-DLC3...0-DATABYTE1...DATABYTEn-CRC14...CRC1-CRCDEL-ACK-ACKDEL-
                } else {
-                  print "Error: DATABYTE1 format not recognized: $line\n" ;
+                  print "Error: DATABYTE1 format not recognizedin file $file: $line\n" ;
                }
             } else {
                if ( $line =~ /DATABYTE(\d)=(.+)/ ) {
+                  my $DATABYTE = $1 ;
+                  $file{PerFile}{$file}{Messages}{$counter}{byte}{$DATABYTE}{text} = $2 ;
+                  if ( $line =~ /100%/ ) {
+                     $file{PerFile}{$file}{Messages}{$counter}{byte}{$DATABYTE}{type} = "%" ;
+                  }
+               } elsif ( $line =~ /DATABYTE(\d)\s+(.+)/ ) {
                   my $DATABYTE = $1 ;
                   $file{PerFile}{$file}{Messages}{$counter}{byte}{$DATABYTE}{text} = $2 ;
                   if ( $line =~ /100%/ ) {
@@ -366,17 +479,17 @@ foreach my $file (sort keys(%{$file{PerFile}})) {
    if ( defined $file{PerCommand}{$file}{'FF'} ) {
       my @counter = split " ", $file{PerCommand}{$file}{'FF'} ;
       my $counter = $counter[-1] ; # Take the last occurence of the command, this should be the one for the most recent firmware
-      
+
       if ( defined $file{PerFile}{$file}{Messages}{$counter} ) {
          # filter out all possible formats for DATABYTE2
          # VMBGP1 type (H’3A’) VMBGP2 type (H’3B’) VMBGP4 type (H’3C’)
          # VMBSIG type (H’39’) / VMBUSBIP type (H’40’) / VMCM3 type (H’3F’)
          if ( $file{PerFile}{$file}{Messages}{$counter}{byte}{'2'}{text} =~ /(\S+) type \(H’(\S\S)’\) (\S+) type \(H’(\S\S)’\) (\S+) type \(H’(\S\S)’\)/ or
-                   $file{PerFile}{$file}{Messages}{$counter}{byte}{'2'}{text} =~ /(\S+) type \(H’(\S\S)’\) \/ (\S+) type \(H’(\S\S)’\) \/ (\S+) type \(H’(\S\S)’\)/ ) {
+              $file{PerFile}{$file}{Messages}{$counter}{byte}{'2'}{text} =~ /(\S+) type \(H’(\S\S)’\) \/ (\S+) type \(H’(\S\S)’\) \/ (\S+) type \(H’(\S\S)’\)/ ) {
             $ModuleType{$2} = $1 ;
             $ModuleType{$4} = $3 ;
             $ModuleType{$6} = $5 ;
-         
+
          } elsif ( $file{PerFile}{$file}{Messages}{$counter}{byte}{'2'}{text} =~ /^NODETYPE_(\S+) \(H’(\S\S)’\)$/i or
               $file{PerFile}{$file}{Messages}{$counter}{byte}{'2'}{text} =~ /^(\S+)_MODULE \(H’(\S\S)’\)$/i or
               $file{PerFile}{$file}{Messages}{$counter}{byte}{'2'}{text} =~ /^(\S+)_TYPE \(H’(\S\S)’\)$/i or
@@ -384,7 +497,7 @@ foreach my $file (sort keys(%{$file{PerFile}})) {
               $file{PerFile}{$file}{Messages}{$counter}{byte}{'2'}{text} =~ /^(\S+) TYPE \(H’(\S\S)’\)$/i or
               $file{PerFile}{$file}{Messages}{$counter}{byte}{'2'}{text} =~ /^(\S+) TYPE \(0x(\S\S)\)$/i ) {
             $ModuleType{$2} = $Module ;
-                   
+
          } else {
             if ( $file{PerFile}{$file}{Messages}{$counter}{byte}{'2'}{text} =~ /^type \((.+)\)/ ) {
                my $type = $1 ;
@@ -394,11 +507,13 @@ foreach my $file (sort keys(%{$file{PerFile}})) {
                   if ( $ele =~ /^0x(\S\S)=(\S+)/ ) {
                      $ModuleType{$1} = $2 ;
                   } else {
-                     print "ERROR command FF not parsed: $ele\n" ;
+                     print "ERROR 1 command FF not parsed for file $file: $ele ($type)\n" ;
                   }
                }
+            } elsif ( $file{PerFile}{$file}{Messages}{$counter}{byte}{'2'}{text} =~ /^Type \((.+)=0x(.+)\)/ ) {
+               $ModuleType{$2} = $1 ;
             } else {
-               print "ERROR command FF not parsed: $file{PerFile}{$file}{Messages}{$counter}{byte}{'2'}{text}\n" ;
+               print "ERROR 3 command FF not parsed for file $file: $file{PerFile}{$file}{Messages}{$counter}{byte}{'2'}{text}\n" ;
             }
          }
 
@@ -465,6 +580,7 @@ foreach my $file (sort keys(%{$file{PerFile}})) {
             $file{ModuleTypes}{$ModuleType}{Type}    = $Module ;
             $file{ModuleTypes}{$ModuleType}{Info}    = $file{PerFile}{$file}{Info}{ModuleText} ;
             $file{ModuleTypes}{$ModuleType}{Version} = $file{PerFile}{$file}{Info}{Edition} ;
+            $file{ModuleTypes}{$ModuleType}{MemoryMap}    = $file{PerFile}{$file}{MemoryMap} ;
 
 			}
       } else {
@@ -615,7 +731,7 @@ foreach my $ModuleType (sort keys %{$file{PerCommandLocal}}) {
 
          my $Name = join ";", @Name ;
          my $Info = join ";", @Info ;
-         my $Prio = join ";", @Prio    ;
+         my $Prio = join ";", @Prio ;
 
          $file{ModuleTypes}{$ModuleType}{Messages}{$Command}{Name} = $Name ;
          $file{ModuleTypes}{$ModuleType}{Messages}{$Command}{Info} = $Info ;
@@ -644,7 +760,7 @@ foreach my $Command (sort keys %{$file{PerCommandBroadcast}}) {
 
    my $Name = join ";", @Name ;
    my $Info = join ";", @Info ;
-   my $Prio = join ";", @Prio    ;
+   my $Prio = join ";", @Prio ;
 
    $json{MessagesBroadCast}{$Command}{Name} = "$Name" ;
    $json{MessagesBroadCast}{$Command}{Info} = "$Info" ;
@@ -675,10 +791,245 @@ foreach my $file (
    }
 }
 
+foreach my $ModuleType (sort keys %{$json{ModuleTypes}}) {
+   #print "ModuleType: $ModuleType\n" ;
+   #print Dumper \%{$json{ModuleTypes}{$ModuleType}} ;
+   my %Module ;
+   $Module{Type}        = $json{ModuleTypes}{$ModuleType}{Type} ;
+   %{$Module{Channels}} = %{$json{ModuleTypes}{$ModuleType}{Channels}} ;
+
+   # Memory locatie van Module overnemen
+   if ( $json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp}{Module} ) {
+      $json{ModuleTypes}{$ModuleType}{Memory}{ModuleName} = $json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp}{Module}{Memory} ;
+      delete $json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp}{Module} ;
+   }
+
+   foreach my $Channel (sort keys %{$json{ModuleTypes}{$ModuleType}{Channels}}) {
+      if ( $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Type} eq "Button" or
+           $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Type} eq "ButtonCounter" or
+           $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Type} eq "Sensor" or
+           $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Type} eq "LightSensor" or
+           $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Type} eq "EdgeLit" or
+           $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Type} eq "Memo" or
+           $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Type} eq "SensorNumber" or
+           $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Type} eq "Temperature" or
+           $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Type} eq "ThermostatChannel" ) {
+         #$Module{Channels}{$Channel}{Subdevice} = "no" ;
+
+      } elsif ( $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Type} eq "Blind" or
+                $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Type} eq "Dimmer" or
+                $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Type} eq "Relay" ) {
+         if ( $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Name} =~ /Virtual/ ) {
+            #$Module{Channels}{$Channel}{Subdevice} = "no" ;
+         } else {
+            $Module{Channels}{$Channel}{Subdevice} = "yes" ;
+         }
+
+      } else {
+         print "   ModuleType: $ModuleTypem, Channel: $Channel $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Type}  /  $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Name}\n" ;
+      }
+
+      my $ChannelName = $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Name} ;
+
+      foreach my $ChannelTempName (sort keys %{$json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp}}) {
+         # Build name from our naming based on VelbusLink so we can use it to the name used in the protocol files
+         my $ChannelTempNameFix = $ChannelTempName ;
+
+         # Name: 'Push button 1', pdf: 'input 1'
+         if ( $ModuleType eq "05" ) {
+            $ChannelTempNameFix =~ s/input/Push button/ ;
+         } elsif ( $ModuleType eq "2D" ) {
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+            $ChannelTempNameFix =~ s/Sensor/Temperature/ ;
+         } elsif ( $ModuleType eq "2E" ) {
+            $ChannelTempNameFix =~ s/ \d+// ;
+         } elsif ( $ModuleType eq "30" ) {
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+         } elsif ( $ModuleType eq "16" ) {
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+         } elsif ( $ModuleType eq "34" ) {
+            $ChannelTempNameFix = 'Virtual button 2' if $ChannelTempNameFix eq 'Channel 2' ;
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+         } elsif ( $ModuleType eq "35" ) {
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+
+         } elsif ( $ModuleType eq "3A" ) {
+            $ChannelTempNameFix = 'Virtual button 2' if $ChannelTempNameFix eq 'Channel 2' ;
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+         } elsif ( $ModuleType eq "3B" ) {
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+         } elsif ( $ModuleType eq "3C" ) {
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+
+         } elsif ( $ModuleType eq "3D" ) {
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+         } elsif ( $ModuleType eq "3E" ) {
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+
+         } elsif ( $ModuleType eq "38" ) {
+            $ChannelTempNameFix = 'Push button' if $ChannelTempNameFix eq 'Channel 1' ;
+            $ChannelTempNameFix = 'Virtual button' if $ChannelTempNameFix eq 'Channel 2' ;
+
+         } elsif ( $ModuleType eq "31" ) {
+            $ChannelTempNameFix = 'Frost alarm' if $ChannelTempNameFix eq 'Alarm output 1' ;
+            $ChannelTempNameFix = 'Heat alarm' if $ChannelTempNameFix eq 'Alarm output 2' ;
+            $ChannelTempNameFix = 'Rain alarm' if $ChannelTempNameFix eq 'Alarm output 3' ;
+            $ChannelTempNameFix = 'Dawn alarm' if $ChannelTempNameFix eq 'Alarm output 4' ;
+            $ChannelTempNameFix = 'Dusk alarm' if $ChannelTempNameFix eq 'Alarm output 5' ;
+            $ChannelTempNameFix = 'Sun alarm' if $ChannelTempNameFix eq 'Alarm output 6' ;
+            $ChannelTempNameFix = 'Wind alarm' if $ChannelTempNameFix eq 'Alarm output 7' ;
+            $ChannelTempNameFix = 'Storm alarm' if $ChannelTempNameFix eq 'Alarm output 8' ;
+            $ChannelTempNameFix = 'Rainfall' if $ChannelTempNameFix eq 'Rain sensor' ;
+            $ChannelTempNameFix = 'Illuminance' if $ChannelTempNameFix eq 'Light sensor' ;
+            $ChannelTempNameFix = 'Wind speed' if $ChannelTempNameFix eq 'Wind sensor' ;
+            $ChannelTempNameFix =~ s/ sensor// ;
+
+         } elsif ( $ModuleType eq "22" ) {
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+            $ChannelTempNameFix = 'Virtual button' if $ChannelTempNameFix eq 'Push button 8' ;
+
+         } elsif ( $ModuleType eq "18" ) {
+            if (
+               $ChannelTempNameFix =~ s/Channel 3/Virtual button 1/ or
+               $ChannelTempNameFix =~ s/Channel 4/Virtual button 2/ or
+               $ChannelTempNameFix =~ s/Channel 5/Virtual button 3/ or
+               $ChannelTempNameFix =~ s/Channel 6/Virtual button 4/ or
+               $ChannelTempNameFix =~ s/Channel 7/Virtual button 5/ or
+               $ChannelTempNameFix =~ s/Channel 8/Virtual button 6/ ) {
+            } else {
+               $ChannelTempNameFix = "Push " . $ChannelTempNameFix ;
+               $ChannelTempNameFix =~ s/Channel/button/ ;
+            }
+         } elsif ( $ModuleType eq "17" ) {
+            if (
+               $ChannelTempNameFix =~ s/Channel 7/Virtual button 1/ or
+               $ChannelTempNameFix =~ s/Channel 8/Virtual button 2/ ) {
+            } else {
+               $ChannelTempNameFix = "Push " . $ChannelTempNameFix ;
+               $ChannelTempNameFix =~ s/Channel/button/ ;
+            }
+         } elsif ( $ModuleType eq "08" ) {
+            $ChannelTempNameFix =~ s/channel // ;
+         } elsif ( $ModuleType eq "0C" ) {
+            $ChannelTempNameFix = "Temperature" if $ChannelTempNameFix eq "Sensor" ;
+         } elsif ( $ModuleType eq "10" ) {
+            $ChannelTempNameFix = "Virtual channel relay" if $ChannelTempNameFix eq "Virtual relay channel 5" ;
+            $ChannelTempNameFix =~ s/channel // ;
+
+         } elsif ( $ModuleType eq "41" ) {
+            $ChannelTempNameFix = 'Relay' if $ChannelTempNameFix eq 'Relay channel 1' ;
+            $ChannelTempNameFix = 'Virtual relay 1' if $ChannelTempNameFix eq 'Virtual relay channel 2' ;
+            $ChannelTempNameFix = 'Virtual relay 2' if $ChannelTempNameFix eq 'Virtual relay channel 3' ;
+            $ChannelTempNameFix = 'Virtual relay 3' if $ChannelTempNameFix eq 'Virtual relay channel 4' ;
+            $ChannelTempNameFix = 'Virtual relay 4' if $ChannelTempNameFix eq 'Virtual relay channel 5' ;
+
+         } elsif ( $ModuleType eq "29" ) {
+            $ChannelTempNameFix = 'Relay' if $ChannelTempNameFix eq 'Relay channel 1' ;
+            $ChannelTempNameFix = 'Virtual relay 1' if $ChannelTempNameFix eq 'Virtual relay channel 2' ;
+            $ChannelTempNameFix = 'Virtual relay 2' if $ChannelTempNameFix eq 'Virtual relay channel 3' ;
+            $ChannelTempNameFix = 'Virtual relay 3' if $ChannelTempNameFix eq 'Virtual relay channel 4' ;
+            $ChannelTempNameFix = 'Virtual relay 4' if $ChannelTempNameFix eq 'Virtual relay channel 5' ;
+         } elsif ( $ModuleType eq "1B" ) {
+            $ChannelTempNameFix = 'Relay' if $ChannelTempNameFix eq 'Relay channel 1' ;
+            $ChannelTempNameFix = 'Virtual relay 1' if $ChannelTempNameFix eq 'Virtual relay channel 2' ;
+            $ChannelTempNameFix = 'Virtual relay 2' if $ChannelTempNameFix eq 'Virtual relay channel 3' ;
+            $ChannelTempNameFix = 'Virtual relay 3' if $ChannelTempNameFix eq 'Virtual relay channel 4' ;
+            $ChannelTempNameFix = 'Virtual relay 4' if $ChannelTempNameFix eq 'Virtual relay channel 5' ;
+         } elsif ( $ModuleType eq "2C" ) {
+            $ChannelTempNameFix =~ s/ sensor// ;
+         } elsif ( $ModuleType eq "12" ) {
+            $ChannelTempNameFix =~ s/channel // ;
+         } elsif ( $ModuleType eq "11" ) {
+            $ChannelTempNameFix = "Virtual channel relay" if $ChannelTempNameFix eq "Virtual relay channel 5" ;
+            $ChannelTempNameFix =~ s/channel // ;
+         } else {
+         }
+
+         if ( lc($ChannelName) eq lc($ChannelTempNameFix) ) {
+            $json{ModuleTypes}{$ModuleType}{MemoryMap}{Channel}{$ChannelName}{Memory} = $json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp}{$ChannelTempName}{Memory} ;
+            delete $json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp}{$ChannelTempName} ;
+            last ;
+         }
+      }
+      if ( ! defined $json{ModuleTypes}{$ModuleType}{MemoryMap}{Channel}{$ChannelName} ) {
+         next if $ModuleType eq "1E" ; # VMBGP1: niet te doen
+         next if $ModuleType eq "1F" ; # VMBGP2: niet te doen
+         next if $ModuleType eq "20" ; # VMBGP4: niet te doen
+         next if $ModuleType eq "21" ; # VMBGPO: niet te doen
+         next if $ModuleType eq "28" ; # VMBGPOD niet te doen:
+         next if $ModuleType eq "2A" ; # VMBPIRM: niets in memory map
+         next if $ModuleType eq "2B" ; # VMBPIRC: niets in memory map
+         next if $ModuleType eq "2D" ; # VMBGP4PIR: deel gevonden, rest niet belangrijk
+         next if $ModuleType eq "33" ; # VMBVP1:
+         next if $ModuleType eq "34" ; # VMBEL1
+         next if $ModuleType eq "35" ; # VMBEL2
+         next if $ModuleType eq "36" ; # VMBEL4
+         next if $ModuleType eq "37" ; # VMBELO
+         next if $ModuleType eq "38" ; # VMBEL1PIR
+         next if $ModuleType eq "3A" ;
+         next if $ModuleType eq "3B" ;
+         next if $ModuleType eq "3C" ;
+         next if $ModuleType eq "3D" ;
+         next if $ModuleType eq "3E" ;
+         next if $ModuleType eq "42" ;
+         next if $ModuleType eq "42" ;
+         next if $ModuleType eq "33" ;
+         next if $ChannelName =~ /Light/ and $ModuleType eq "2C" ;
+         next if $ChannelName =~ /alarm/ and $ModuleType eq "2C" ;
+         next if $ChannelName =~ /output/ and $ModuleType eq "2C" ;
+         next if $ChannelName =~ /alarm/i and $ModuleType eq "32" ;
+         #print "ModuleType: $ModuleType ($json{ModuleTypes}{$ModuleType}{Type}), ChannelName: '$ChannelName' no memory location found, ChannelTemp:\n" ;
+         # print Dumper \%{$json{ModuleTypes}{$ModuleType}{MemoryMap}} ;exit ;
+         #foreach my $temp (sort keys %{$json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp}} ) {
+         #   print "   $temp\n" ;
+         #}
+      }
+   }
+
+   if ( defined $json{ModuleTypes}{$ModuleType}{Memory} ) {
+      if ( defined $json{ModuleTypes}{$ModuleType}{Memory}{ModuleName} ) {
+      } else {
+         print "Error: no memory informatie for ModuleName $json{ModuleTypes}{$ModuleType}{File} module $ModuleType $json{ModuleTypes}{$ModuleType}{Type}\n" ;
+      }
+   } else {
+      print "Error: no memory informatie for $json{ModuleTypes}{$ModuleType}{File} module $ModuleType $json{ModuleTypes}{$ModuleType}{Type}\n" ;
+   }
+}
+
+foreach my $ModuleType (sort keys %{$json{ModuleTypes}}) {
+   # Delete unnecessary info
+   delete $json{ModuleTypes}{$ModuleType}{Memory}{Address} ;
+
+   if ( defined $json{ModuleTypes}{$ModuleType}{Memory} and
+        defined $json{ModuleTypes}{$ModuleType}{Memory}{ModuleName} and
+        $json{ModuleTypes}{$ModuleType}{Memory}{ModuleName} eq "" ) {
+      delete $json{ModuleTypes}{$ModuleType}{Memory}{ModuleName}
+   }
+
+   delete $json{ModuleTypes}{$ModuleType}{SameModule} ;
+   delete $json{ModuleTypes}{$ModuleType}{Messages} ;
+   delete $json{ModuleTypes}{$ModuleType}{File} ;
+
+   # Save the module info in json format in a file per module
+   `mkdir -p out/per_module` ;
+   open (OUTPUT,">","out/per_module/$ModuleType.json") ;
+   my $json = JSON->new;
+   $json->canonical(1);
+   $json->pretty(1);
+
+   my $text =  $json->encode( \%{$json{ModuleTypes}{$ModuleType}}) ;
+   print OUTPUT $text ;
+   close OUTPUT ;
+}
+
+# Save the file info in json format
+open (OUTPUT,">","out/file.json") ;
+my $json = JSON->new->canonical(1)->pretty(1)->canonical(1);
+print OUTPUT $json->encode( \%file) ;
+close OUTPUT ;
+
 # Save the data in json format
 open (OUTPUT,">","out/protocol.json") ;
-my $json = JSON->new->allow_nonref;
-$json->canonical(1) ;
-$json->pretty(1) ;
+my $json = JSON->new->canonical(1)->pretty(1)->canonical(1);
 print OUTPUT $json->encode( \%json) ;
 close OUTPUT ;

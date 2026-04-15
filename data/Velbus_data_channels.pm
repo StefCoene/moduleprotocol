@@ -1,3 +1,16 @@
+# This defines the different types of channels
+
+# Possible settings per type:
+#  - Get
+#    - Message: what message is used to get the state of the channel
+#  - Set: What action can be done on the channel to change the state of the channel
+#    - onder Match: <list of possible actions>
+#      - action: the name of the action
+#        - Message: what message is used to set the state of the channel
+#        - Action: TODO
+#  - BasedOn: this is based on an other type so the settings of the that type is copied over to this type
+#  - Modules: List of modules that uses this type
+
 $json{ChannelTypes}{Blind}{Get}{Message} = "EC" ;
 $json{ChannelTypes}{Blind}{Set}{Match}{STOP}{Message}  = "04" ;
 $json{ChannelTypes}{Blind}{Set}{Match}{UP}{Message}    = "05" ;
@@ -159,6 +172,7 @@ $json{ChannelTypes}{ELBrightness}{openHAB}{Append2Name} = "Brightness" ;
 $json{ChannelTypes}{ELBrightness}{openHAB}{SkipAutoUpdate} = "yes" ;
 
 # ButtonCounter in the config file is actually Counter. So merge Counter with ButtonCounter.
+# We can not use {BasedOn} because that copies only {Get} and {Set}
 %{$json{ChannelTypes}{Counter}} = %{ merge( \%{$json{ChannelTypes}{Counter}}, \%{$json{ChannelTypes}{ButtonCounter}} ) };
 
 # Loop all Channel Types
