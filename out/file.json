@@ -14073,8 +14073,8 @@
             }
          },
          "SameModule" : {
-            "3B" : "VMBGP2",
-            "3C" : "VMBGP4"
+            "3B" : "VMBGP2-2",
+            "3C" : "VMBGP4-2"
          },
          "Type" : "VMBGP1-2",
          "Version" : "version 1"
@@ -14417,10 +14417,10 @@
             }
          },
          "SameModule" : {
-            "3B" : "VMBGP2",
-            "3C" : "VMBGP4"
+            "3B" : "VMBGP2-2",
+            "3C" : "VMBGP4-2"
          },
-         "Type" : "VMBGP2",
+         "Type" : "VMBGP2-2",
          "Version" : "version 1"
       },
       "3C" : {
@@ -14761,10 +14761,10 @@
             }
          },
          "SameModule" : {
-            "3B" : "VMBGP2",
-            "3C" : "VMBGP4"
+            "3B" : "VMBGP2-2",
+            "3C" : "VMBGP4-2"
          },
-         "Type" : "VMBGP4",
+         "Type" : "VMBGP4-2",
          "Version" : "version 1"
       },
       "3D" : {

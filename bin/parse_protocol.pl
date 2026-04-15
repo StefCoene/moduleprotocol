@@ -525,9 +525,13 @@ foreach my $file (sort keys(%{$file{PerFile}})) {
 				# If there is more then 1 modupe type, remember this
 			   if ( @ModuleType ) {
 			   	foreach my $ModuleTypeLoop (@ModuleType) {
+                  $ModuleType{$ModuleTypeLoop} .= "-2" if $ModuleTypeLoop eq "3A" ; # This is VMBGP1 in protocol files but should be VMBGP1-2
+                  $ModuleType{$ModuleTypeLoop} .= "-2" if $ModuleTypeLoop eq "3B" ; # This is VMBGP2 in protocol files but should be VMBGP2-2
+                  $ModuleType{$ModuleTypeLoop} .= "-2" if $ModuleTypeLoop eq "3C" ; # This is VMBGP4 in protocol files but should be VMBGP4-2
 						$file{ModuleTypes}{$ModuleType}{SameModule}{$ModuleTypeLoop} = $ModuleType{$ModuleTypeLoop} ;
 			   	}
 			   }
+
 				# We  have to force a copy from 1E to 1F and 20 for VMBGP1 because that info is missing in the protocol file
 				if ( $ModuleType eq "1E" ) {
 					$file{ModuleTypes}{'1E'}{SameModule}{'1F'} = "VMBGP2" ;

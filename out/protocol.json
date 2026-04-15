@@ -7000,7 +7000,7 @@
          },
          "TemperatureChannel" : "10",
          "ThermostatAddr" : "0",
-         "Type" : "VMBGP2",
+         "Type" : "VMBGP2-2",
          "Version" : "version 1"
       },
       "3C" : {
@@ -7133,7 +7133,7 @@
          },
          "TemperatureChannel" : "10",
          "ThermostatAddr" : "0",
-         "Type" : "VMBGP4",
+         "Type" : "VMBGP4-2",
          "Version" : "version 1"
       },
       "3D" : {
