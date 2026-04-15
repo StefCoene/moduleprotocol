@@ -1,0 +1,195 @@
+  VMBSIG-21
+Home automatization over internet
+
+
+
+
+            VMBSIG-21 protocol – edition 1   1
+External CAN communication protocol
+Standard CAN packet format
+ <SOF-SID10...SID0-RTR-IDE-r0-DLC3...0-DATABYTE1...DATABYTEn-CRC15...CRC1-CRCDEL-ACK-ACKDEL-EOF7...EOF1-
+IFS3...IFS1>
+    bits                               Description
+    SOF                                Start Of Frame (always 0)
+    SID10 & SID9                       Priority
+                                       00: highest
+                                       01: firmware
+                                       10: reserved
+                                       11: lowest
+    SID8…SID1                          Address
+    SID0                               Always 0
+    RTR                                Remote Transmit Request
+    IDE                                Identifier Extension (always 0)
+    r0                                 reserved (always 0)
+    DLC3…DLC0                          Data Length Code (0…8)
+    Databyte1                          Command
+    Databyte2                          Parameter
+    Databyte3                          Parameter
+    Databyte4                          Parameter
+    Databyte5                          Parameter
+    Databyte6                          Parameter
+    Databyte7                          Parameter
+    Databyte8                          Parameter
+    CRC15…CRC1                         Cyclic Redundancy Checksum
+    CRCDEL                             CRC Delimiter (always 1)
+    ACK                                Acknowledge slot (transmit 1 readback 0 if received correctly)
+    ACKDEL                             Acknowledge Delimiter (always 1)
+    EOF7...EOF1                        End Of Frame (always 1111111)
+    IFS3...IFS1                        InterFrame Space (always 111)
+
+
+
+
+                                            VMBSIG-21 protocol – edition 1                                 2
+Power up message received or transmitted
+  SID10-SID9    11 (lowest priority)
+  SID8...SID1   0x00 (broadcast address)
+  RTR = 0       0
+  DLC3...DLC0   2 data bytes
+  DATABYTE1     COMMAND_POWER_UP (0xAB)
+  DATABYTE2     module address
+
+
+
+Module type request command received
+  SID10-SID9    11 (low priority)
+  SID8...SID1   Module address
+  RTR           1 (remote transmit request)
+  DLC3...DLC0   0 data bytes
+
+Module type message transmitted
+  SID10-SID9     11 (low priority)
+  SID8...SID1    Module address
+  RTR            0 (no remote transmit request)
+  DLC3...DLC0    8 data bytes
+  DATABYTE1      COMMAND_MODULE_TYPE (0xFF)
+  DATABYTE2      Type (VMBSIG-21 = 0x60)
+  DATABYTE3      High byte of serial number
+  DATABYTE4      Low byte of serial number
+  DATABYTE5      Memory map version
+  DATABYTE6      Bootloader build high byte
+  DATABYTE7      Bootloader build low byte
+  DATABYTE8      Properties:
+                 bit : terminator closed/open (0 = open)
+                 bit3…1: hardware version
+                 bit 4: connection type (0 = CAN bus)
+                 Bit 5: CAN FD support (0 = only standard CAN allowed)
+
+
+
+Module status request command received
+  SID10-SID9     11 (lowest priority)
+  SID8...SID1    Module address
+  RTR            0
+  DLC3...DLC0    2 data bytes
+  DATABYTE1      COMMAND_MODULE_STATUS_REQUEST (0xFA)
+  DATABYTE2      don’t care
+
+Module status message transmitted
+  SID10-SID9     11 (lowest priority)
+  SID8...SID1    Module address
+  RTR            0
+  DLC3...DLC0    3 data bytes
+  DATABYTE1      COMMAND_STATUS (0xED)
+  DATABYTE2     tactile button channels 1…8 status (1 = pressed / 0 = released)
+  DATABYTE3     error status
+                0x00: Normal power supply voltage
+                0x01: CAN bus error
+                0x02: Low power supply voltage error
+                0x03: High power supply voltage error
+
+
+
+
+                                              VMBSIG-21 protocol – edition 1      3
+Change master address and serial number command received
+  SID10-SID9      01 (firmware priority)
+  SID8...SID1     Module address
+  RTR             0
+  DLC3...DLC0     7 data bytes
+  DATABYTE1       COMMAND_WRITE_ADDR_SERIALNR (0x6A)
+  DATABYTE2       Module type (0x60 = VMSIG-21)
+  DATABYTE3       Current serial nr high byte
+  DATABYTE4       Current serial nr low byte
+  DATABYTE5       New module address
+  DATABYTE6       New serial nr high byte
+  DATABYTE7       New serial nr low byte
+
+
+
+Bootloader request command received
+  SID10-SID9        01 (firmware priority)
+  SID8...SID1       Module address
+  RTR               0
+  DLC3...DLC0       1 or 2 data bytes
+  DATABYTE1         COMMAND_ENTER_BOOTLOADER_REQUEST (0x60)
+  DATABYTE2         Processor nr (0x00 = main processor)
+        Remark: if DLC = 1 then always the main processor is selected
+
+Bootloader information message transmitted
+   SID10-SID9       11 (low priority)
+   SID8...SID1      Module address
+   RTR              0
+   DLC3...DLC0      7 data bytes
+   DATABYTE1        COMMAND_BOOTLOADER_INFO (0x61)
+   DATABYTE2        module type (VMBSIG-21 = 0x60)
+   DATABYTE3        Build number (year)
+   DATABYTE4        Build number (week)
+   DATABYTE5        PROCESSOR ID high byte (0x04 for STM32G0B0CET6)
+   DATABYTE6        PROCESSOR ID low byte (0x67 for STM32G0B0CET6)
+   DATABYTE7        Processor nr (0x00 = main processor)
+       Remark: this message will be echoed to the CM4 module via Uart communication
+
+Enter bootloader command received
+   SID10-SID9       0xF9 (firmware priority)
+   SID8...SID1      Module address
+   RTR              0
+   DLC3...DLC0      6 or 7 data bytes
+   DATABYTE1        COMMAND_ENTER_BOOTLOADER (0x62)
+   DATABYTE2        module type (VMBSIG-21 = 0x60)
+   DATABYTE3        Build number (year)
+   DATABYTE4        Build number (week)
+   DATABYTE5        PROCESSOR ID high byte (0x04 for STM32G0B0CET6)
+   DATABYTE6        PROCESSOR ID low byte (0x67 for STM32G0B0CET6)
+   DATABYTE7        processor nr (0x00 = main processor)
+       Remark: if DLC = 6 then always the main processor is selected
+
+
+
+
+                                             VMBSIG-21 protocol – edition 1           4
+Abort entering bootloader command for one module received
+   SID10-SID9     0xF9 (firmware priority)
+   SID8...SID1    Module address
+   RTR + length   1 data byte
+   DATABYTE1      COMMAND_ABORT_BOOTLOADER_REQUEST (0x63)
+
+      Or
+
+   SID10-SID9     0xF9 (firmware priority)
+   SID8...SID1    Module address
+   RTR + length   1 data byte
+   DATABYTE1      COMMAND_EXIT_BOOTLOADER (0x64)
+
+
+
+Abort entering bootloader command for all modules received
+   SID10-SID9     0xF9 (firmware priority)
+   SID8...SID1    0x00 (broadcast address)
+   RTR + length   2 data byte
+   DATABYTE1      COMMAND_ABORT_BOOTLOADER_REQUEST (0x63)
+   DATABYTE2      module type (VMBSIG-21 = 0x60)
+
+      Or
+
+   SID10-SID9     0xF9 (firmware priority)
+   SID8...SID1    0x00 (broadcast address)
+   RTR + length   2 data byte
+   DATABYTE1      COMMAND_EXIT_BOOTLOADER (0x64)
+   DATABYTE2      module type (VMBSIG-21 = 0x60)
+
+
+
+
+                                      VMBSIG-21 protocol – edition 1   5
+

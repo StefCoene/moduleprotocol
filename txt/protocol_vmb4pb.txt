@@ -1,0 +1,1504 @@
+ VMB4PB
+4 button interface module
+   for VELBUS system
+
+
+
+
+    VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024   1
+Binairy format:
+
+<SOF-SID10...SID0-RTR-IDE-r0-DLC3...0-DATABYTE1...DATABYTEn-CRC15...CRC1-CRCDEL-ACK-ACKDEL-
+EOF7...EOF1-IFS3...IFS1>
+   bits                          Description
+   SOF                           Start Of Frame (always 0)
+   SID10 & SID9                  Priority (00: highest … 11: lowest priority)
+   SID8…SID1                     Address
+   SID0                          Always 0
+   RTR                           Remote Transmit Request
+   IDE                           Identifier Extension (always 0)
+   r0                            reserved (always 0)
+   DLC3…DLC0                     Data Length Code (0…8)
+   Databyte1                     Command
+   Databyte2                     Parameter
+   Databyte3                     Parameter
+   Databyte4                     Parameter
+   Databyte5                     Parameter
+   Databyte6                     Parameter
+   Databyte7                     Parameter
+   Databyte8                     Parameter
+   CRC15…CRC1                    Cyclic Redundancy Checksum
+   CRCDEL                        CRC Delimiter (always 1)
+   ACK                           Acknowledge slot (transmit 1 readback 0 if received correctly)
+   ACKDEL                        Acknowledge Delimiter (always 1)
+   EOF7...EOF1                   End Of Frame (always 1111111)
+   IFS3...IFS1                   InterFrame Space (always 111)
+
+
+The module can transmit the following messages:
+ • Power up message
+ • Channel status
+ • Module status
+ • Module type
+ • Bus error counter status
+ • First, second and third part of the channel names
+ • Memory data
+ • Memory data block (4 bytes)
+ • Real-time clock status
+ • Date status
+ • Daylight savings status
+ • Real-time clock status request
+ • Clear linked push button led
+ • Set linked push button led
+ • Slow blink linked push button led
+ • Fast blink linked push button led
+ • Program step info
+
+The module can receive the following commands:
+ • Power up message
+ • Linked push button status
+ • Module type request
+ • Module status request
+ • Channel name request
+ • Clear channel led
+ • Set channel led
+ • Slow blink channel led
+ • Fast blink channel led
+ • Very fast channel led
+
+
+
+
+                                 VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024            2
+• Update channel leds
+• Read memory data
+• Read memory data block (4 bytes)
+• Memory dump request
+• Write memory data
+• Write memory data block (4 bytes)
+• Bus error counter status request
+• Real-time clock status request
+• Set real-time clock
+• Set date
+• Set daylight savings
+• Enable/disable global sunrise/sunset related actions
+• Enable/disable local sunrise/sunset related actions
+• Set local alarm clock
+• Set global alarm clock
+• Lock channel
+• Unlock channel
+• Disable channel program
+• Enable channel program
+• Select program
+• Read program step
+• Write program step
+
+
+
+
+                               VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024   3
+Transmits power up message:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = 0x00
+    RTR = 0
+    DLC3...DLC0 = 2 data byte to send
+    DATABYTE1 = COMMAND_POWER_UP (0xAB)
+    DATABYTE2 = module address
+
+Transmits real time clock status request:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = 0x00
+    RTR = 0
+    DLC3...DLC0 = 1 data byte to send
+    DATABYTE1 = COMMAND_REALTIME_CLOCK_STATUS_REQUEST (0xD7)
+
+Transmits the real time clock status:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 4 data bytes to send
+    DATABYTE1 = COMMAND_REALTIME_CLOCK_STATUS (0xD8)
+    DATABYTE2 = Day
+                          Contents    Day
+                              0       Monday
+                              1       Tuesday
+                              2       Wednesday
+                              3       Thursday
+                              4       Friday
+                              5       Saturday
+                              6       Sunday
+    DATABYTE3 = Hour (0…23)
+    DATABYTE4 = Minute (0…59)
+
+Transmits the date status:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 5 data bytes to send
+    DATABYTE1 = COMMAND_DATE_STATUS (0xB7)
+    DATABYTE2 = Day (1…31)
+    DATABYTE3 = Month (1…12)
+    DATABYTE4 = High byte of Year
+    DATABYTE5 = Low byte of Year
+
+Transmits the daylight savings status:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes to send
+    DATABYTE1 = COMMAND_DAYLIGHT_SAVING_STATUS (0xAF)
+    DATABYTE2 = 0 =disabled / 1 = enabled
+
+Transmits the channel switch status:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 4 data bytes to send
+    DATABYTE1 = COMMAND_PUSH_BUTTON_STATUS (0x00)
+    DATABYTE2 = Channel just pressed
+    DATABYTE3 = Channel just released
+    DATABYTE4 = Channel long pressed
+
+
+
+
+                       VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024   4
+Transmits the module type:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 8 data bytes to send
+    DATABYTE1 = COMMAND_MODULE_TYPE (0xFF)
+    DATABYTE2 = VMB4PB type (0x44)
+    DATABYTE3 = High byte of serial number
+    DATABYTE4 = Low byte of serial number
+    DATABYTE5 = Memory map version
+    DATABYTE6 = Build year
+    DATABYTE7 = Build week
+    DATABYTE8 = Terminator (0 = open / 1 = closed)
+
+Transmits the module status:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 8 data bytes to send
+    DATABYTE1 = COMMAND_MODULE_STATUS (0xED)
+    DATABYTE2 = channel 1 to 8 status (1 = pressed / 0 = released)
+    DATABYTE3 = enabled/disable channel status (1 = enabled / 0 = disabled)
+    DATABYTE4 = normal/inverted channel status (1 = normal / 0 = inverted) & open collector channel locked/unlocked
+                        Contents       Description
+                   B’xxxxxxx0’         Button 1 (ch 1) inverted
+                   B’xxxxxxx1’         Button 1 (ch 1) normal
+                   B’xxxxxx0x’         Button 2 (ch 2) inverted
+                   B’xxxxxx1x’         Button 2 (ch 2) normal
+                   B’xxxxx0xx’         Button 3 (ch 3) inverted
+                   B’xxxxx1xx’         Button 3 (ch 3) normal
+                   B’xxxx0xxx’         Button 4 (ch 4) inverted
+                   B’xxxx1xxx’         Button 4 (ch 4) normal
+                   B’xxx0xxxx’         Open collector 1 (ch 9) unlocked
+                   B’xxx1xxxx’         Open collector 1 (ch 9) locked
+                   B’xx0xxxxx’         Open collector 2 (ch 10) unlocked
+                   B’xx1xxxxx’         Open collector 2 (ch 10) locked
+                   B’x0xxxxxx’         Open collector 3 (ch 11) unlocked
+                   B’x1xxxxxx’         Open collector 3 (ch 11) locked
+                   B’0xxxxxxx’         Open collector 4 (ch 12) unlocked
+                   B’1xxxxxxx’         Open collector 4 (ch 12) locked
+    DATABYTE5 = locked channel status (0 = unlocked / 1 = locked)
+    DATABYTE6 = disabled channel program status (0 = program enabled / 1 = program disabled)
+    DATABYTE7 = alarm & program selection
+                        Contents       Selected program
+                   B’xxxxxx00’         None
+                   B’xxxxxx01’         Program group 1
+                   B’xxxxxx10’         Program group 2
+                   B’xxxxxx11’         Program group 3
+                   B’xxxxx0xx’         Alarm 1 off
+                   B’xxxxx1xx’         Alarm 1 on
+                   B’xxxx0xxx’         Local alarm 1
+                   B’xxxx1xxx’         Global alarm 1
+                   B’xxx0xxxx’         Alarm 2 off
+                   B’xxx1xxxx’         Alarm 2 on
+                   B’xx0xxxxx’         Local alarm 2
+                   B’xx1xxxxx’         Global alarm 2
+                   B’x0xxxxxx’         Sunrise disabled
+                   B’x1xxxxxx’         Sunrise enabled
+                   B’0xxxxxxx’         Sunset disabled
+                   B’1xxxxxxx’         Sunset enabled
+
+
+
+
+                               VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024                                  5
+   DATABYTE8 = open collector channel status / disable open collector channel program
+                  Contents          Open collector output
+               B’xxxxxxx0’          Open collector 1 (ch 9) off
+               B’xxxxxxx1’          Open collector 1 (ch 9) on
+               B’xxxxxx0x’          Open collector 2 (ch 10) off
+               B’xxxxxx1x’          Open collector 2 (ch 10) on
+               B’xxxxx0xx’          Open collector 3 (ch 11) off
+               B’xxxxx1xx’          Open collector 3 (ch 11) on
+               B’xxxx0xxx’          Open collector 4 (ch 12) off
+               B’xxxx1xxx’          Open collector 4 (ch 12) on
+               B’xxx0xxxx’          Open collector 1 (ch 9) program enbled
+               B’xxx1xxxx’          Open collector 1 (ch 9) program disabled
+               B’xx0xxxxx’          Open collector 2 (ch 10) program enbled
+               B’xx1xxxxx’          Open collector 2 (ch 10) program disabled
+               B’x0xxxxxx’          Open collector 3 (ch 11) program enbled
+               B’x1xxxxxx’          Open collector 3 (ch 11) program disabled
+               B’0xxxxxxx’          Open collector 4 (ch 12) program enbled
+               B’1xxxxxxx’          Open collector 4 (ch 12) program disabled
+
+Transmit: Bus error counter status
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 4 data bytes to send
+    DATABYTE1 = COMMAND_BUSERROR_COUNTER_STATUS (0xDA)
+    DATABYTE2 = Transmit error counter
+    DATABYTE3 = Receive error counter
+    DATABYTE4 = Bus off counter
+
+Transmits the memory data:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 4 data bytes to send
+    DATABYTE1 = COMMAND_MEMORY_DATA (0xFE)
+    DATABYTE2 = High memory address
+    DATABYTE3 = LOW memory address
+    DATABYTE4 = memory data
+
+   Remark: address range: 0x0000 to 0x03FF
+
+Transmits memory data block (4 bytes):
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 7 data bytes to send
+    DATABYTE1 = COMMAND_MEMORY_DATA_BLOCK (0xCC)
+    DATABYTE2 = High start address of memory block
+    DATABYTE3 = LOW start address of memory block
+    DATABYTE4 = memory data1
+    DATABYTE5 = memory data2
+    DATABYTE6 = memory data3
+    DATABYTE7 = memory data4
+
+   Remark: address range: 0x0000 to 0x03FC
+
+Transmits the first part of channel name:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 8 data bytes to send
+    DATABYTE1 = COMMAND_CHANNEL_NAME_PART1 (0xF0)
+    DATABYTE2 = channel number 1…8 for buttons, 9…12 for open collector outputs
+    DATABYTE3 = Character 1 of the channel name
+
+
+
+                              VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024     6
+    DATABYTE4 = Character 2 of the channel name
+    DATABYTE5 = Character 3 of the channel name
+    DATABYTE6 = Character 4 of the channel name
+    DATABYTE7 = Character 5 of the channel name
+    DATABYTE8 = Character 6 of the channel name
+
+Transmits the second part of the channel name:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 8 data bytes to send
+    DATABYTE1 = COMMAND_CHANNEL_NAME_PART2 (0xF1)
+    DATABYTE2 = Channel number 1…8, 9…12 for open collector outputs
+    DATABYTE3 = Character 7 of the channel name
+    DATABYTE4 = Character 8 of the channel name
+    DATABYTE5 = Character 9 of the channel name
+    DATABYTE6 = Character 10 of the channel name
+    DATABYTE7 = Character 11 of the channel name
+    DATABYTE8 = Character 12 of the channel name
+
+Transmits the third part of the channel name:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 6 data bytes to send
+    DATABYTE1 = COMMAND_CHANNEL_NAME_PART3 (0xF2)
+    DATABYTE2 = channel number 1…8, 9…12 for open collector outputs
+    DATABYTE3 = Character 13 of the channel name
+    DATABYTE4 = Character 14 of the channel name
+    DATABYTE5 = Character 15 of the channel name
+    DATABYTE6 = Character 16 of the channel name
+
+    Remarks:
+    Unused characters contain 0xFF.
+
+Transmit: Clears LEDs on a linked push button module:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Address of the linked push button module for clearing LEDs
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes to send
+    DATABYTE1 = COMMAND_CLEAR_LED (0xF5)
+    DATABYTE2 = LED bit numbers (1 = clear LED)
+
+Transmit: Sets LEDs on a linked push button module:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Address of the linked push button module for setting LEDs on
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes to send
+    DATABYTE1 = COMMAND_SET_LED (0xF6)
+    DATABYTE2 = LED bit numbers (1 = set LED)
+
+Transmit: Blinks LEDs slowly on a linked push button module:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Address of the linked push button module for slowly blinking LEDs
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes to send
+    DATABYTE1 = COMMAND_SLOW_BLINKING_LED (0xF7)
+    DATABYTE2 = LED bit numbers (1 = slow blink LED)
+
+Transmits program step info:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 8 data bytes to send
+    DATABYTE1 = COMMAND_PROGRAM_STEP_INFO (0xC1)
+
+
+
+
+                                VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024   7
+DATABYTE2 = Program step number (1…70 / 255 step not found)
+DATABYTE3 = Program reference
+                   Contents      Description
+                  000xxxxx       Disable program step
+                  001xxxxx       Absolute time
+                  010xxxxx       Wake up time 1 + relative time
+                  011xxxxx       Go to bed time 1 + relative time
+                  100xxxxx       Wake up time 2 + relative time
+                  101xxxxx       Go to bed time 2 + relative time
+                  110xxxxx       Sunrise + relative time
+                  111xxxxx       Sunset + relative time
+                  xxx01111       Rel. time = 3h45min
+                      …
+                  xxx00001       Rel. time = 15min
+                  xxx00000       Rel. time = 0
+                  xxx11111       Rel. time = -15min
+                      …
+                  xxx10000       Rel. time = -4h
+
+DATABYTE4 = Program step month & four least significant bits of day
+                   Contents                           Description
+                  xxxx0000       Weekly program
+                  xxxx0001       January
+                  xxxx0010       February
+                  xxxx0011       March
+                  xxxx0100       April
+                  xxxx0101       May
+                  xxxx0110       June
+                  xxxx0111       July
+                  xxxx1000       August
+                  xxxx1001       September
+                  xxxx1010       October
+                  xxxx1011       November
+                  xxxx1100       December
+                  xxxx1101       Monthly program
+                  xxxx1110       Monthly program
+                  xxxx1111       Monthly program
+
+                    Contents byte6     Contents byte4    Description
+                      00xxxxxx           0000xxxx        Never
+                      00xxxxxx           0001xxxx        Day 1of the month
+                      00xxxxxx           0010xxxx        Day 2of the month
+                         …                  ...          …
+                      01xxxxxx           1111xxxx        Day 31of the month
+                      10xxxxxx           0000xxxx        Never
+                      10xxxxxx           0001xxxx        Every Monday
+                      10xxxxxx           0010xxxx        Every Tuesday
+                          ...               …            …
+                      10xxxxxx           0111xxxx        Every Sunday
+                      10xxxxxx           1000xxxx        Every weekend (sa & su)
+                      10xxxxxx           1001xxxx        Every working day (mo…fr)
+                      10xxxxxx           1010xxxx        Every day except Sunday
+                      10xxxxxx           1011xxxx        Every day
+                      10xxxxxx           1100xxxx        Never
+                         …                  …            …
+                      11xxxxxx           1111xxxx        Never
+
+DATABYTE5 = Program step hour & group number
+                   Contents       Description
+                  xxx00000        0h
+                  xxx00001        1h
+
+
+
+
+                          VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024      8
+                        …          …
+                     xxx10111      23h
+                     xx1xxxxx      Program group 1 (Summer program)
+                     x1xxxxxx      Program group 2 (Winter program)
+                     1xxxxxxx      Program group 3 (Holiday program)
+
+DATABYTE6 = Program step minute & every flag & msb of day
+                   Contents      Description
+                  xx000000       0min
+                  xx000001       1min
+                      …          …
+                  xx111011       59min
+
+                  Contents byte6     Contents byte4    Description
+                    00xxxxxx           0000xxxx        Never
+                    00xxxxxx           0001xxxx        Day 1of the month
+                    00xxxxxx           0010xxxx        Day 2of the month
+                       …                  ...          …
+                    01xxxxxx           1111xxxx        Day 31of the month
+                    10xxxxxx           0000xxxx        Never
+                    10xxxxxx           0001xxxx        Every Monday
+                    10xxxxxx           0010xxxx        Every Tuesday
+                        ...               …            …
+                    10xxxxxx           0111xxxx        Every Sunday
+                    10xxxxxx           1000xxxx        Every weekend (sa & su)
+                    10xxxxxx           1001xxxx        Every working day (mo…fr)
+                    10xxxxxx           1010xxxx        Every day except Sunday
+                    10xxxxxx           1011xxxx        Every day
+                    10xxxxxx           1100xxxx        Never
+                       …                  …            …
+                    11xxxxxx           1111xxxx        Never
+
+
+
+
+                         VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024     9
+DATABYTE7 = Program step action
+                   Contents       Action
+                       0          0s25 Pulse
+                       1          1s Pulse
+                       2          2s Pulse
+                      ...         ...
+                     119          1min59s Pulse
+                     120          2min Pulse
+                     121          2min15s Pulse
+                      ...         ...
+                     131          4min45s Pulse
+                     132          5min Pulse
+                     133          5min30s Pulse
+                      ...         ...
+                     181          29min30s Pulse
+                     182          30min Pulse
+                     183          31min Pulse
+                      ...         ...
+                     211          59min Pulse
+                     212          1h Pulse
+                     213          1h15min Pulse
+                      ...         ...
+                     227          4h45min Pulse
+                     228          5h Pulse
+                     229          5h30min Pulse
+                      ...         ...
+                     237          9h30min Pulse
+                     238          10h Pulse
+                     239          11h Pulse
+                      ...         …
+                     245          17h Pulse
+                     246          18h Pulse
+                     247          Press
+                     248          Long press
+                     249          Release
+                     250          Lock
+                     251          Unlock
+                     252          No action
+                     253          …
+                     255          No action
+
+DATABYTE8 = Channel
+                  Contents        Channel
+                     1            Channel 1
+                     2            Channel 2
+                    ...           …
+                     7            Channel 7
+                     8            Channel 8
+                     9            Channel 9 only for lock/unlock action
+                    10            Channel 10 only for lock/unlock action
+                    11            Channel 11 only for lock/unlock action
+                    12            Channel 12 only for lock/unlock action
+
+
+
+
+                       VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024   10
+‘Linked push button status’ received:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = Address of the linked push button module
+    RTR = 0
+    DLC3...DLC0 = 4 data bytes received
+    DATABYTE1 = COMMAND_PUSH_BUTTON_STATUS (0x00)
+    DATABYTE2 = Linked push buttons just pressed (1 = just pressed)
+    DATABYTE3 = Linked push buttons just released (1 = just released)
+    DATABYTE4 = linked push buttons long pressed (1 = longer than 0.85s pressed)
+
+Power up message’ received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 2 data byte received
+   DATABYTE1 = COMMAND_POWER_UP (0xAB)
+   DATABYTE2 = module address
+
+‘Real time clock status request’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 1 data byte to send
+    DATABYTE1 = COMMAND_REALTIME_CLOCK_STATUS_REQUEST (0xD7)
+
+‘Set real time clock’ command received:
+     SID10-SID9 = 11 (lowest priority)
+     SID8...SID1 = 0x00
+     RTR = 0
+     DLC3...DLC0 = 4 data bytes to send
+     DATABYTE1 = COMMAND_SET_REALTIME_CLOCK (0xD8)
+     DATABYTE2 = Day of week
+                   Contents day of week’ Description
+                             0           Monday
+                             1           Tuesday
+                             2           Wednesday
+                             3           Thursday
+                             4           Friday
+                             5           Saterday
+                             6           Sunday
+     DATABYTE3 = Hours (0…23)
+     DATABYTE4 = Minutes (0…59)
+
+‘Set date’ command received:
+     SID10-SID9 = 11 (lowest priority)
+     SID8...SID1 = 0x00
+     RTR = 0
+     DLC3...DLC0 = 5 data bytes to send
+     DATABYTE1 = COMMAND_SET_REALTIME_DATE (0xB7)
+     DATABYTE2 = Day (1…31)
+     DATABYTE3 = Month (1…12)
+     DATABYTE4 = High byte of Year
+     DATABYTE5 = Low byte of Year
+
+‘Set daylight savings’ command received:
+     SID10-SID9 = 11 (lowest priority)
+     SID8...SID1 = 0x00
+     RTR = 0
+     DLC3...DLC0 = 2 data bytes to send
+     DATABYTE1 = COMMAND_SET_DAYLIGHT_SAVING (0xAF)
+     DATABYTE2 = 0 =disabled / 1 = enabled
+
+
+
+
+                              VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024   11
+‘Enable/disable global sunrise/sunset related actions’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 3 data bytes to send
+   DATABYTE1 = COMMAND_ENA_DIS_SUNRISE_SUNSET (0xAE)
+   DATABYTE2 = Channel (0xFF)
+   DATABYTE3 = enable/disable flags
+                        Contents               Description
+                      B’xxxxxxx0’              Disable sunrise related actions
+                      B’xxxxxxx1’              Enable sunrise related actions
+                      B’xxxxxx0x’              Disable sunset related actions
+                      B’xxxxxx1x’              Enable sunset related actions
+
+‘Enable/disable local sunrise/sunset related actions’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 3 data bytes to send
+   DATABYTE1 = COMMAND_ENA_DIS_SUNRISE_SUNSET (0xAE)
+   DATABYTE2 = Channel (0xFF)
+   DATABYTE3 = enable/disable flags
+                         Contents              Description
+                       B’xxxxxxx0’             Disable sunrise related actions
+                       B’xxxxxxx1’             Enable sunrise related actions
+                       B’xxxxxx0x’             Disable sunset related actions
+                       B’xxxxxx1x’             Enable sunset related actions
+
+‘Set global clock alarm’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = 0x00
+    RTR = 0
+    DLC3...DLC0 = 7 data bytes to send
+    DATABYTE1 = COMMAND_SET_ALARM_CLOCK (0xC3)
+        DATABYTE2 = Alarm number (1 or 2)
+    DATABYTE3 = Wake up hour (0…23)
+    DATABYTE4 = Wake up minute (0…59)
+    DATABYTE5 = Go to bed hour (0…23)
+    DATABYTE6 = Go to bed minute (0…59)
+    DATABYTE7 = Clock alarm enable flag (0 = disabled / 1 = enabled)
+
+‘Set local clock alarm’ command received:
+     SID10-SID9 = 11 (lowest priority)
+     SID8...SID1 = Module address
+     RTR = 0
+     DLC3...DLC0 = 7 data bytes to send
+     DATABYTE1 = COMMAND_SET_ALARM_CLOCK (0xC3)
+     DATABYTE2 = Alarm number (1 or 2)
+     DATABYTE3 = Wake up hour (0…23)
+     DATABYTE4 = Wake up minute (0…59)
+     DATABYTE5 = Go to bed hour (0…23)
+     DATABYTE6 = Go to bed minute (0…59)
+     DATABYTE7 = Clock alarm enable flag (0 = disabled / 1 = enabled)
+
+‘Module type request’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 1
+   DLC3...DLC0 = 0 data bytes received
+
+
+
+
+                                VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024   12
+‘Module status request’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+   DATABYTE1 = COMMAND_MODULE_STATUS_REQUEST (0xFA)
+   DATABYTE2 = don’t care
+
+‘Channel name request’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_CHANNEL_NAME_REQUEST (0xEF)
+    DATABYTE2 = Channel number 1…8 for buttons, 9…12 for open collector outputs (255 for all channels)
+
+‘Clear channel LED’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_CLEAR_LED (0xF5)
+    DATABYTE2 = LEDs to clear (a one clears the corresponding LED of channel 1 to 8)
+
+‘Set channel LED’ command received:
+     SID10-SID9 = 11 (lowest priority)
+     SID8...SID1 = Module address
+     RTR = 0
+     DLC3...DLC0 = 2 data bytes received
+     DATABYTE1 = COMMAND_SET_LED (0xF6)
+     DATABYTE2 = LEDs to set (a one sets the corresponding LED of channel 1 to 8)
+
+‘Slow blink channel LED’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_SLOW_BLINK_LED (0xF7)
+    DATABYTE2 = LEDs to blink slow (a one blinks slow the corresponding LED of channel 1 to 8)
+
+‘Fast blink channel LED’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_FAST_BLINK_LED (0xF8)
+    DATABYTE2 = LEDs to blink fast (a one blinks fast the corresponding LED of channel 1 to 8)
+
+‘Very fast blink channel LED’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_VERY_FAST_BLINK_LED (0xF9)
+    DATABYTE2 = LEDs to blink very fast (a one blinks very fast the corresponding LED of channel 1 to 8)
+
+
+
+
+                               VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024                       13
+‘Update channel LEDs’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 4 data bytes received
+   DATABYTE1 = COMMAND_UPDATE_LED_STATUS (0xF4)
+   DATABYTE2 = LEDs to set (a one sets the corresponding LED of channel 1 to 8)
+   DATABYTE3 = LEDs to blink slow (a one blinks slow the corresponding LED of channel 1 to 8)
+   DATABYTE4 = LEDs to blink fast (a one blinks very fast the corresponding LED of channel 1 to 8)
+
+    Remark:
+    The ‘LEDs to set’ status overrides the blinking modes.
+    Very fast blinking if slow & fast blinking are set.
+
+‘Read data from memory’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 3 data bytes received
+    DATABYTE1 = COMMAND_READ_DATA_FROM_MEMORY (0xFD)
+    DATABYTE2 = High memory address
+    DATABYTE3 = LOW memory address
+
+    Remark: address range: 0x0000 to 0x03FF
+
+‘Memory dump request’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 1 data bytes received
+   DATABYTE1 = COMMAND_MEMORY_DUMP_REQUEST (0xCB)
+
+‘Read data block from memory’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 3 data bytes received
+    DATABYTE1 = COMMAND_READ_MEMORY_BLOCK (0xC9)
+    DATABYTE2 = High memory address
+    DATABYTE3 = LOW memory address
+
+    Remark: address range: 0x0000 to 0x03FC
+
+‘Write data to memory’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 4 data bytes received
+   DATABYTE1 = COMMAND_WRITE_DATA_TO_MEMORY (0xFC)
+   DATABYTE2 = High memory address
+   DATABYTE3 = LOW memory address (0x00...0xFF)
+   DATABYTE4 = memory data to write
+    Remark:
+    Wait at least 10ms for sending a next command on the velbus.
+    Address range: 0x0000 to 0x03FF
+    Terminate always with a write command at the last memory location.
+
+
+
+
+                                VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024                14
+‘Write memory block’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Address of the module
+    RTR = 0
+    DLC3...DLC0 = 7 data bytes received
+    DATABYTE1 = COMMAND_WRITE_MEMORY_BLOCK (0xCA)
+    DATABYTE2 = High memory address
+    DATABYTE3 = LOW memory address
+    DATABYTE4 = memory databyte1 to write
+    DATABYTE5 = memory databyte2 to write
+    DATABYTE6 = memory databyte3 to write
+    DATABYTE7 = memory databyte4 to write
+
+    Remark:
+    Wait for ‘memory data block’ feedback before sending a next command on the velbus.
+    Address range: 0x0000 to 0x03FC
+    Terminate always with a write command at the last memory location.
+
+‘Bus error counter status request’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 1 data bytes to send
+    DATABYTE1 = COMMAND_BUS_ERROR_CONTER_STATUS_REQUEST (0xD9)
+
+‘Unlock channel’ command received:
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_CANCEL_FORCED_OFF (0x13)
+    DATABYTE2 = Channel number 1…8 for buttons, 9…12 for open collector outputs (255 for all channels)
+
+‘Lock channel’ command received:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 5 data bytes received
+    DATABYTE1 = COMMAND_FORCED_OFF (0x12)
+    DATABYTE2 = Channel number 1…8 for buttons, 9…12 for open collector outputs (255 for all channels)
+    DATABYTE3 = high byte of delay time
+    DATABYTE4 = mid byte of delay time
+    DATABYTE5 = low byte of delay time
+
+    Remark:
+    [DATABYTE3][DATABYTE4][DATABYTE5] contain a 24-bit time in seconds
+    The command will be skipped when the time parameter contains zero.
+    When the time parameter contains 0xFFFFFF then the channel will be permanently locked.
+
+
+
+
+                              VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024                      15
+‘Enable Channel Program’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+   DATABYTE1 = COMMAND_ENABLE_PROGRAM (0xB2)
+   DATABYTE2 = Channel number 1…8 for buttons, 9…12 for open collector outputs (255 for all channels)
+
+‘Disable Channel Program’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 5 data bytes received
+    DATABYTE1 = COMMAND_DISABLE_PROGRAM (0xB1)
+    DATABYTE2 = Channel number 1…8 for buttons, 9…12 for open collector outputs (255 for all channels)
+    DATABYTE3 = high byte of delay time
+    DATABYTE4 = mid byte of delay time
+    DATABYTE5 = low byte of delay time
+
+    Remark:
+    [DATABYTE3][DATABYTE4][DATABYTE5] contain a 24-bit time in seconds
+    The command will be skipped when the time parameter contains zero.
+    When the time parameter contains 0xFFFFFF then the channel program will be permanently disabled.
+
+‘Select Program’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_SELECT_PROGRAM (0xB3)
+    DATABYTE2 = Program mode
+                      Contents         Selected program
+                        0              None
+                        1              Program group 1
+                        2              Program group 2
+                        3              Program group 3
+
+‘Read program step’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 5 data bytes received
+    DATABYTE1 = COMMAND_READ_PROGRAM_STEP (0xC0)
+    DATABYTE2 = Start program step number (1…70)
+    DATABYTE3 = Program group number (1…3)
+    DATABYTE4 = channel number 1…8 for buttons, 9…12 for open collector output channels
+    DATABYTE5 = Search direction (1 = search for next matched step / 0 = search for previous matched program step)
+
+‘Write program step’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 8 data bytes received
+   DATABYTE1 = COMMAND_WRITE_PROGRAM_STEP (0xC2)
+   DATABYTE2 = Program step number (1…70)
+   DATABYTE3 = Program reference
+                         Contents      Description
+                         000xxxxx      Disable program step
+                         001xxxxx      Absolute time
+                         010xxxxx      Wake up time 1 + relative time
+                         011xxxxx      Go to bed time 1 + relative time
+                         100xxxxx      Wake up time 2 + relative time
+                         101xxxxx      Go to bed time 2 + relative time
+                         110xxxxx      Sunrise + relative time
+
+
+
+                               VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024                                 16
+                      111xxxxx       Sunset + relative time
+                      xxx01111       Rel. time = 3h45min
+                         …
+                      xxx00001       Rel. time = 15min
+                      xxx00000       Rel. time = 0
+                      xxx11111       Rel. time = -15min
+                         …
+                      xxx10000       Rel. time = -4h
+
+DATABYTE4 = Program step month & four least significant bits of day
+                   Contents                           Description
+                  xxxx0000       Weekly program
+                  xxxx0001       January
+                  xxxx0010       February
+                  xxxx0011       March
+                  xxxx0100       April
+                  xxxx0101       May
+                  xxxx0110       June
+                  xxxx0111       July
+                  xxxx1000       August
+                  xxxx1001       September
+                  xxxx1010       October
+                  xxxx1011       November
+                  xxxx1100       December
+                  xxxx1101       Monthly program
+                  xxxx1110       Monthly program
+                  xxxx1111       Monthly program
+
+                    Contents byte6     Contents byte4     Description
+                      00xxxxxx           0000xxxx         Never
+                      00xxxxxx           0001xxxx         Day 1of the month
+                      00xxxxxx           0010xxxx         Day 2of the month
+                         …                  ...           …
+                      01xxxxxx           1111xxxx         Day 31of the month
+                      10xxxxxx           0000xxxx         Never
+                      10xxxxxx           0001xxxx         Every Monday
+                      10xxxxxx           0010xxxx         Every Tuesday
+                          ...               …             …
+                      10xxxxxx           0111xxxx         Every Sunday
+                      10xxxxxx           1000xxxx         Every weekend (sa & su)
+                      10xxxxxx           1001xxxx         Every working day (mo…fr)
+                      10xxxxxx           1010xxxx         Every day except Sunday
+                      10xxxxxx           1011xxxx         Every day
+                      10xxxxxx           1100xxxx         Never
+                         …                  …             …
+                      11xxxxxx           1111xxxx         Never
+
+DATABYTE5 = Program step hour & group number
+                   Contents       Description
+                  xxx00000        0h
+                  xxx00001        1h
+                      …           …
+                  xxx10111        23h
+                  xx1xxxxx        Program group 1 (Summer program)
+                  x1xxxxxx        Program group 2 (Winter program)
+                  1xxxxxxx        Program group 3 (Holiday program)
+
+DATABYTE6 = Program step minute & msb of day & every flag
+                   Contents      Description
+                  xx000000       0min
+                  xx000001       1min
+
+
+
+
+                          VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024       17
+                       …           …
+                    xx111011       59min
+
+                  Contents byte6    Contents byte4   Description
+                    00xxxxxx          0000xxxx       Never
+                    00xxxxxx          0001xxxx       Day 1of the month
+                    00xxxxxx          0010xxxx       Day 2of the month
+                       …                 ...         …
+                    01xxxxxx          1111xxxx       Day 31of the month
+                    10xxxxxx          0000xxxx       Never
+                    10xxxxxx          0001xxxx       Every Monday
+                    10xxxxxx          0010xxxx       Every Tuesday
+                        ...              …           …
+                    10xxxxxx          0111xxxx       Every Sunday
+                    10xxxxxx          1000xxxx       Every weekend (sa & su)
+                    10xxxxxx          1001xxxx       Every working day (mo…fr)
+                    10xxxxxx          1010xxxx       Every day except Sunday
+                    10xxxxxx          1011xxxx       Every day
+                    10xxxxxx          1100xxxx       Never
+                       …                 …           …
+                    11xxxxxx          1111xxxx       Never
+
+DATABYTE7 = Program step action
+                   Contents        Action
+                       0           0s25 Pulse
+                       1           1s Pulse
+                       2           2s Pulse
+                      ...          ...
+                     119           1min59s Pulse
+                     120           2min Pulse
+                     121           2min15s Pulse
+                      ...          ...
+                     131           4min45s Pulse
+                     132           5min Pulse
+                     133           5min30s Pulse
+                      ...          ...
+                     181           29min30s Pulse
+                     182           30min Pulse
+                     183           31min Pulse
+                      ...          ...
+                     211           59min Pulse
+                     212           1h Pulse
+                     213           1h15min Pulse
+                      ...          ...
+                     227           4h45min Pulse
+                     228           5h Pulse
+                     229           5h30min Pulse
+                      ...          ...
+                     237           9h30min Pulse
+                     238           10h Pulse
+                     239           11h Pulse
+                      ...          …
+                     246           18h Pulse
+                     247           Press
+                     248           Long Press
+                     249           Release
+                     250           Lock
+                     251           Unlock
+                     252           No action
+                      …            …
+                     255           No action
+
+
+
+
+                       VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024     18
+   DATABYTE8 = Channel
+                     Contents              Channel
+                        1                  Channel 1
+                        2                  Channel 2
+                       ...                 …
+                        7                  Channel 7
+                        8                  Channel 8
+                        9                  Channel 9 only for lock/unlock action
+                       10                  Channel 10 only for lock/unlock action
+                       11                  Channel 11 only for lock/unlock action
+                       12                  Channel 12 only for lock/unlock action
+
+   Remark:
+   Erase program step if channel parameter is equal with zero.
+
+‘Switch output off’ command received:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_SWITCH_RELAY_OFF (0x01)
+    DATABYTE2 = output channel number 9…12 or 255 for all channels
+
+‘Switch output on’ command received:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 2 databytes received
+    DATABYTE1 = COMMAND_SWITCH_RELAY_ON (0x02)
+    DATABYTE2 = output channel number 9…12 or 255 for all channels
+
+
+
+
+                               VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024   19
+Memory map:
+
+Addr      Contents                                                   Addr     Contents
+0x0000    Channel 1 name character 1                                 0x0001   Channel 1 name character 2
+...       ...                                                        ...      ...
+0x000E    Channel 1 name character 15                                0x000F   Channel 1 name character 16
+0x0010    Channel 1 reaction time                                    0x0011   Channel 1 start function
+0x0012    Channel 1 end function                                     0x0013   Channel 1 mode
+0x0014    Channel 2 name character 1                                 0x0015   Channel 2 name character 2
+...       ...                                                        ...      ...
+0x0022    Channel 2 name character 15                                0x0023   Channel 2 name character 16
+0x0024    Channel 2 reaction time                                    0x0025   Channel 2 start function
+0x0026    Channel 2 end function                                     0x0027   Channel 2 mode
+...       ...                                                        ...      ...
+0x008C    Channel 8 name character 1                                 0x008D   Channel 8 name character 2
+...       ...                                                        ...      ...
+0x009A    Channel 8 name character 15                                0x009B   Channel 8 name character 16
+0x009C    Channel 8 reaction time                                    0x009D   Channel 8 start function
+0x009E    Channel 8 end function                                     0x009F   Channel 8 mode
+0x00A0    Long pressed delay                                         0x00A1   Dual function long pressed time
+0x00A2    Led backlight intensity                                    0x00A3   Led intensity
+0x00A4    Led/output driver configuration                            0x00A5   Not used
+0x00A6    Not used                                                   0x00A7   Alarm clock configuration
+0x00A8    Wake up 1 hour (0…23)                                      0x00A9   Wake up 1 minutes (0…59)
+0x00AA    Go to bed 1 hour (0…23)                                    0x00AB   Go to bed 1 minutes (0…59)
+0x00AC    Wake up 2 hour (0…23)                                      0x00AD   Wake up 2 minutes (0…59)
+0x00AE    Go to bed 2 hour (0…23)                                    0x00AF   Go to bed 2 minutes (0…59)
+0x00B0    Sunrise hour at 21 December (0…23)                         0x00B1   Sunrise minutes at 21 December (0…59)
+0x00B2    Sunrise 21 January – sunrise 5 January (-128’...127’)      0x00B3   Sunrise 5 February – sunrise 21 January (-128’...127’)
+0x00B4    Sunrise 21 February – sunrise 5 February (-128’...127’)    0x00B5   Sunrise 5 March – sunrise 21 February (-128’...127’)
+0x00B6    Sunrise 21 March – sunrise 5 March (-128’...127’)          0x00B7   Sunrise 5 April – sunrise 21 March (-128’...127’)
+0x00B8    Sunrise 21 April – sunrise 5 April (-128’...127’)          0x00B9   Sunrise 5 May – sunrise 21 April (-128’...127’)
+0x00BA    Sunrise 21 May – sunrise 5 May (-128’...127’)              0x00BB   Sunrise 5 June – sunrise 21 May (-128’...127’)
+0x00BC    Sunrise 21 June – sunrise 5 June (-128’...127’)            0x00BD   Sunrise 5 July – sunrise 21 June (-128’...127’)
+0x00BE    Sunrise 21 July – sunrise 5 July (-128’...127’)            0x00BF   Sunrise 5 August – sunrise 21 July (-128’...127’)
+0x00C0    Sunrise 21 August – sunrise 5 August (-128’...127’)        0x00C1   Sunrise 5 September – sunrise 21 August (-128’...127’)
+0x00C2    Sunrise 21 September – sunrise 5 September (-128...127’)   0x00C3   Sunrise 5 October – sunrise 21 September (-128’...127’)
+0x00C4    Sunrise 21 October – sunrise 5 October (-128’...127’)      0x00C5   Sunrise 5 November – sunrise 21 October (-128’...127’)
+0x00C6    Sunrise 21 November – sunrise 5 November (-128’...127’)    0x00C7   Sunrise 5 December – sunrise 21 November (-128’...127’)
+0x00C8    Sunrise 21 December – sunrise 5 December (-128’...127’)    0x00C9   Sunrise 5 January – sunrise 21 December (-128’…127’)
+
+Addr      Contents                                                   Addr     Contents
+0x00CA    Not used                                                   0x00CB   Not used
+0x00CC    Sunset hour at 21 December (0…23)                          0x00CD   Sunset minutes at 21 December (0…59)
+0x00CE    Sunset 21 January – sunrise 5 January (-128’...127’)       0x00CF   Sunset 5 February – sunrise 21 January (-128’...127’)
+0x00D0    Sunset 21 February – sunrise 5 February (-128’...127’)     0x00D1   Sunset 5 March – sunrise 21 February (-128’...127’)
+0x00D2    Sunset 21 March – sunrise 5 March (-128’...127’)           0x00D3   Sunset 5 April – sunrise 21 March (-128’...127’)
+0x00D4    Sunset 21 April – sunrise 5 April (-128’...127’)           0x00D5   Sunset 5 May – sunrise 21 April (-128’...127’)
+0x00D6    Sunset 21 May – sunrise 5 May (-128’...127’)               0x00D7   Sunset 5 June – sunrise 21 May (-128’...127’)
+0x00D8    Sunset 21 June – sunrise 5 June (-128’...127’)             0x00D9   Sunset 5 July – sunrise 21 June (-128’...127’)
+0x00DA    Sunset 21 July – sunrise 5 July (-128’...127’)             0x00DB   Sunset 5 August – sunrise 21 July (-128’...127’)
+0x00DC    Sunset 21 August – sunrise 5 August (-128’...127’)         0x00DD   Sunset 5 September – sunrise 21 August (-128’...127’)
+0x00DE    Sunset 21 September – sunrise 5 September (-128’...127’)   0x00DF   Sunset 5 October – sunrise 21 September (-128’...127’)
+0x00E0    Sunset 21 October – sunrise 5 October (-128’...127’)       0x00E1   Sunset 5 November – sunrise 21 October (-128’...127’)
+0x00E2    Sunset 21 November – sunrise 5 November (-128’...127’)     0x00E3   Sunset 5 December – sunrise 21 November (-128’...127’)
+0x00E4    Sunset 21 December – sunrise 5 December (-128’...127’)     0x00E5   Sunset 5 January – sunrise 21 December (-128’...127’)
+0x00E6    Not used                                                   0x00E7   Not used
+0x00E8    Open collector output 1 name character 1                   0x00E9   Open collector output 1 name character 2
+...       ...                                                        ...      ...
+0x00F6    Open collector output 1 name character 15                  0x00F7   Open collector output 1 name character 16
+...       ...                                                        ...      ...
+0x0118    Open collector output 4 name character 1                   0x0119   Open collector output 4 name character 2
+...       ...                                                        ...      ...
+0x0126    Open collector output 4 name character 15                  0x0127   Open collector output 4 name character 16
+
+       Remark:
+
+
+
+
+                                  VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024                                       20
+Unused locations contain 0xFF
+
+          Valid reaction times
+                    Contents               Reaction time
+                      0x01                 Immediately (0.065s) (default)
+                      0x0E                 0.5s
+                      0x1C                 1s
+                      0x38                 2s
+                      0x54                 3s
+                      0xFF                 Channel disabled
+
+          Channel x start/end function
+                     Contents              Function
+                         1                 Channel 1
+                         2                 Channel 2
+                        ...                ...
+                         7                 Channel 7
+                         8                 Channel 8
+          Remark:
+          For a normal one function button, the start and end function channel are the same.
+          For a multi-function button, the start function channel must be less than the end function. At every press the
+          next channel will be send. When the end function channel is reached, the start channel will be send again at
+          the next press.
+          For a dual function button, the start function channel will be send at a short press or the end function will be
+          send at a long press.
+
+          Channels mode
+                     Contents           Description
+                   B’xxxxxxx0’          Dual function disabled (default)
+                   B’xxxxxxx1’          Dual function enabled
+                   B’xxxxxx0x’          Multi-function auto reset disabled (default)
+                   B’xxxxxx1x’          Multi-function auto reset enabled
+                   B’xxxxx0xx’          Led backlight off
+                   B’xxxxx1xx’          Led backlight on
+                   B’xxxx0xxx’          Led monitor mode
+                   B’xxxx1xxx’          Led feedback mode (default)
+                   B’xxx0xxxx’          Slow blinking led feedback disabled
+                   B’xxx1xxxx’          Slow blinking led feedback enabled (default)
+                   B’xx0xxxxx’          Fast blinking led feedback disabled
+                   B’xx1xxxxx’          Fast blinking led feedback enabled (default)
+                   B’x0xxxxxx’          Very fast blinking led feedback disabled
+                   B’x1xxxxxx’          Very fast blinking led feedback enabled (default)
+                   B’0xxxxxxx’          Channel inverted
+                   B’1xxxxxxx’          Channel normal (fixed for vitual buttons ch5…ch8)
+          Remark:
+          When auto reset is enabled, the start function will be loaded again after 3 seconds inactivity of the channel.
+          For a dual function button, the start function channel will be send at a short press or the end function will be
+          send at a long press.
+          The dual function overwrites the multi-function mode.
+
+          Valid long pressed delay
+                    Contents               Reaction time
+                      0x17                 0.8s
+                      0x2E                 1.6s
+
+          Valid dual function long pressed times
+                   Contents              Long pressed time
+                      0x1C               1s
+                      0x38               2s
+                      0x54               3s
+
+
+
+
+                           VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024                                         21
+Led intensity
+          Contents            Led intensity
+            0x00              Minimum
+              ...             ...
+            0xFF              Maximum
+
+Led/output driver configuration
+         Contents             Led driver
+       B’xxxxxx00’            Common anode led driver
+       B’xxxxxx01’            Common cathode led driver
+       B’xxxxxx0x’            Open collector outputs disabled
+       B’xxxxxx1x’            Open collector outputs enabled
+
+Alarm clock configuration
+         Contents         Channel locked/unlocked
+       B’xxxxxxx0’           Alarm 1 disabled
+       B’xxxxxxx1’           Alarm 1 enabled
+       B’0xxxxx0x’           Local alarm 1
+       B’1xxxxx1x’           Global alarm 1
+       B’xxxxx0xx’           Alarm 2 disabled
+       B’xxxxx1xx’           Alarm 2 enabled
+       B’xxxx0xxx’           Local alarm 2
+       B’xxxx1xxx’           Global alarm 2
+       B’xxx0xxxx’           Sunrise disabled
+       B’xxx1xxxx’           Sunrise enabled
+       B’xx0xxxxx’           Sunset disabled
+       B’xx1xxxxx’           Sunset enabled
+       B’x0xxxxxx’           Daylight savings disabled
+       B’x1xxxxxx’           Daylight savings enabled
+
+
+
+
+                VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024   22
+  Address      Contents                                    Address     Contents
+  0x0128       Linked Push button 1 module address         0x0129      Linked Push button 1 bit number
+  0x012A       Linked Push button 1 action                 0x012B      Linked Push button 1 parameter 1
+  0x012C       Linked Push button 1 parameter 2            …           …
+  ...          ...                                         ...         ...
+  ...          …                                           0x024F      Linked Push button 60 module address
+  0x0250       Linked Push button 60 bit number            0x0251      Linked Push button 60 action
+  0x0252       Linked Push button 60 parameter 1           0x0253      Linked Push button 60 parameter 2
+
+Remark: Unused locations contain 0xFF
+
+            Action
+               Action       Action                                          Parameter 1           Parameter 2
+               number
+               0            Switch status led indication                    -                     Channel 1…8
+               1            Lock channel at closed switch                   -                     Channel 1…8, 9…12
+               2            Lock channel at opened switch                   -                     Channel 1…8, 9…12
+               3            Lock channel                                    Timeout               Channel 1…8, 9…12
+               4            Lock/unlock channel                             Timeout               Channel 1…8, 9…12
+               5            Unlock channel                                  -                     Channel 1…8, 9…12
+               6            Disable channel program at closed switch        -                     Channel 1…8, 9…12
+               7            Disable channel program at opened switch        -                     Channel 1…8, 9…12
+               8            Disable channel program channel                 Timeout               Channel 1…8, 9…12
+               9            Disable/enable channel program                  Timeout               Channel 1…8, 9…12
+               10           Enable channel program                          -                     Channel 1…8, 9…12
+               11           Select no programs                              -                     -
+               12           Select program group 1                          -                     -
+               13           Toggle program group 1                          -                     -
+               14           Select program group 2                          -                     -
+               15           Toggle program group 2                          -                     -
+               16           Select program group 3                          -                     -
+               17           Toggle program group 3                          -                     -
+               18           Enable Alarm 1 at closed switch                 -                     -
+               19           Enable Alarm 1 at open switch                   -                     -
+               20           Disable Alarm 1 at closed switch                -                     -
+               21           Disable Alarm 1 at open switch                  -                     -
+               22           Enable Alarm 1                                  -                     -
+               23           Enable/Disable Alarm 1                          -                     -
+               24           Disable Alarm 1                                 -                     -
+               25           Enable Alarm 2 at closed switch                 -                     -
+               26           Enable Alarm 2 at open switch                   -                     -
+               27           Disable Alarm 2 at closed switch                -                     -
+               28           Disable Alarm 2 at open switch                  -                     -
+               29           Enable Alarm 2                                  -                     -
+               30           Enable/Disable Alarm 2                          -                     -
+               31           Disable Alarm 2                                 -                     -
+               32           Enable Sunrise at closed switch                 -                     -
+               33           Enable Sunrise at open switch                   -                     -
+               34           Disable Sunrise at closed switch                -                     -
+               35           Disable Sunrise at open switch                  -                     -
+               36           Enable Sunrise                                  -                     -
+               37           Enable/Disable Sunrise                          -                     -
+               38           Disable Sunrise                                 -                     -
+               39           Enable Sunset at closed switch                  -                     -
+               40           Enable Sunset at open switch                    -                     -
+               41           Disable Sunset at closed switch                 -                     -
+               42           Disable Sunset at open switch                   -                     -
+               43           Enable Sunset                                   -                     -
+               44           Enable/Disable Sunset                           -                     -
+               45           Disable Sunset                                  -                     -
+               46           Output momentary                                -                     Channel 9…12
+               47           Output off                                      -                     Channel 9…12
+               48           Output on                                       -                     Channel 9…12
+               49           Output toggle                                   -                     Channel 9…12
+
+
+
+
+                            VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024                                     23
+Time parameter
+     Time parameter   Timeout
+            0         0s (No timer)
+            1         1s
+            2         2s
+           ...
+          119         1min59s
+          120         2min
+          121         2min15s
+           ...
+          131         4min45s
+          132         5min
+          133         5min30s
+           ...
+          181         29min30s
+          182         30min
+          183         31min
+           ...
+          211         59min
+          212         1h
+          213         1h15min
+           ...
+          227         4h45min
+          228         5h
+          229         5h30min
+           ...
+          237         9h30min
+          238         10h
+          239         11h
+           ...
+          251         23h
+          252         1d
+          253         2d
+          254         3d
+          255         infinite
+
+
+
+
+             VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024   24
+Address     Contents                                     Address      Contents
+0x0254      Program step 1 byte1                         0x0255       Program step 1 byte2
+0x0256      Program step 1 byte3                         0x0257       Program step 1 byte4
+0x0258      Program step 1 byte5                         0x0259       Program step 1 byte6
+…           ..                                           ..           ..
+0x03B2      Program step 59 byte1                        0x03B3       Program step 59 byte2
+0x03B4      Program step 59 byte3                        0x03B5       Program step 59 byte4
+0x03B6      Program step 59 byte5                        0x03B7       Program step 59 byte6
+
+
+            Contents program byte1             Description
+                 B’000xxxxx’                   Disable program step
+                 B’001xxxxx’                   Absolute time
+                 B’010xxxxx’                   Wake up time 1 + relative time
+                 B’011xxxxx’                   Go to bed time 1 + relative time
+                 B’100xxxxx’                   Wake up time 2 + relative time
+                 B’101xxxxx’                   Go to bed time 2 + relative time
+                 B’110xxxxx’                   Sunrise + relative time
+                 B’111xxxxx’                   Sunset + relative time
+                 B’xxx01111’                   Rel. time = 3h45min
+                      …
+                 B’xxx00001’                   Rel. time = 15min
+                 B’xxx00000’                   Rel. time = 0
+                 B’xxx11111’                   Rel. time = -15min
+                      …
+                 B’xxx10000’                   Rel. time = -4h
+ Remark: Wake up, Go to bed, sunrise & sunset time are only allowed for weekly programs
+
+            Contents program byte2             Description
+                 B’xxxx0000’                   Weekly program
+                 B’xxxx0001’                   January
+                 B’xxxx0010’                   February
+                 B’xxxx0011’                   March
+                 B’xxxx0100’                   April
+                 B’xxxx0101’                   May
+                 B’xxxx0110’                   June
+                 B’xxxx0111’                   July
+                 B’xxxx1000’                   August
+                 B’xxxx1001’                   September
+                 B’xxxx1010’                   October
+                 B’xxxx1011’                   November
+                 B’xxxx1100’                   December
+                 B’xxxx1101’                   Monthly program
+                 B’xxxx1110’                   Monthly program
+                 B’xxxx1111’                   Monthly program
+
+            Contents program byte3             Description
+                 B’xxx00000’                   0h
+                 B’xxx00001’                   1h
+                      …                        …
+                 B’xxx10111’                   23h
+                 B’xx1xxxxx’                   Program group 1
+                 B’x1xxxxxx’                   Program group 2
+                 B’1xxxxxxx’                   Program group 3
+
+            Contents program byte4             Description
+                 B’xx000000’                   0min
+                 B’xx000001’                   1min
+                      …                        …
+                 B’xx111011’                   59min
+
+
+
+
+                         VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024                25
+Contents program byte4              Contents program byte2         Description
+     B’00xxxxxx’                         B’0000xxxx’               Never
+     B’00xxxxxx’                         B’0001xxxx’               Day 1of the month
+     B’00xxxxxx’                         B’0010xxxx’               Day 2of the month
+          …                                   …                    …
+     B’01xxxxxx’                         B’1111xxxx’               Day 31of the month
+     B’10xxxxxx’                         B’0000xxxx’               Never
+     B’10xxxxxx’                         B’0001xxxx’               Every Monday
+     B’10xxxxxx’                         B’0010xxxx’               Every Tuesday
+          …                                   …                    …
+     B’10xxxxxx’                         B’0111xxxx’               Every Sunday
+     B’10xxxxxx’                         B’1000xxxx’               Every weekend (sa & su)
+     B’10xxxxxx’                         B’1001xxxx’               Every working day (mo…fr)
+     B’10xxxxxx’                         B’1010xxxx’               Every day except Sunday
+     B’10xxxxxx’                         B’1011xxxx’               Every day
+     B’10xxxxxx’                         B’1100xxxx’               Never
+          …                                   …                    …
+     B’11xxxxxx’                         B’1111xxxx’               Never
+
+Contents program byte5        Action
+            0                 0s25 Pulse
+            1                 1s Pulse
+            2                 2s Pulse
+           ...                ...
+          119                 1min59s Pulse
+          120                 2min Pulse
+          121                 2min15s Pulse
+           ...                ...
+          131                 4min45s Pulse
+          132                 5min Pulse
+          133                 5min30s Pulse
+           ...                ...
+          181                 29min30s Pulse
+          182                 30min Pulse
+          183                 31min Pulse
+           ...                ...
+          211                 59min Pulse
+          212                 1h Pulse
+          213                 1h15min Pulse
+           ...                ...
+          227                 4h45min Pulse
+          228                 5h Pulse
+          229                 5h30min Pulse
+           ...                ...
+          237                 9h30min Pulse
+          238                 10h Pulse
+          239                 11h Pulse
+           ...                …
+          246                 18h Pulse
+          247                 Press
+          248                 Long Press
+          249                 Release
+          250                 Lock
+          251                 Unlock
+          252                 No action
+          …                   …
+          255                 No action
+
+
+
+
+           VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024                           26
+Contents program byte6        Channel
+           1                  Channel 1
+           2                  Channel 2
+           3                  Channel 3
+           4                  Channel 4
+           5                  Channel 5
+           6                  Channel 6
+           7                  Channel 7
+           8                  Channel 8
+           9                  Channel 9 only for lock/unlock action
+          10                  Channel 10 only for lock/unlock action
+          11                  Channel 11 only for lock/unlock action
+          12                  Channel 12 only for lock/unlock action
+
+
+
+
+           VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024       27
+Address   Contents                                    Address     Contents
+0x03B8    Location id low byte                        0x03B9      Location id high byte
+0x03BA    Group id low byte                           0x03BB      Group id high byte
+0x03BC    Module name character 1                     0x03BD      Module name character 2
+…         ..                                          ..          ..
+0x03FA    Module name character 63                    0x03FB      Module name character 64
+0x03FC    Not used                                    0x03FD      Not used
+0x03FE    Not used                                    0x03FF      Used for flash writing
+
+
+
+
+                        VMB4PB PROTOCOL – edition 3 – last update: 04/12/2024                28
+

@@ -1,0 +1,1840 @@
+      VMB2BLE-20
+2 channel blind module for VELBUS
+              system
+
+
+
+
+        VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025   1
+Contents
+Contents ....................................................................................................................................................... 2
+Packet Format .............................................................................................................................................. 4
+   Binairy format: ......................................................................................................................................... 4
+Transmit Packets .......................................................................................................................................... 5
+   0xAB: power up message ........................................................................................................................ 5
+   0xD7: real time clock status request ........................................................................................................ 5
+   0xD8: real time clock status..................................................................................................................... 5
+   0xB7: date status ...................................................................................................................................... 5
+   0xAF: daylight savings status .................................................................................................................. 5
+   0xFF: module type ................................................................................................................................... 6
+   0xDA: Bus error counter status ............................................................................................................... 6
+   0xFE: memory data .................................................................................................................................. 6
+   0xCC: memory data block (4 bytes) ........................................................................................................ 6
+   0xCC: memory data block (5...60 bytes)(only allowed for CAN FD frames): ....................................... 7
+   0xF0: first part of channel name .............................................................................................................. 7
+   0xF1: second part of the channel name ................................................................................................... 8
+   0xF2: third part of the channel name ....................................................................................................... 8
+   0xFB: module status ................................................................................................................................ 8
+   0xF5 Clears LEDs on a linked push button module ................................................................................ 9
+   0xF6: Sets LEDs on a linked push button module................................................................................... 9
+   0xF8 Blinks LEDs fast on a linked push button module ......................................................................... 9
+   0xC1: program step info .......................................................................................................................... 9
+Receive....................................................................................................................................................... 13
+   0x00: Linked push button status ............................................................................................................ 13
+   0xAB: Power up message ...................................................................................................................... 13
+   0xB5: CAN FD enable command .......................................................................................................... 13
+   0xD7: Real time clock status request ..................................................................................................... 13
+   0xD7: Real time clock status request ..................................................................................................... 13
+   0xD8: Set real time clock....................................................................................................................... 13
+   0xB7: Set date ........................................................................................................................................ 14
+   0xAF: Set daylight savings .................................................................................................................... 14
+   0xAE: Enable/disable global sunrise/sunset related actions .................................................................. 14
+   0xAE: Enable/disable local sunrise/sunset related actions .................................................................... 14
+   0xC3: Set global clock alarm ................................................................................................................. 14
+   0xC3: Set local clock alarm ................................................................................................................... 15
+   (scan)Module type request ..................................................................................................................... 15
+   0xFA: Module status request ................................................................................................................. 15
+   0xEF: Channel name request ................................................................................................................. 15
+   0xF5 Clear channel LED ....................................................................................................................... 15
+
+
+
+                                        VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025                                                               2
+   0xFD: Read data from memory ............................................................................................................. 15
+   0xC9: Read data block from memory .................................................................................................... 16
+   0xCB: Memory dump request................................................................................................................ 16
+   0xFC: Write data to memory ................................................................................................................. 16
+   0xCA: Write memory block .................................................................................................................. 17
+   0xD9: Bus error counter status request .................................................................................................. 17
+   0x04: Switch blind off ........................................................................................................................... 18
+   0x05: Switch Blind up ........................................................................................................................... 18
+   0x06: Switch Blind down ...................................................................................................................... 18
+   0x1C: Set blind position ........................................................................................................................ 18
+   0x1A: Lock ............................................................................................................................................ 19
+   0x1B: Cancel lock .................................................................................................................................. 19
+   0x12 Forced up ...................................................................................................................................... 19
+   0x13: Cancel forced up .......................................................................................................................... 19
+   0x14 Forced down ................................................................................................................................. 20
+   0x15: Cancel forced down ..................................................................................................................... 20
+   0x16: Inhibit ........................................................................................................................................... 20
+   0x18: Inhibit preset up ........................................................................................................................... 20
+   0x19: Inhibit preset down ...................................................................................................................... 21
+   0x17: Cancel inhibit ............................................................................................................................... 21
+   0xB3: Select Auto Mode........................................................................................................................ 21
+   0xB2: Enable Channel Program ........................................................................................................... 21
+   0xB1: Disable Channel Program ........................................................................................................... 21
+   0xB3: Select Program ............................................................................................................................ 22
+   0xC0: Read program step ...................................................................................................................... 22
+   0xC2: Write program step...................................................................................................................... 22
+   0x6A: Change master address and serial number .................................................................................. 25
+Memory map .............................................................................................................................................. 26
+   version 1 ................................................................................................................................................. 26
+   Action..................................................................................................................................................... 29
+   Program Steps ........................................................................................................................................ 32
+   Miscellaneous ........................................................................................................................................ 34
+Scenarios .................................................................................................................................................... 35
+   When the module starts or reboot .......................................................................................................... 35
+   Receive Scan packet .............................................................................................................................. 35
+   User Presses a button ............................................................................................................................. 35
+   Receive Memory Dump request ............................................................................................................ 35
+   Receive a powerup message .................................................................................................................. 35
+
+
+
+
+                                       VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025                                                               3
+Packet Format
+Binairy format:
+<SOF-SID10...SID0-RTR-IDE-r0-DLC3...0-DATABYTE1...DATABYTEn-CRC15...CRC1-CRCDEL-ACK-ACKDEL-
+EOF7...EOF1-IFS3...IFS1>
+   bits                          Description
+   SOF                           Start Of Frame (always 0)
+   SID10 & SID9                  Priority (00: highest … 11: lowest priority)
+   SID8…SID1                     Address
+   SID0                          Always 0
+   RTR                           Remote Transmit Request
+   IDE                           Identifier Extension (always 0)
+   r0                            reserved (always 0)
+   DLC3…DLC0                     Data Length Code (0…8)
+   Databyte1                     Command
+   Databyte2                     Parameter
+   Databyte3                     Parameter
+   Databyte4                     Parameter
+   Databyte5                     Parameter
+   Databyte6                     Parameter
+   Databyte7                     Parameter
+   Databyte8                     Parameter
+   CRC15…CRC1                    Cyclic Redundancy Checksum
+   CRCDEL                        CRC Delimiter (always 1)
+   ACK                           Acknowledge slot (transmit 1 readback 0 if received correctly)
+   ACKDEL                        Acknowledge Delimiter (always 1)
+   EOF7...EOF1                   End Of Frame (always 1111111)
+   IFS3...IFS1                   InterFrame Space (always 111)
+
+
+
+
+                        VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025                 4
+Transmit Packets
+0xAB: power up message
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 2 data byte to send
+   DATABYTE1 = COMMAND_POWER_UP (0xAB)
+   DATABYTE2 = module address
+
+0xD7: real time clock status request
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 1 data byte to send
+   DATABYTE1 = COMMAND_REALTIME_CLOCK_STATUS_REQUEST (0xD7)
+
+0xD8: real time clock status
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 4 data bytes to send
+   DATABYTE1 = COMMAND_REALTIME_CLOCK_STATUS (0xD8)
+   DATABYTE2 = Day
+                       Contents      Day
+                           0         Monday
+                           1         Tuesday
+                           2         Wednesday
+                           3         Thursday
+                           4         Friday
+                           5         Saturday
+                           6         Sunday
+   DATABYTE3 = Hour (0…23)
+   DATABYTE4 = Minute (0…59)
+
+0xB7: date status
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 5 data bytes to send
+   DATABYTE1 = COMMAND_DATE_STATUS (0xB7)
+   DATABYTE2 = Day (1…31)
+   DATABYTE3 = Month (1…12)
+   DATABYTE4 = High byte of Year
+   DATABYTE5 = Low byte of Year
+
+0xAF: daylight savings status
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes to send
+   DATABYTE1 = COMMAND_DAYLIGHT_SAVING_STATUS (0xAF)
+   DATABYTE2 = 0 =disabled / 1 = enabled
+
+
+
+
+                        VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025   5
+0xFF: module type
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 8 data bytes to send
+   DATABYTE1 = COMMAND_MODULE_TYPE (0xFF)
+   DATABYTE2 = VMB2BLE-20 type (0x61)
+   DATABYTE3 = High byte of serial number
+   DATABYTE4 = Low byte of serial number
+   DATABYTE5 = Memory map version
+   DATABYTE6 = Build year
+   DATABYTE7 = Build week
+   DATABYTE8 = Properties
+                      Contents        Output channel
+                      B’xxxxxxx0’ Terminator open
+                      B’xxxxxxx1’ Terminator closed
+                      B’xxxx000x’ Hardware version number
+                      B’xxx0xxxx’ Velbus connection type
+                      B’xx0xxxxx’ Only standard CAN allowed
+                      B’xx1xxxxx’ CAN FD support
+
+0xDA: Bus error counter status
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 4 data bytes to send
+   DATABYTE1 = COMMAND_BUSERROR_COUNTER_STATUS (0xDA)
+   DATABYTE2 = Transmit error counter
+   DATABYTE3 = Receive error counter
+   DATABYTE4 = Bus off counter
+
+0xFE: memory data
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 4 data bytes to send
+   DATABYTE1 = COMMAND_MEMORY_DATA (0xFE)
+   DATABYTE2 = High memory address
+   DATABYTE3 = LOW memory address
+   DATABYTE4 = memory data
+
+   Remark: address range: 0x0000 to 0x07FF
+
+0xCC: memory data block (4 bytes)
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 7 data bytes to send
+   DATABYTE1 = COMMAND_MEMORY_DATA_BLOCK (0xCC)
+   DATABYTE2 = High start address of memory block
+   DATABYTE3 = LOW start address of memory block
+   DATABYTE4 = memory data1
+   DATABYTE5 = memory data2
+   DATABYTE6 = memory data3
+   DATABYTE7 = memory data4
+
+   Remark: address range: 0x0000 to 0x07FC
+
+
+
+
+                           VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025   6
+0xCC: memory data block (5...60 bytes)(only allowed for CAN FD frames):
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = number of data bytes to send
+                      Contents        Number of data bytes
+                      0x09            12 data bytes
+                      0x0A            16 data bytes
+                      0x0B            20 data bytes
+                      0x0C            24 data bytes
+                      0x0D            32 data bytes
+                      0x0E            48 data bytes
+                      0x0F            64 data bytes
+   DATABYTE1 = COMMAND_MEMORY_DATA_BLOCK (0xCC)
+   DATABYTE2 = High start address of memory block
+   DATABYTE3 = LOW start address of memory block
+   DATABYTE4 = memory block length (5…60)
+   DATABYTE5 = memory data 1
+   …
+   DATABYTE12 = memory data 8 (end of data for DLC3...DLC0 = 0x09)
+   …
+   DATABYTE16 = memory data 12 (end of data for DLC3...DLC0 = 0x0A)
+   …
+   DATABYTE20 = memory data 16 (end of data for DLC3...DLC0 = 0x0B)
+   …
+   DATABYTE24 = memory data 20 (end of data for DLC3...DLC0 = 0x0C)
+   …
+   DATABYTE32 = memory data 28 (end of data for DLC3...DLC0 = 0x0D)
+   …
+   DATABYTE48 = memory data 44 (end of data for DLC3...DLC0 = 0x0E)
+   …
+   DATABYTE64 = memory data 60 (end of data for DLC3...DLC0 = 0x0F)
+
+   Remark:
+   Contents of unused data bytes = 0x55
+   Address range: 0x0000 to (0x0800 – memory block length)
+
+0xF0: first part of channel name
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 8 data bytes to send
+   DATABYTE1 = COMMAND_CHANNEL_NAME_PART1 (0xF0)
+   DATABYTE2 = Channel 1 or 2
+   DATABYTE3 = Character 1 of the blind name
+   DATABYTE4 = Character 2 of the blind name
+   DATABYTE5 = Character 3 of the blind name
+   DATABYTE6 = Character 4 of the blind name
+   DATABYTE7 = Character 5 of the blind name
+   DATABYTE8 = Character 6 of the blind name
+
+
+
+
+                           VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025   7
+0xF1: second part of the channel name
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 8 data bytes to send
+   DATABYTE1 = COMMAND_CHANNEL_NAME_PART2 (0xF1)
+   DATABYTE2 = Channel 1 or 2
+   DATABYTE3 = Character 7 of the blind name
+   DATABYTE4 = Character 8 of the blind name
+   DATABYTE5 = Character 9 of the blind name
+   DATABYTE6 = Character 10 of the blind name
+   DATABYTE7 = Character 11 of the blind name
+   DATABYTE8 = Character 12 of the blind name
+
+0xF2: third part of the channel name
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 6 data bytes to send
+   DATABYTE1 = COMMAND_CHANNEL_NAME_PART3 (0xF2)
+   DATABYTE2 = Channel 1 or 2
+   DATABYTE3 = Character 13 of the blind name
+   DATABYTE4 = Character 14 of the blind name
+   DATABYTE5 = Character 15 of the blind name
+   DATABYTE6 = Character 16 of the blind name
+
+   Remarks:
+   Unused characters contain H’FF’.
+
+0xEC: module status
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 8 data bytes to send
+   DATABYTE1 = COMMAND_BLIND_STATUS (0xEC)
+   DATABYTE2 = Blind status
+                      Contents        Blind status
+                  B’xxxx0000’         Channel 1 blind off
+                  B’xxxx0001’         Channel 1 blind up
+                  B’xxxx0010’         Channel 1 blind down
+                  B’0000xxxx’         Channel 2 blind off
+                  B’0001xxxx’         Channel 2 blind up
+                  B’0010xxxx’         Channel 2 blind down
+   DATABYTE3 = Channel 1 blind position (0% = up...100%=down)
+   DATABYTE4 = Channel 2 blind position (0% = up...100%=down)
+   DATABYTE5 = Locked/inhibit/Forced up/ Forced down on setting
+                     Contents         Setting
+                   B’xxxx0000’        Channel 1 blind normal
+                   B’xxxx0001’        Channel 1 blind inhibited
+                   B’xxxx0010’        Channel 1 blind inhibit preset down
+                   B’xxxx0011’        Channel 1 blind inhibit preset up
+                   B’xxxx0100’        Channel 1 blind forced down
+                   B’xxxx0101’        Channel 1 blind forced up
+                   B’xxxx0110’        Channel 1 blind locked
+                   B’0000xxxx’        Channel 2 blind normal
+                   B’0001xxxx’        Channel 2 blind inhibited
+                   B’0010xxxx’        Channel 2 blind inhibit preset down
+                   B’0011xxxx’        Channel 2 blind inhibit preset up
+                   B’0100xxxx’        Channel 2 blind forced down
+                   B’0101xxxx’        Channel 2 blind forced up
+                   B’0110xxxx’        Channel 2 blind locked
+   DATABYTE6 = mode selection
+
+
+
+                            VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025   8
+                   Contents        Selected programl
+               B’xxxx0000’         Channel 1 mode disabled
+               B’xxxx0001’         Channel 1 mode 1
+               B’xxxx0010’         Channel 1 mode 2
+               B’xxxx0011’         Channel 1 mode 3
+               B’0000xxxx’         Channel 2 mode disabled
+               B’0001xxxx’         Channel 2 mode 1
+               B’0010xxxx’         Channel 2 mode 2
+               B’0011xxxx’         Channel 2 mode 3
+   DATABYTE7 = channel program disable/enable
+                   Contents        Selected programl
+               B’xxxx0000’         Channel 1 programs enabled
+               B’xxxx0001’         Channel 1 programs disabled
+               B’0000xxxx’         Channel 2 programs enabled
+               B’0001xxxx’         Channel 2 programs disabled
+   DATABYTE8 = alarm & program selection
+                   Contents        Selected program
+               B’xxxxxx00’         None
+               B’xxxxxx01’         Program group 1 (Summer)
+               B’xxxxxx10’         Program group 2 (Winter)
+               B’xxxxxx11’         Program group 3 (Holiday)
+               B’xxxxx0xx’         Clock alarm 1 off
+               B’xxxxx1xx’         Clock alarm 1 on
+               B’xxxx0xxx’         Local clock alarm 1
+               B’xxxx1xxx’         Global clock alarm 1
+               B’xxx0xxxx’         Clock alarm 2 off
+               B’xxx1xxxx’         Clock alarm 2 on
+               B’xx0xxxxx’         Local clock alarm 2
+               B’xx1xxxxx’         Global clock alarm 2
+               B’x0xxxxxx’         Sunrise disabled
+               B’x1xxxxxx’         Sunrise enabled
+               B’0xxxxxxx’         Sunset disabled
+               B’1xxxxxxx’         Sunset enabled
+
+0xF5 Clears LEDs on a linked push button module
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Address of the linked push button module for clearing LEDs
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes to send
+   DATABYTE1 = COMMAND_CLEAR_LED (0xF5)
+   DATABYTE2 = LED bit numbers (bitwise) (1 = clear LED)
+
+0xF6: Sets LEDs on a linked push button module
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Address of the linked push button module for setting LEDs on
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes to send
+   DATABYTE1 = COMMAND_SET_LED (0xF6)
+   DATABYTE2 = LED bit numbers (bitwise) (1 = set LED)
+
+0xF8 Blinks LEDs fast on a linked push button module
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Address of the linked push button module for fast blinking LEDs
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes to send
+   DATABYTE1 = COMMAND_FAST_BLINKING_LED (0xF8)
+   DATABYTE2 = LED bit numbers (bitwise) (1 = fast blink LED)
+
+0xC1: program step info
+   SID10-SID9 = 11 (lowest priority)
+
+
+
+
+                            VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025   9
+SID8...SID1 = Module address
+RTR = 0
+DLC3...DLC0 = 8 data bytes to send
+DATABYTE1 = COMMAND_PROGRAM_STEP_INFO (0xC1)
+DATABYTE2 = Program step number (1…168 / 255 step not found)
+DATABYTE3 = Program reference
+                      Contents     Description
+                      000xxxxx     Disable program step
+                      001xxxxx     Absolute time
+                      010xxxxx     Wake up time 1 + relative time
+                      011xxxxx     Go to bed time 1 + relative time
+                      100xxxxx     Wake up time 2 + relative time
+                      101xxxxx     Go to bed time 2 + relative time
+                      110xxxxx     Sunrise + relative time
+                      111xxxxx     Sunset + relative time
+                      xxx01111     Rel. time = 3h45min
+                         …
+                      xxx00001     Rel. time = 15min
+                      xxx00000     Rel. time = 0
+                      xxx11111     Rel. time = -15min
+                         …
+                      xxx10000     Rel. time = -4h
+
+DATABYTE4 = Program step month & four least significant bits of day
+                  Contents                            Description
+                  xxxx0000       Weekly program
+                  xxxx0001       January
+                  xxxx0010       February
+                  xxxx0011       March
+                  xxxx0100       April
+                  xxxx0101       May
+                  xxxx0110       June
+                  xxxx0111       July
+                  xxxx1000       August
+                  xxxx1001       September
+                  xxxx1010       October
+                  xxxx1011       November
+                  xxxx1100       December
+                  xxxx1101       Monthly program
+                  xxxx1110       Monthly program
+                  xxxx1111       Monthly program
+
+                   Contents byte6     Contents byte4     Description
+                     00xxxxxx           0000xxxx         Never
+                     00xxxxxx           0001xxxx         Day 1of the month
+                     00xxxxxx           0010xxxx         Day 2of the month
+                        …                  ...           …
+                     01xxxxxx           1111xxxx         Day 31of the month
+                     10xxxxxx           0000xxxx         Never
+                     10xxxxxx           0001xxxx         Every Monday
+                     10xxxxxx           0010xxxx         Every Tuesday
+                         ...               …             …
+                     10xxxxxx           0111xxxx         Every Sunday
+                     10xxxxxx           1000xxxx         Every weekend (sa & su)
+                     10xxxxxx           1001xxxx         Every working day (mo…fr)
+                     10xxxxxx           1010xxxx         Every day except Sunday
+                     10xxxxxx           1011xxxx         Every day
+                     10xxxxxx           1100xxxx         Never
+                        …                  …             …
+                     11xxxxxx           1111xxxx         Never
+
+
+
+
+                       VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025     10
+DATABYTE5 = Program step hour & group number
+                  Contents        Description
+                  xxx00000        0h
+                  xxx00001        1h
+                      …           …
+                  xxx10111        23h
+                  xx1xxxxx        Program group 1 (Summer program)
+                  x1xxxxxx        Program group 2 (Winter program)
+                  1xxxxxxx        Program group 3 (Holiday program)
+
+DATABYTE6 = Program step minute & every flag & msb of day
+                  Contents       Description
+                  xx000000       0min
+                  xx000001       1min
+                      …          …
+                  xx111011       59min
+
+                  Contents byte6    Contents byte4       Description
+                    00xxxxxx          0000xxxx           Never
+                    00xxxxxx          0001xxxx           Day 1of the month
+                    00xxxxxx          0010xxxx           Day 2of the month
+                       …                 ...             …
+                    01xxxxxx          1111xxxx           Day 31of the month
+                    10xxxxxx          0000xxxx           Never
+                    10xxxxxx          0001xxxx           Every Monday
+                    10xxxxxx          0010xxxx           Every Tuesday
+                        ...              …               …
+                    10xxxxxx          0111xxxx           Every Sunday
+                    10xxxxxx          1000xxxx           Every weekend (sa & su)
+                    10xxxxxx          1001xxxx           Every working day (mo…fr)
+                    10xxxxxx          1010xxxx           Every day except Sunday
+                    10xxxxxx          1011xxxx           Every day
+                    10xxxxxx          1100xxxx           Never
+                       …                 …               …
+                    11xxxxxx          1111xxxx           Never
+
+DATABYTE7 = Program step action
+                   Contents        Action
+                       0           Down
+                       1           Up
+                       2           Locked
+                       3           Cancel locked
+                       4           Forced down
+                       5           Cancel forced down
+                       6           Forced up
+                       7           Cancel forced up
+                       8           Inhibit
+                       9           Inhibit preset down
+                      10           Inhibit preset up
+                      11           Cancel Inhibit
+                      12           Deselect mode
+                      13           Select mode 1
+                      14           Select mode 2
+                      15           Select mode 3
+
+
+DATABYTE8 = Channel
+                  Contents         Channel
+                     1             Channel 1
+                     2             Channel 2
+
+
+
+
+                      VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025      11
+VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025   12
+Receive
+0x00: Linked push button status
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Address of the linked push button module
+   RTR = 0
+   DLC3...DLC0 = 4 data bytes received
+   DATABYTE1 = COMMAND_PUSH_BUTTON_STATUS (0x00)
+   DATABYTE2 = Linked push buttons just pressed (bitwise) (1 = just pressed)
+   DATABYTE3 = Linked push buttons just released (bitwise) (1 = just released)
+   DATABYTE4 = linked push buttons long pressed (bitwise) (1 = longer than 0.85s pressed)
+
+0xAB: Power up message
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 2 data byte received
+   DATABYTE1 = COMMAND_POWER_UP (0xAB)
+   DATABYTE2 = module address
+
+0xB5: CAN FD enable command
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 2 data byte received
+   DATABYTE1 = COMMAND_SET_CLR_LEARN_RF_CODE (0xB5)
+   DATABYTE2 = enable/disable (0 = disable CAN FD / 1 = enable CAN FD)
+
+0xD7: Real time clock status request
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 1 data byte received
+   DATABYTE1 = COMMAND_REALTIME_CLOCK_STATUS_REQUEST (0xD7)
+
+0xD7: Real time clock status request
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 1 data byte to received
+   DATABYTE1 = COMMAND_REALTIME_CLOCK_STATUS_REQUEST (0xD7)
+
+0xD8: Set real time clock
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 4 data bytes received
+   DATABYTE1 = COMMAND_SET_REALTIME_CLOCK (0xD8)
+   DATABYTE2 = Day of week
+               Contents day of week’   Description
+                      H’00’            Monday
+                      H’01’            Tuesday
+                      H’02’            Wednesday
+                      H’03’            Thursday
+                      H’04’            Friday
+                      H’05’            Saterday
+                      H’06’            Sunday
+   DATABYTE3 = Hours (0…23)
+   DATABYTE4 = Minutes (0…59)
+
+
+
+
+                           VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025        13
+0xB7: Set date
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 5 data bytes received
+   DATABYTE1 = COMMAND_SET_REALTIME_DATE (0xB7)
+   DATABYTE2 = Day (1…31)
+   DATABYTE3 = Month (1…12)
+   DATABYTE4 = High byte of Year
+   DATABYTE5 = Low byte of Year
+
+0xAF: Set daylight savings
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+   DATABYTE1 = COMMAND_SET_DAYLIGHT_SAVING (0xAF)
+   DATABYTE2 = 0 =disabled / 1 = enabled
+
+0xAE: Enable/disable global sunrise/sunset related actions
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 3 data bytes received
+   DATABYTE1 = COMMAND_ENA_DIS_SUNRISE_SUNSET (0xAE)
+   DATABYTE2 = Channel (0xFF)
+   DATABYTE3 = enable/disable flags
+                      Contents         Description
+                    B’xxxxxxx0’        Disable sunrise related actions
+                    B’xxxxxxx1’        Enable sunrise related actions
+                    B’xxxxxx0x’        Disable sunset related actions
+                    B’xxxxxx1x’        Enable sunset related actions
+
+0xAE: Enable/disable local sunrise/sunset related actions
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 3 data bytes received
+   DATABYTE1 = COMMAND_ENA_DIS_SUNRISE_SUNSET (0xAE)
+   DATABYTE2 = Channel (0xFF)
+   DATABYTE3 = enable/disable flags
+                     Contents          Description
+                   B’xxxxxxx0’         Disable sunrise related actions
+                   B’xxxxxxx1’         Enable sunrise related actions
+                   B’xxxxxx0x’         Disable sunset related actions
+                   B’xxxxxx1x’         Enable sunset related actions
+
+0xC3: Set global clock alarm
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 7 data bytes received
+   DATABYTE1 = COMMAND_SET_ALARM_CLOCK (0xC3)
+   DATABYTE2 = Alarm number (1 or 2)
+   DATABYTE3 = Wake up hour (0…23)
+   DATABYTE4 = Wake up minute (0…59)
+   DATABYTE5 = Go to bed hour (0…23)
+   DATABYTE6 = Go to bed minute (0…59)
+   DATABYTE7 = Clock alarm enable flag (0 = disabled / 1 = enabled)
+
+
+
+
+                          VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025   14
+0xC3: Set local clock alarm
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 7 data bytes received
+   DATABYTE1 = COMMAND_SET_ALARM_CLOCK (0xC3)
+   DATABYTE2 = Alarm number (1 or 2)
+   DATABYTE3 = Wake up hour (0…23)
+   DATABYTE4 = Wake up minute (0…59)
+   DATABYTE5 = Go to bed hour (0…23)
+   DATABYTE6 = Go to bed minute (0…59)
+   DATABYTE7 = Clock alarm enable flag (0 = disabled / 1 = enabled)
+
+(scan)Module type request
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 1
+   DLC3...DLC0 = 0 data bytes received
+
+0xFA: Module status request
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+   DATABYTE1 = COMMAND_MODULE_STATUS_REQUEST (0xFA)
+   DATABYTE2 = don’t care
+
+0xEF: Channel name request
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+   DATABYTE1 = COMMAND_CHANNEL_NAME_REQUEST (0xEF)
+   DATABYTE2 = Channel 1, 2 or 255 for all channels
+
+0xF5 Clear channel LED
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Linked module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+   DATABYTE1 = COMMAND_CLEAR_LED (0xF5)
+   DATABYTE2 = LEDs to clear (bitwise) (a one clears the corresponding LED of channel 1 to 8)
+
+0xFD: Read data from memory
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 3 data bytes received
+   DATABYTE1 = COMMAND_READ_DATA_FROM_MEMORY (0xFD)
+   DATABYTE2 = High memory address
+   DATABYTE3 = LOW memory address
+
+   Remark: address range: 0x0000 to 0x07FF
+
+
+
+
+                           VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025            15
+0xC9: Read data block from memory
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 3 data bytes received / 4 data bytes for CAN FD response
+   DATABYTE1 = COMMAND_READ_MEMORY_BLOCK (0xC9)
+   DATABYTE2 = High memory address
+   DATABYTE3 = LOW memory address
+   DATABYTE4 = memory block length (5…60)
+
+   Remark:
+   address range: 0x0000 to 0x07FC
+   address range: 0x0000 to (0x0800 – memory block length) for CAN FD response
+
+0xCB: Memory dump request
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 1 data bytes received
+   DATABYTE1 = COMMAND_MEMORY_DUMP_REQUEST (0xCB)
+
+0xFC: Write data to memory
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 4 data bytes received
+   DATABYTE1 = COMMAND_WRITE_DATA_TO_MEMORY (0xFC)
+   DATABYTE2 = High memory address
+   DATABYTE3 = LOW memory address
+   DATABYTE4 = memory data to write
+   Remark:
+   Wait for ‘memory data’ feedback before sending a next command on the velbus.
+   Address range: 0x0000 to 0x07FF
+   Read only location cannot be changed
+   Terminate always with a write command at the last memory location.
+
+
+
+
+                           VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025   16
+0xCA: Write memory block
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 7 data bytes received
+   DATABYTE1 = COMMAND_WRITE_MEMORY_BLOCK (0xCA)
+   DATABYTE2 = High memory address
+   DATABYTE3 = LOW memory address
+   DATABYTE4 = memory databyte1 to write
+   DATABYTE5 = memory databyte2 to write
+   DATABYTE6 = memory databyte3 to write
+   DATABYTE7 = memory databyte4 to write
+
+   Or
+
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Address of the module
+   RTR = 0
+   DLC3...DLC0 = number of data bytes to send
+                      Contents         Number of data bytes
+                      0x09             12 data bytes
+                      0x0A             16 data bytes
+                      0x0B             20 data bytes
+                      0x0C             24 data bytes
+                      0x0D             32 data bytes
+                      0x0E             48 data bytes
+                      0x0F             64 data bytes
+   DATABYTE1 = COMMAND_WRITE_MEMORY_BLOCK (0xCA)
+   DATABYTE2 = High memory address
+   DATABYTE3 = LOW memory address
+   DATABYTE4 = memory block length (5…60)
+   DATABYTE5 = memory data 1 to write
+   …
+   DATABYTE12 = memory data 8 to write (end of data for DLC3...DLC0 = 0x09)
+   …
+   DATABYTE16 = memory data 12 to write (end of data for DLC3...DLC0 = 0x0A)
+   …
+   DATABYTE20 = memory data 16 to write (end of data for DLC3...DLC0 = 0x0B)
+   …
+   DATABYTE24 = memory data 20 to write (end of data for DLC3...DLC0 = 0x0C)
+   …
+   DATABYTE32 = memory data 28 to write (end of data for DLC3...DLC0 = 0x0D)
+   …
+   DATABYTE48 = memory data 44 to write (end of data for DLC3...DLC0 = 0x0E)
+   …
+   DATABYTE64 = memory data 60 to write (end of data for DLC3...DLC0 = 0x0F)
+
+   Remark:
+   Wait for ‘memory data block’ feedback before sending a next command on the velbus.
+   address range: 0x0000 to 0x07FC for standard CAN response
+   address range: 0x0000 to (0x0800 – memory block length) for CAN FD response
+   Contents of unused data bytes = 0x55
+   Terminate always with a write command at the last memory location.
+
+0xD9: Bus error counter status request
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 1 data byte received
+   DATABYTE1 = COMMAND_BUS_ERROR_COUNTER_STATUS_REQUEST (H’D9’)
+
+
+
+
+                           VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025    17
+0x04: Switch blind off
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+   DATABYTE1 = COMMAND_SWITCH_BLIND_OFF (0x04)
+   DATABYTE2 = Channel 1, 2 or 255 for all channels
+
+0x05: Switch Blind up
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 5 data bytes received
+   DATABYTE1 = COMMAND_BLIND_UP (0x05)
+   DATABYTE2 = Channel 1, 2 or 255 for all channels
+   DATABYTE3 = high byte of time out
+   DATABYTE4 = mid byte of time out
+   DATABYTE5 = low byte of time out
+
+   Remark:
+   [DATABYTE3][DATABYTE4][DATABYTE5] contain a 24-bit time out in seconds
+   If the time parameter contains zero then the default time out is selected.
+   The time parameter 0xFFFFFF is not allowed.
+
+0x06: Switch Blind down
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 5 data bytes received
+   DATABYTE1 = COMMAND_BLIND_DOWN (0x06)
+   DATABYTE2 = Channel 1, 2 or 255 for all channels
+   DATABYTE3 = high byte of time out
+   DATABYTE4 = mid byte of time out
+   DATABYTE5 = low byte of time out
+
+   Remark:
+   [DATABYTE3][DATABYTE4][DATABYTE5] contain a 24-bit time out in seconds
+   If the time parameter contains zero then the default time out is selected.
+   The time parameter 0xFFFFFF is not allowed.
+
+0x1C: Set blind position
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Address of the module
+   RTR = 0
+   DLC3...DLC0 = 3 data bytes received
+   DATABYTE1 = COMMAND_BLIND_POS (0x1C)
+   DATABYTE2 = Channel 1, 2 or 255 for all channels
+   DATABYTE3 = blind position (0…100%)
+
+
+
+
+                          VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025   18
+0x1A: Lock
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 5 data bytes received
+   DATABYTE1 = COMMAND_LOCK (0x1A)
+   DATABYTE2 = Channel 1, 2 or 255 for all channels
+   DATABYTE3 = high byte of delay time
+   DATABYTE4 = mid byte of delay time
+   DATABYTE5 = low byte of delay time
+
+   Remark:
+   [DATABYTE3][DATABYTE4][DATABYTE5] contain a 24-bit time in seconds
+   The command will be skipped when the time parameter contains zero.
+   When the time parameter contains 0xFFFFFF then the dimmer is permanently locked.
+
+0x1B: Cancel lock
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+   DATABYTE1 = COMMAND_UNLOCK (0x1B)
+   DATABYTE2 = Channel 1, 2 or 255 for all channels
+
+0x12 Forced up
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 5 data bytes received
+   DATABYTE1 = COMMAND_FORCED_OFF (0x12)
+   DATABYTE2 = Channel 1, 2 or 255 for all channels
+   DATABYTE3 = high byte of delay time
+   DATABYTE4 = mid byte of delay time
+   DATABYTE5 = low byte of delay time
+
+   Remark:
+   [DATABYTE3][DATABYTE4][DATABYTE5] contain a 24-bit time in seconds
+   The command will be skipped when the time parameter contains zero or the channel is already locked.
+   When the time parameter contains 0xFFFFFF then the channel is permanently forced up.
+
+0x13: Cancel forced up
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+   DATABYTE1 = COMMAND_CANCEL_FORCED_OFF (0x13)
+   DATABYTE2 = Channel 1, 2 or 255 for all channels
+
+
+
+
+                            VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025                    19
+0x14 Forced down
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 5 data bytes received
+   DATABYTE1 = COMMAND_FORCED_ON (0x14)
+   DATABYTE2 = Channel 1, 2 or 255 for all channels
+   DATABYTE3 = high byte of delay time
+   DATABYTE4 = mid byte of delay time
+   DATABYTE5 = low byte of delay time
+
+   Remark:
+   [DATABYTE3][DATABYTE4][DATABYTE5] contain a 24-bit time in seconds
+   The command will be skipped when the time parameter contains zero or the channel is already locked or forced up.
+   When the time parameter contains 0xFFFFFF then the channel is permanently forced down.
+
+0x15: Cancel forced down
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+   DATABYTE1 = COMMAND_CANCEL_FORCED_ON (0x15)
+   DATABYTE2 = Channel 1, 2 or 255 for all channels
+
+0x16: Inhibit
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 5 data bytes received
+   DATABYTE1 = COMMAND_INHIBIT (0x16)
+   DATABYTE2 = Channel 1, 2 or 255 for all channels
+   DATABYTE3 = high byte of delay time
+   DATABYTE4 = mid byte of delay time
+   DATABYTE5 = low byte of delay time
+
+   Remark:
+   [DATABYTE3][DATABYTE4][DATABYTE5] contain a 24-bit time in seconds
+   The command will be skipped when the time parameter contains zero or the channels are already locked, forced up or
+   forced down.
+   When the time parameter contains 0xFFFFFF then the channel is permanently inhibited.
+
+0x18: Inhibit preset up
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 5 data bytes received
+   DATABYTE1 = COMMAND_INHIBIT_PRESET_UP (0x18)
+   DATABYTE2 = Channel 1, 2 or 255 for all channels
+   DATABYTE3 = high byte of delay time
+   DATABYTE4 = mid byte of delay time
+   DATABYTE5 = low byte of delay time
+
+   Remark:
+   [DATABYTE3][DATABYTE4][DATABYTE5] contain a 24-bit time in seconds
+   The command will be skipped when the time parameter contains zero or the channels are already locked, forced up,
+   forced down or inhibited.
+   When the time parameter contains 0xFFFFFF then the channel is permanently inhibited with preset up.
+
+
+
+
+                            VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025                                   20
+0x19: Inhibit preset down
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 5 data bytes received
+   DATABYTE1 = COMMAND_INHIBIT_PRESET_DOWN (0x19)
+   DATABYTE2 = Channel 1, 2 or 255 for all channels
+   DATABYTE3 = high byte of delay time
+   DATABYTE4 = mid byte of delay time
+   DATABYTE5 = low byte of delay time
+
+   Remark:
+   [DATABYTE3][DATABYTE4][DATABYTE5] contain a 24-bit time in seconds
+   The command will be skipped when the time parameter contains zero or the channels are already locked, forced up,
+   forced down, inhibited or inhibited with preset up.
+   When the time parameter contains 0xFFFFFF then the channel is permanently inhibited with preset down.
+
+0x17: Cancel inhibit
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+   DATABYTE1 = COMMAND_CANCEL_INHIBIT (0x17)
+   DATABYTE2 = Channel 1, 2 or 255 for all channels
+
+0xB3: Select Auto Mode
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 3 data bytes received
+   DATABYTE1 = COMMAND_SELECT_PROGRAM (0xB3)
+   DATABYTE2 = Channel 1, 2 or 255 for all channels
+   DATABYTE3 = Auto mode
+                      Contents         Selected auto mode
+                        0              Modes disabled
+                        1              Mode 1
+                        2              Mode 2
+                        3              Mode 3
+
+0xB2: Enable Channel Program
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+   DATABYTE1 = COMMAND_ENABLE_PROGRAM (0xB2)
+   DATABYTE2 = Channel 1, 2 or 255 for all channels
+
+0xB1: Disable Channel Program
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 5 data bytes received
+   DATABYTE1 = COMMAND_DISABLE_PROGRAM (0xB1)
+   DATABYTE2 = Channel 1, 2 or 255 for all channels
+   DATABYTE3 = high byte of delay time
+   DATABYTE4 = mid byte of delay time
+   DATABYTE5 = low byte of delay time
+
+   Remark:
+   [DATABYTE3][DATABYTE4][DATABYTE5] contain a 24-bit time in seconds
+   The command will be skipped when the time parameter contains zero.
+   When the time parameter contains 0xFFFFFF then the channel program will be permanently disabled.
+
+
+
+
+                            VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025                                 21
+0xB3: Select Program
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+   DATABYTE1 = COMMAND_SELECT_PROGRAM (0xB3)
+   DATABYTE2 = Program mode
+                      Contents         Selected program
+                        0              None
+                        1              Program group 1 (Summer)
+                        2              Program group 2 (Winter)
+                        3              Program group 3 (Holiday)
+
+0xC0: Read program step
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 5 data bytes received
+   DATABYTE1 = COMMAND_READ_PROGRAM_STEP (0xC0)
+   DATABYTE2 = Start program step number (1…168)
+   DATABYTE3 = Program group number (1…3)
+   DATABYTE2 = Channel 1 or 2
+   DATABYTE5 = Search direction (1 = search for next matched step / 0 = search for previous matched program step)
+
+
+0xC2: Write program step
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 8 data bytes received
+   DATABYTE1 = COMMAND_WRITE_PROGRAM_STEP (0xC2)
+   DATABYTE2 = Program step number (1…168)
+   DATABYTE3 = Program reference
+                         Contents      Description
+                         000xxxxx      Disable program step
+                         001xxxxx      Absolute time
+                         010xxxxx      Wake up time 1 + relative time
+                         011xxxxx      Go to bed time 1 + relative time
+                         100xxxxx      Wake up time 2 + relative time
+                         101xxxxx      Go to bed time 2 + relative time
+                         110xxxxx      Sunrise + relative time
+                         111xxxxx      Sunset + relative time
+                         xxx01111      Rel. time = 3h45min
+                             …
+                         xxx00001      Rel. time = 15min
+                         xxx00000      Rel. time = 0
+                         xxx11111      Rel. time = -15min
+                             …
+                         xxx10000      Rel. time = -4h
+
+   DATABYTE4 = Program step month & four least significant bits of day
+                      Contents                           Description
+                     xxxx0000       Weekly program
+                     xxxx0001       January
+                     xxxx0010       February
+                     xxxx0011       March
+                     xxxx0100       April
+                     xxxx0101       May
+                     xxxx0110       June
+                     xxxx0111       July
+                     xxxx1000       August
+
+
+
+
+                           VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025                                22
+                     xxxx1001      September
+                     xxxx1010      October
+                     xxxx1011      November
+                     xxxx1100      December
+                     xxxx1101      Monthly program
+                     xxxx1110      Monthly program
+                     xxxx1111      Monthly program
+
+                  Contents byte6     Contents byte4    Description
+                    00xxxxxx           0000xxxx        Never
+                    00xxxxxx           0001xxxx        Day 1of the month
+                    00xxxxxx           0010xxxx        Day 2of the month
+                       …                  ...          …
+                    01xxxxxx           1111xxxx        Day 31of the month
+                    10xxxxxx           0000xxxx        Never
+                    10xxxxxx           0001xxxx        Every Monday
+                    10xxxxxx           0010xxxx        Every Tuesday
+                        ...               …            …
+                    10xxxxxx           0111xxxx        Every Sunday
+                    10xxxxxx           1000xxxx        Every weekend (sa & su)
+                    10xxxxxx           1001xxxx        Every working day (mo…fr)
+                    10xxxxxx           1010xxxx        Every day except Sunday
+                    10xxxxxx           1011xxxx        Every day
+                    10xxxxxx           1100xxxx        Never
+                       …                  …            …
+                    11xxxxxx           1111xxxx        Never
+
+DATABYTE5 = Program step hour & group number
+                   Contents       Description
+                  xxx00000        0h
+                  xxx00001        1h
+                      …           …
+                  xxx10111        23h
+                  xx1xxxxx        Program group 1 (Summer program)
+                  x1xxxxxx        Program group 2 (Winter program)
+                  1xxxxxxx        Program group 3 (Holiday program)
+
+DATABYTE6 = Program step minute & msb of day & every flag
+                   Contents      Description
+                  xx000000       0min
+                  xx000001       1min
+                      …          …
+                  xx111011       59min
+
+                  Contents byte6     Contents byte4    Description
+                    00xxxxxx           0000xxxx        Never
+                    00xxxxxx           0001xxxx        Day 1of the month
+                    00xxxxxx           0010xxxx        Day 2of the month
+                       …                  ...          …
+                    01xxxxxx           1111xxxx        Day 31of the month
+                    10xxxxxx           0000xxxx        Never
+                    10xxxxxx           0001xxxx        Every Monday
+                    10xxxxxx           0010xxxx        Every Tuesday
+                        ...               …            …
+                    10xxxxxx           0111xxxx        Every Sunday
+                    10xxxxxx           1000xxxx        Every weekend (sa & su)
+                    10xxxxxx           1001xxxx        Every working day (mo…fr)
+                    10xxxxxx           1010xxxx        Every day except Sunday
+                    10xxxxxx           1011xxxx        Every day
+                    10xxxxxx           1100xxxx        Never
+                       …                  …            …
+
+
+
+
+                      VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025    23
+                        11xxxxxx            1111xxxx          Never
+
+DATABYTE7 = Program step action
+                   Contents             Action
+                       0                Down
+                       1                Up
+                       2                Locked
+                       3                Cancel locked
+                       4                Forced downf
+                       5                Cancel forced down
+                       6                Forced up
+                       7                Cancel forced up
+                       8                Inhibit
+                       9                Inhibit preset down
+                      10                Inhibit preset up
+                      11                Cancel Inhibit
+                      12                Deselect mode
+                      13                Select mode 1
+                      14                Select mode 2
+                      15                Select mode 3
+
+
+DATABYTE8 = Channel
+                  Contents              Channel
+                     1                  Channel 1
+                     2                  Channel 2
+
+Remark:
+Erase program step if channel parameter is equal with zero.
+
+
+
+
+                         VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025   24
+0x6A: Change master address and serial number
+   SID10-SID9 = 01 (firmware priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 7 data bytes received
+   DATABYTE1 = COMMAND_WRITE_ADDR_SERIALNR (0x6A)
+   DATABYTE2 = Module type (0x61 = VMB2BLE-20)
+   DATABYTE3 = Current serial nr high byte
+   DATABYTE4 = Current serial nr low byte
+   DATABYTE5 = New module address
+   DATABYTE6 = New serial nr high byte
+   DATABYTE7 = New serial nr low byte
+
+   Response:
+   Module Type
+
+
+
+
+                     VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025   25
+Memory map
+version 1
+
+Address   Contents
+0x0000    Blind 1 name character 1
+...       ...
+0x000F    Blind 1 name character 16
+0x0010    Blind 1 time out
+0x0011    Blind 1 unwind delay (s)
+0x0012    Blind 1 collapse delay (s)
+0x0013    Blind 1 slats rotate time
+0x0014    Blind 1 location id low byte
+0x0015    Blind 1 location id highbyte
+0x0016    Blind 1 group id low byte
+0x0017    Blind 1 group id high byte
+0x0018    Blind 1 circuit id low byte
+0x0019    Blind 1 circuit id high byte
+0x001A    Blind 1 load id low byte
+0x001B    Blind 1 load id high byte
+0x001C    Blind 2 name character 1
+...       ...
+0x002B    Blind 2 name character 16
+0x002C    Blind 2 time out
+0x002D    Blind 2 unwind delay (s)
+0x002E    Blind 2 collapse delay (s)
+0x002F    Blind 2 slats rotate time
+0x0030    Blind 1 location id low byte
+0x0031    Blind 1 location id highbyte
+0x0032    Blind 1 group id low byte
+0x0033    Blind 1 group id high byte
+0x0034    Blind 1 circuit id low byte
+0x0035    Blind 1 circuit id high byte
+0x0036    Blind 1 load id low byte
+0x0037    Blind 1 load id high byte
+0c0038    Led feedback for 0% and 100%
+0x0039    Not used
+…
+0x003F    Not used
+0x0040    Not used
+0x0041    Not used
+0x0042    Not used
+0x0043    Alarm clock configuration
+0x0044    Wake up 1 hour (0…23)
+0x0045    Wake up 1 minutes (0…59)
+0x0046    Go to bed 1 hour (0…23)
+0x0047    Go to bed 1 minutes (0…59)
+0x0048    Wake up 2 hour (0…23)
+0x0049    Wake up 2 minutes (0…59)
+0x004A    Go to bed 2 hour (0…23)
+0x004B    Go to bed 2 minutes (0…59)
+0x004C    Sunrise hour at 21 December (0…23)
+0x004D    Sunrise minutes at 21 December (0…59)
+0x004E    Sunrise 21 January – sunrise 5 January (-128’...127’)
+0x004F    Sunrise 5 February – sunrise 21 January (-128’...127’)
+0x0050    Sunrise 21 February – sunrise 5 February (-128’...127’)
+0x0051    Sunrise 5 March – sunrise 21 February (-128’...127’)
+0x0052    Sunrise 21 March – sunrise 5 March (-128’…127’)
+0x0053    Sunrise 5 April – sunrise 21 March (-128’...127’)
+0x0054    Sunrise 21 April – sunrise 5 April (-128’…127’)
+0x0055    Sunrise 5 May – sunrise 21 April (-128’...127’)
+0x0056    Sunrise 21 May – sunrise 5 May (-128’…127’)
+0x0057    Sunrise 5 June – sunrise 21 May (-128’...127’)
+0x0058    Sunrise 21 June – sunrise 5 June (-128’…127’)
+
+
+
+
+                              VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025   26
+0x0059    Sunrise 5 July – sunrise 21 June (-128’...127’)
+0x005A    Sunrise 21 July – sunrise 5 July (-128’…127’)
+0x005B    Sunrise 5 August – sunrise 21 July (-128’...127’)
+0x005C    Sunrise 21 August – sunrise 5 August (-128’...127’)
+0x005D    Sunrise 5 September – sunrise 21 August (-128’...127’)
+0x005E    Sunrise 21 September – sunrise 5 September (-128...127’)
+0x005F    Sunrise 5 October – sunrise 21 Sept. (-128’...127’)
+0x0060    Sunrise 21 October – sunrise 5 October (-128’…127’)
+0x0061    Sunrise 5 November – sunrise 21 Oct. (-128’...127’)
+0x0062    Sunrise 21 November – sunrise 5 November (-128’...127’)
+0x0063    Sunrise 5 December – sunrise 21 Nov. (-128’...127’)
+0x0064    Sunrise 21 December – sunrise 5 December (-128’...127’)
+0x0065    Sunrise 5 January – sunrise 21 December (-128’...127’)
+0x0066    Not used
+0x0067    Not used
+0x0068    Sunset hour at 21 December (0…23)
+0x0069    Sunset minutes at 21 December (0…59)
+0x006A    Sunset 21 January – sunset 5 January (-128’...127’)
+0x006B    Sunset 5 February – sunset 21 January (-128’...127’)
+0x006C    Sunset 21 February – sunset 5 February (-128’...127’)
+0x006D    Sunset 5 March – sunset 21 February (-128’...127’)
+0x0066    Sunset 21 March – sunset 5 March (-128’...127’)
+0x006F    Sunset 5 April – sunset 21 March (-128’...127’)
+0x0070    Sunset 21 April – sunset 5 April (-128’...127’)
+0x0071    Sunset 5 May – sunset 21 April (-128’...127’)
+0x0072    Sunset 21 May – sunset 5 May (-128’...127’)
+0x0073    Sunset 5 June – sunset 21 May (-128’...127’)
+0x0074    Sunset 21 June – sunset 5 June (-128’...127’)
+0x0075    Sunset 5 July – sunset 21 June (-128’...127’)
+0x0076    Sunset 21 July – sunset 5 July (-128’...127’)
+0x0077    Sunset 5 August – sunset 21 July (-128’...127’)
+0x0078    Sunset 21 August – sunset 5 August (-128’...127’)
+0x0079    Sunset 5 September – sunset 21 August (-128’...127’)
+0x007A    Sunset 21 September – sunset 5 September (-128’...127’)
+0x007B    Sunset 5 October – sunset 21 September (-128’...127’)
+0x007C    Sunset 21 October – sunset 5 October (-128’...127’)
+0x007D    Sunset 5 November - sunset 21 October (-128’...127’)
+0x007E    Sunset 21 November – sunset 5 November (-128’...127’)
+0x007F    Sunset 5 December - sunset 21 Nov. (-128’...127’)
+0x0080    Sunset 21 December – sunset 5 December (-128’...127’)
+0x0081    Sunset 5 January – sunset 21 December (-128’...127’)
+0x0082    Not used
+0x0083    Not used
+
+    Remark:
+    Unused locations contain H’FF’
+
+              Blind timeout
+                       Contents           Time out
+                           0              0s (no timer)
+                           1              1s
+                           2              2s
+                           3              3s
+                          ...
+                         119              1min59s
+                         120              2min
+                         121              2min15s
+                          ...
+                         131              4min45s
+                         132              5min
+                         133              5min30s
+                          ...             ...
+                         255              5min30s
+
+
+
+
+                             VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025   27
+Blind slats rotate time
+          Contents         Rotate time
+               0              No rotating slats blind (default)
+               1              1 sec
+               2              2 sec
+              ...             ...
+              10              10 sec
+              …
+             255               10 sec
+
+Led feedback for 0% and 100%
+         Contents        Led feedback 0% and 100%
+           0x00             Off
+           0xFF             On (factory default)
+
+Alarm clock configuration
+         Contents         Channel locked/unlocked
+       B’xxxxxxx0’        Alarm 1 disabled (default)
+       B’xxxxxxx1’        Alarm 1 enabled
+       B’0xxxxx0x’        Local alarm 1 (default)
+       B’1xxxxx1x’        Global alarm 1
+       B’xxxxx0xx’        Alarm 2 disabled (default)
+       B’xxxxx1xx’        Alarm 2 enabled
+       B’xxxx0xxx’        Local alarm 2 (default)
+       B’xxxx1xxx’        Global alarm 2
+       B’xxx0xxxx’        Sunrise disabled
+       B’xxx1xxxx’        Sunrise enabled (default)
+       B’xx0xxxxx’        Sunset disabled
+       B’xx1xxxxx’        Sunset enabled (default)
+       B’x0xxxxxx’        Day light savings disabled
+       B’x1xxxxxx’        Day light savings enabled (default)
+
+
+
+
+              VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025   28
+     Address       Contents
+     0x0084        Links in use byte 0 (LSB)
+     0x0085        Links in use high byte1
+     0x0086        Links in use low byte 2
+     0x0087        Links in use low byte 3 (MSB)
+     0x0088        Linked Push button 1 module address
+     0x0089        Linked Push button 1 bit number
+     0x008A        Linked Push button 1 action
+     0x008B        Linked Push button 1 parameter 1
+     0x008C        Linked Push button 1 parameter 2
+     0x008D        Linked Push button 1 parameter 3
+     ...           ...
+     0x041E        Linked Push button 154 module address
+     0x041F        Linked Push button 154 bit number
+     0x0420        Linked Push button 154 action
+     0x0421        Linked Push button 154 parameter 1
+     0x0422        Linked Push button 154 parameter 2
+     0x0423        Linked Push button 154 parameter 3
+
+   Remark: Unused locations contain 0xFF
+
+Action
+         Action Byte     Action
+         B’0xxxxxxx’     Execute action at button pressed or during closed switch
+         B’1xxxxxxx’     Execute action at button released or during open switch
+         B’x0000000’     Action number 0
+             …           …
+         B’x1111111’     Action number 127
+
+      Action    Action                                                         Parameter 1       Parameter 2            Parameter 3
+      numb
+          er
+           0    Fully up at short press; up while long pressed                 Pulse time        -                      Channel
+           1    Direct up                                                      Delayed on time   -                      Channel
+           2    Up while pressed                                               Pulse time        -                      Channel
+           3    Fully down at short press; down while long pressed             Pulse time        -                      Channel
+           4    Direct Down                                                    Delayed on time   -                      Channel
+           5    Down while pressed                                             Pulse time        -                      Channel
+           6    Up/down                                                        -                 -                      Channel
+           7    Go to position                                                 Delayed on time   Position (0 to 100%)   Channel
+           8    Fully up at short press; up while long pressed in mode 1       Pulse time        -                      Channel
+           9    Direct up in mode 1                                            Delayed on time   -                      Channel
+          10    Up while pressed in mode 1                                     Pulse time        -                      Channel
+          11    Fully down at short press; down while long pressed in mode 1   Pulse time        -                      Channel
+          12    Direct down in mode 1                                          Delayed on time   -                      Channel
+          13    Down while pressed in mode 1                                   Pulse time        -                      Channel
+          14    Up/down in mode 1                                              -                 -                      Channel
+          15    Go to position in mode 1                                       Delayed on time   Position (0 to 100%)   Channel
+          16    Select mode 1                                                  -                 -                      Channel
+          17    Select/deselect mode 1                                         -                 -                      Channel
+          18    Deselect mode                                                  -                 -                      Channel
+          19    Fully up at short press; up while long pressed in mode 2       Pulse time        -                      Channel
+          20    Direct up in mode 2                                            Delayed on time   -                      Channel
+          21    Up while pressed in mode 2                                     Pulse time        -                      Channel
+          22    Fully down at short press; down while long pressed in mode 2   Pulse time        -                      Channel
+          23    Direct down in mode 2                                          Delayed on time   -                      Channel
+          24    Down while pressed in mode 2                                   Pulse time        -                      Channel
+          25    Up/down in mode 2                                              -                 -                      Channel
+          26    Go to position in mode 2                                       Delayed on time   Position (0 to 100%)   Channel
+          27    Select mode 2                                                  -                 -                      Channel
+          28    Select/deselect mode 2                                         -                 -                      Channel
+          29    Fully up at short press; up while long pressed in mode 3       Pulse time        -                      Channel
+          30    Direct up in mode 3                                            Delayed on time   -                      Channel
+          31    Up while pressed in mode 3                                     Pulse time        -                      Channel
+          32    Fully down at short press; down while long pressed in mode 3   Pulse time        -                      Channel
+          33    Direct down in mode 3                                          Delayed on time   -                      Channel
+          34    Down while pressed in mode 3                                   Pulse time        -                      Channel
+
+
+
+
+                                  VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025                                           29
+35    Up/down in mode 3                                -                 -                      Channel
+36    Go to position in mode 3                         Delayed on time   Position (0 to 100%)   Channel
+37    Select mode 3                                    -                 -                      Channel
+38    Select/deselect mode 3                           -                 -                      Channel
+39    Lock at closed/open switch                       -                 -                      Channel
+40    Lock                                             Timeout           -                      Channel
+41    Lock/unlock                                      Timeout           -                      Channel
+42    Unlock                                           -                 -                      Channel
+43    Forced up at closed/open switch                  -                 -                      Channel
+44    Forced up                                        Timeout           -                      Channel
+45    Forced up/cancel forced up                       Timeout           -                      Channel
+46    Cancel forced up                                 -                 -                      Channel
+47    Forced down at closed/open switch                -                 -                      Channel
+48    Forced down                                      Timeout           -                      Channel
+49    Forced down/cancel forced down                   Timeout           -                      Channel
+50    Cancel forced down                               -                 -                      Channel
+51    Inhibit at closed/open switch                    -                 -                      Channel
+52    Inhibit                                          Timeout           -                      Channel
+53    Inhibit/cancel inhibit                           Timeout           -                      Channel
+54    Cancel inhibit                                   -                 -                      Channel
+55    Inhibit preset up at closed/open switch          -                 -                      Channel
+56    Inhibit preset up                                Timeout           -                      Channel
+57    Inhibit preset up/cancel inhibit preset up       Timeout           -                      Channel
+58    Cancel inhibit preset up                         -                 -                      Channel
+59    Inhibit preset down at closed/open switch        -                 -                      Channel
+60    Inhibit preset down                              Timeout           -                      Channel
+61    Inhibit preset down/cancel inhibit preset down   Timeout           -                      Channel
+62    Cancel inhibit preset down                       -                 -                      Channel
+63    Disable channel program at closed/open switch    -                 -                      Channel
+64    Disable channel program                          Time-out          -                      Channel
+65    Disable/enable channel program                   Time-out          -                      Channel
+66    Enable channel program                           -                 -                      Channel
+67    Select no programs                               -                 -                      -
+68    Select program group 1                           -                 -                      -
+69    Toggle program group 1                           -                 -                      -
+70    Select program group 2                           -                 -                      -
+71    Toggle program group 2                           -                 -                      -
+72    Select program group 3                           -                 -                      -
+73    Toggle program group 3                           -                 -                      -
+74    Enable Alarm 1 at closed/open switch             -                 -                      -
+75    Disable Alarm 1 at closed/open switch            -                 -                      -
+76    Enable Alarm 1                                   -                 -                      -
+77    Enable/Disable Alarm 1                           -                 -                      -
+78    Disable Alarm 1                                  -                 -                      -
+79    Enable Alarm 2 at closed/open switch             -                 -                      -
+80    Disable Alarm 2 at closed/open switch            -                 -                      -
+81    Enable Alarm 2                                   -                 -                      -
+82    Enable/Disable Alarm 2                           -                 -                      -
+83    Disable Alarm 2                                  -                 -                      -
+84    Enable Sunrise at closed/open switch             -                 -                      -
+85    Disable Sunrise at closed/open switch            -                 -                      -
+86    Enable Sunrise                                   -                 -                      -
+87    Enable/Disable Sunrise                           -                 -                      -
+88    Disable Sunrise                                  -                 -                      -
+89    Enable Sunset at closed/open switch              -                 -                      -
+90    Disable Sunset at closed/open switch             -                 -                      -
+91    Enable Sunset                                    -                 -                      -
+92    Enable/Disable Sunset                            -                 -                      -
+93    Disable Sunset                                   -                 -                      -
+
+     Parameter 1: time-out
+          Parameter 1              time
+                  0               0s (no timer)
+                  1               1s
+                  2               2s
+                  3               3s
+                  ...
+                 119              1min59s
+                 120              2min
+
+
+
+
+                    VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025                             30
+            121           2min15s
+             ...
+            131           4min45s
+            132           5min
+            133           5min30s
+             ...
+            181           29min30s
+            182           30min
+            183           31min
+             ...
+            211           59min
+            212           1h
+            213           1h15min
+             ...
+            227           4h45min
+            228           5h
+            229           5h30min
+             ...          ...
+            237           9h30min
+
+            238           10h
+            239           11h
+             ...
+            251           23h
+            252           1d
+            253           2d
+            254           3d
+            255           Infinite
+
+Parameter 1: delayed on time
+    Parameter 1            time
+            0             0s
+            1             1s
+            2             2s
+            3             3s
+            ...
+           119            1min59s
+           120            2min
+           121            2min15s
+            ...
+           131            4min45s
+           132            5min
+           133            5min30s
+            ...
+           150            14min
+            …
+           255            14min
+
+Parameter 1: pulse time
+    Parameter 1            time
+            0             No pulse
+            1             0.01 s
+            2             0.02 s
+            ...
+           255            2.55 s
+
+Parameter 3: channel number
+    Parameter 4           Channel
+            1             Channel 1
+            2             Channel 2
+
+
+
+
+              VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025   31
+Program Steps
+    Address      Contents
+    0x0424       Program steps used byte 0 (LSB)
+    0x0425       Program steps used byte 1
+    0x0426       Program steps used byte 2
+    0x0427       Program steps used byte 3 (MSB)
+    0x0428       Program step 1 byte1
+    0x0429       Program step 1 byte2
+    0x042A       Program step 1 byte3
+    0x042B       Program step 1 byte4
+    0x042C       Program step 1 byte5
+    0x042D       Program step 1 byte6
+    …            ..
+    0x07B2       Program step 152 byte1
+    0x07B3       Program step 152 byte2
+    0x07B4       Program step 152 byte3
+    0x07B5       Program step 152 byte4
+    0x07B6       Program step 152 byte5
+    0x07B7       Program step 152 byte6
+
+                 Contents program byte1             Description
+                      B’000xxxxx’                   Disable program step
+                      B’001xxxxx’                   Absolute time
+                      B’010xxxxx’                   Wake up time 1 + relative time
+                      B’011xxxxx’                   Go to bed time 1 + relative time
+                      B’100xxxxx’                   Wake up time 2 + relative time
+                      B’101xxxxx’                   Go to bed time 2 + relative time
+                      B’110xxxxx’                   Sunrise + relative time
+                      B’111xxxxx’                   Sunset + relative time
+                      B’xxx01111’                   Rel. time = 3h45min
+                           …
+                      B’xxx00001’                   Rel. time = 15min
+                      B’xxx00000’                   Rel. time = 0
+                      B’xxx11111’                   Rel. time = -15min
+                           …
+                      B’xxx10000’                   Rel. time = -4h
+      Remark: Wake up, Go to bed, sunrise & sunset time are only allowed for weekly programs
+
+                 Contents program byte2             Description
+                      B’xxxx0000’                   Weekly program
+                      B’xxxx0001’                   January
+                      B’xxxx0010’                   February
+                      B’xxxx0011’                   March
+                      B’xxxx0100’                   April
+                      B’xxxx0101’                   May
+                      B’xxxx0110’                   June
+                      B’xxxx0111’                   July
+                      B’xxxx1000’                   August
+                      B’xxxx1001’                   September
+                      B’xxxx1010’                   October
+                      B’xxxx1011’                   November
+                      B’xxxx1100’                   December
+                      B’xxxx1101’                   Monthly program
+                      B’xxxx1110’                   Monthly program
+                      B’xxxx1111’                   Monthly program
+
+
+
+
+                            VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025          32
+Contents program byte3        Description
+     B’xxx00000’              0h
+     B’xxx00001’              1h
+          …                   …
+     B’xxx10111’              23h
+     B’xx1xxxxx’              Program group 1 (Summer program)
+     B’x1xxxxxx’              Program group 2 (Winter program)
+     B’1xxxxxxx’              Program group 3 (Holiday program)
+
+Contents program byte4        Description
+     B’xx000000’              0min
+     B’xx000001’              1min
+          …                   …
+     B’xx111011’              59min
+
+Contents program byte4              Contents program byte2           Description
+     B’00xxxxxx’                         B’0000xxxx’                 Never
+     B’00xxxxxx’                         B’0001xxxx’                 Day 1of the month
+     B’00xxxxxx’                         B’0010xxxx’                 Day 2of the month
+          …                                   …                      …
+     B’01xxxxxx’                         B’1111xxxx’                 Day 31of the month
+     B’10xxxxxx’                         B’0000xxxx’                 Never
+     B’10xxxxxx’                         B’0001xxxx’                 Every Monday
+     B’10xxxxxx’                         B’0010xxxx’                 Every Tuesday
+          …                                   …                      …
+     B’10xxxxxx’                         B’0111xxxx’                 Every Sunday
+     B’10xxxxxx’                         B’1000xxxx’                 Every weekend (sa & su)
+     B’10xxxxxx’                         B’1001xxxx’                 Every working day (mo…fr)
+     B’10xxxxxx’                         B’1010xxxx’                 Every day except Sunday
+     B’10xxxxxx’                         B’1011xxxx’                 Every day
+     B’10xxxxxx’                         B’1100xxxx’                 Never
+          …                                   …                      …
+     B’11xxxxxx’                         B’1111xxxx’                 Never
+
+Contents program byte5        Action
+           0                  Down
+           1                  Up
+           2                  Locked
+           3                  Cancel locked
+           4                  Forced down
+           5                  Cancel forced down
+           6                  Forced up
+           7                  Cancel forced up
+           8                  Inhibit
+           9                  Inhibit preset down
+          10                  Inhibit preset up
+          11                  Cancel Inhibit
+          12                  Deselect mode
+          13                  Select mode 1
+          14                  Select mode 2
+          15                  Select mode 3
+
+Contents program byte6        Channel
+           0                  Program step = empty
+           1                  Channel 1
+           2                  Channel 2
+          255                 Program step = empty
+
+
+
+
+         VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025                           33
+Miscellaneous
+     Address     Contents
+     0x07B8      Location id low byte
+     0x07B9      Location id high byte
+     0x07BA      Group id low byte
+     0x07BB      Group id high byte
+     0x07BC      Module name character 1
+     0x07BD      Module name character 2
+     …           …
+     0x07FA      Module name character 63
+     0x07FB      Module name character 64
+     0x07FC      Not used
+     0x07FD      Not used
+     0x07FE      Not used
+     0x07FF      Used for flash writing
+
+   Remark:
+   Unused locations contain H’FF’
+
+
+
+
+                           VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025   34
+Scenarios
+
+When the module starts or reboot
+The module will transmit the following packets:
+Powerup
+Clock Request
+Channel Status -> Indicating that all channels are released
+Module Status
+
+Receive Scan packet
+The module must respond with the ModuleType Packet
+
+User Presses a button
+A button press will toggle the corresponding relay channel.
+The channel will respond with a Module Status packet and a Chanel Status packet appropriately.
+Depending on how the channel is locked. For example inhibited or locked or forced.
+If an action is linked to the corresponding action a led feedback message will be transmitted if needed.
+This could be:
+Clear LED
+Set LED
+Blink LED slow
+Blink LED fast
+Blink LED very fast
+
+Receive Memory Dump request
+If the module receives a memory dump request. The module will not respond with the completely with
+the full memory map. It will only transmit the necessary data. For example, if there are not program
+steps activated the module will send the number of active program steps and will skip to the next useful
+address, which is location ID. The same can happen with action. This is to shorten the time that the
+device is active on the bus.
+
+Receive a powerup message
+The module should sync the blinking led (reset the blink timer)
+
+
+
+
+                         VMB2BLE-20 PROTOCOL – edition 1 – last update: 26/03/2025                     35
+

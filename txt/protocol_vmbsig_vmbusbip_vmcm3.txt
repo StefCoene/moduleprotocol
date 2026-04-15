@@ -1,0 +1,435 @@
+   VMBSIG
+  VMBUSBIP
+   VMCM3
+
+Home automatization over internet
+
+
+
+
+     VMBSIG/VMBUSBIP/VMCM3 PROTOCOL – edition 3 – last update: 20/05/2022   1
+Binairy format:
+
+<SOF-SID10...SID0-RTR-IDE-r0-DLC3...0-DATABYTE1...DATABYTEn-CRC15...CRC1-CRCDEL-ACK-ACKDEL-
+EOF7...EOF1-IFS3...IFS1>
+  bits                          Description
+  SOF                           Start Of Frame (always 0)
+  SID10 & SID9                  Priority (00: highest … 11: lowest priority)
+  SID8…SID1                     Address
+  SID0                          Always 0
+  RTR                           Remote Transmit Request
+  IDE                           Identifier Extension (always 0)
+  r0                            reserved (always 0)
+  DLC3…DLC0                     Data Length Code (0…8)
+  Databyte1                     Command
+  Databyte2                     Parameter
+  Databyte3                     Parameter
+  Databyte4                     Parameter
+  Databyte5                     Parameter
+  Databyte6                     Parameter
+  Databyte7                     Parameter
+  Databyte8                     Parameter
+  CRC15…CRC1                    Cyclic Redundancy Checksum
+  CRCDEL                        CRC Delimiter (always 1)
+  ACK                           Acknowledge slot (transmit 1 readback 0 if received correctly)
+  ACKDEL                        Acknowledge Delimiter (always 1)
+  EOF7...EOF1                   End Of Frame (always 1111111)
+  IFS3...IFS1                   InterFrame Space (always 111)
+
+The module can transmit the following messages: (generated frames)
+ • Power up
+ • Buffer full
+ • Buffer ready
+ • Bus off
+ • Bus active
+ • Real-time clock status
+ • Date status
+ • Daylight savings status
+ • Module type
+ • Transmits the memory data
+ • Transmits memory data block (4 bytes):
+ • Transmits real time clock status request:
+ • All other Velbus frames (not generated, just passed through)
+
+The module can transmit the following commands:
+ • none
+
+The module can receive the following messages:
+ • Module type request
+ • Set Time
+ • Set Date
+ • Set daylight savings
+ • Clock request (broadcast address: 0x00)
+ • Clock request (device address)
+ • Set Address and serial
+ • Interface status request
+ • ‘Read data from memory’ command received
+ • ‘Read data block from memory’ command received:
+ • ‘Memory dump request’ command received:
+ • ‘Write data to memory’ command received:
+ • ‘Write memory block’ command received:
+
+
+
+
+                     VMBSIG/VMBUSBIP/VMCM3 PROTOCOL – edition 3 – last update: 20/05/2022        2
+Changes:
+
+(since build 1908)
+(Since build 1912)
+(Since build 1948)
+(Since build 2220)
+
+
+
+
+                     VMBSIG/VMBUSBIP/VMCM3 PROTOCOL – edition 3 – last update: 20/05/2022   3
+ TRANSMIT
+
+Power Up message:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = H’00’
+   RTR = 0
+   DLC3...DLC0 = 2 databyte to send
+   DATABYTE1 = COMMAND_POWER_UP (H’AB’)
+   DATABYTE2 = module address
+
+Transmit Buffer Full message:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = H’00’
+    RTR = 0
+    DLC3...DLC0 = 1 databyte to send
+    DATABYTE1 = COMMAND_RX_BUFFER_FULL_STATUS (H’0B’)
+
+Transmits Buffer Ready message:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = H’00’
+    RTR = 0
+    DLC3...DLC0 = 1 databyte to send
+    DATABYTE1 = COMMAND_RX_BUFFER_READY_STATUS (H’0C’)
+
+Transmit Bus Off message:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = H’00’
+    RTR = 0
+    DLC3...DLC0 = 1 databyte to send
+    DATABYTE1 = COMMAND_BUS_OFF (H’09’)
+
+Transmit Bus Active message:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 1 databyte to send
+    DATABYTE1 = COMMAND_BUS_ACTIVE STATUS (H’0A’)
+
+Transmits the real time clock status:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = H’00’
+    RTR = 0
+    DLC3...DLC0 = 4 databytes to send
+    DATABYTE1 = COMMAND_REALTIME_CLOCK_STATUS (H’D8’)
+    DATABYTE2 = Day
+                         Contents     Day
+                            0         Monday
+                            1         Tuesday
+                            2         Wednesday
+                            3         Thursday
+                            4         Friday
+                            5         Saturday
+                            6         Sunday
+    DATABYTE3 = Hour (0…23)
+    DATABYTE4 = Minute (0…59)
+
+Transmits the date status:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = H’00’
+    RTR = 0
+    DLC3...DLC0 = 5 databytes to send
+    DATABYTE1 = COMMAND_DATE_STATUS (H’B7’)
+    DATABYTE2 = Day (1…31)
+    DATABYTE3 = Month (1…12)
+    DATABYTE4 = High byte of Year
+
+
+
+                VMBSIG/VMBUSBIP/VMCM3 PROTOCOL – edition 3 – last update: 20/05/2022   4
+   DATABYTE5 = Low byte of Year
+
+Transmits the daylight savings status:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = H’00'
+    RTR = 0
+    DLC3...DLC0 = 2 databytes to send
+    DATABYTE1 = COMMAND_DAYLIGHT_SAVING_STATUS (H’AF’)
+    DATABYTE2 = 0 =disabled / 1 = enabled
+
+Transmits the module type:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 8 databytes to send
+    DATABYTE1 = COMMAND_MODULE_TYPE (H’FF’)
+    DATABYTE2 = VMBSIG type (H’39’) / VMBUSBIP type (H’40’) / VMCM3 type (H’3F’)
+    DATABYTE3 = High byte of serial number
+    DATABYTE4 = Low byte of serial number
+    DATABYTE5 = Memorymap version
+    DATABYTE6 = Build year
+    DATABYTE7 = Build week
+    DATABYTE8 =
+             o bit0: CAN Termination (true = terminated, false = open)
+             o bit1-3: version (0x00 = DS1390 is used, 0x01 = DS3234 is used)
+             o bit1-3: version (0x00 = DS1390 is used, 0x01 = DS3234 is used), 0x02 NO RTC is used
+             o bit4: Connected to USB or CM module port. (0 = VMBSIG/VMBUSBIP/VMCM3 detected on CAN bus)
+             o bit5-7: unused
+
+   In bootloader mode:
+   DATABYTE6 = 0x00
+   DATABYTE7 = Bootloader build number. (currently H’00’)
+
+Transmits the memory data:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 4 databytes to send
+    DATABYTE1 = COMMAND_MEMORY_DATA (H’FE’)
+    DATABYTE2 = High memory address
+    DATABYTE3 = LOW memory address
+    DATABYTE4 = memory data
+
+   Remark:   address range: H’0000’ to H’03FF’
+
+Transmits memory data block (4 bytes):
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 7 databytes to send
+    DATABYTE1 = COMMAND_MEMORY_DATA_BLOCK (H’CC’)
+    DATABYTE2 = High start address of memory block
+    DATABYTE3 = LOW start address of memory block
+    DATABYTE4 = memory data1
+    DATABYTE5 = memory data2
+    DATABYTE6 = memory data3
+    DATABYTE7 = memory data4
+
+Transmits real time clock status request:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = H’00’
+    RTR = 0
+    DLC3...DLC0 = 1 databyte to send
+    DATABYTE1 = COMMAND_REALTIME_CLOCK_STATUS_REQUEST (H’D7’)
+
+
+
+
+                    VMBSIG/VMBUSBIP/VMCM3 PROTOCOL – edition 3 – last update: 20/05/2022                   5
+    RECEIVE
+
+‘Module type request’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 1
+   DLC3...DLC0 = 0 databytes received
+
+‘Set real time clock’ command received: (1)
+     SID10-SID9 = 11 (lowest priority)
+     SID8...SID1 = H’00’
+     RTR = 0
+     DLC3...DLC0 = 4 databytes to send
+     DATABYTE1 = COMMAND_SET_REALTIME_CLOCK (H’D8’)
+     DATABYTE2 = Day of week
+                 Contents day of week’      Description
+                         H’00’              Monday
+                         H’01’              Tuesday
+                         H’02’              Wednesday
+                         H’03’              Thursday
+                         H’04’              Friday
+                         H’05’              Saterday
+                         H’06’              Sunday
+     DATABYTE3 = Hours (0…23)
+     DATABYTE4 = Minutes (0…59)
+
+‘Set date’ command received: (2)
+     SID10-SID9 = 11 (lowest priority)
+     SID8...SID1 = H’00’
+     RTR = 0
+     DLC3...DLC0 = 5 databytes to send
+     DATABYTE1 = COMMAND_SET_REALTIME_DATE (H’B7’)
+     DATABYTE2 = Day (1…31)
+     DATABYTE3 = Month (1…12)
+     DATABYTE4 = High byte of Year
+     DATABYTE5 = Low byte of Year
+
+‘Set daylight savings’ command received: (3)
+     SID10-SID9 = 11 (lowest priority)
+     SID8...SID1 = H’00’
+     RTR = 0
+     DLC3...DLC0 = 2 databytes to send
+     DATABYTE1 = COMMAND_SET_DAYLIGHT_SAVING (H’AF’)
+     DATABYTE2 = bit0: 0 = disabled / 1 = enabled
+
+Important is to execute these commands in the following order: (1) – (2) – (3)
+
+Real time clock status request received: (response after minute rollover)
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = H’00’
+    RTR = 0
+    DLC3...DLC0 = 1 databyte to send
+    DATABYTE1 = COMMAND_REALTIME_CLOCK_STATUS_REQUEST (H’D7’)
+
+Real time clock status request received: (immediate response)
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 1 databyte to send
+    DATABYTE1 = COMMAND_REALTIME_CLOCK_STATUS_REQUEST (H’D7’)
+
+
+
+
+                       VMBSIG/VMBUSBIP/VMCM3 PROTOCOL – edition 3 – last update: 20/05/2022   6
+Interface status request:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = H’00’
+    RTR = 0
+    DLC3...DLC0 = 1 databyte to send
+    DATABYTE1 CMD_INTERFACE_STATUS_REQUEST (H’0E’)
+
+Set Address and serial
+    SID10-SID9 = 01 (firmware priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 7 data bytes to send
+    DATABYTE1 = Write Address (0x6A)
+    DATABYTE2 = module type (H’39’)
+    DATABYTE3 = current high serial
+    DATABYTE4 = current low serial
+    DATABYTE5 = new master address
+    DATABYTE6 = new serial number high
+    DATABYTE7 = new serial number low
+
+‘Read data from memory’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 3 databytes received
+    DATABYTE1 = COMMAND_READ_DATA_FROM_MEMORY (H’FD’)
+    DATABYTE2 = High memory address
+    DATABYTE3 = LOW memory address
+
+   Remark: address range: H’0000’ to H’1A03’
+
+‘Read data block from memory’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 3 databytes received
+   DATABYTE1 = COMMAND_READ_MEMORY_BLOCK (H’C9’)
+   DATABYTE2 = High memory address
+   DATABYTE3 = LOW memory address
+
+   Remark: address range: H’0000’ to H’1A00’
+
+‘Memory dump request’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 1 databytes received
+   DATABYTE1 = COMMAND_MEMORY_DUMP_REQUEST (H’CB’)
+
+‘Write data to memory’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 4 databytes received
+    DATABYTE1 = COMMAND_WRITE_DATA_TO_MEMORY (H’FC’)
+    DATABYTE2 = High memory address
+    DATABYTE3 = LOW memory address
+    DATABYTE4 = memory data to write
+   Remark:
+   Wait for ‘data memory byte’ feedback before sending a next command on the velbus.
+   Address range: H’0000’ to H’1A03’
+   Terminate always with a write command at the last memory location .
+
+‘Write memory block’ command received:
+    SID10-SID9 = 11 (lowest priority)
+
+
+
+                     VMBSIG/VMBUSBIP/VMCM3 PROTOCOL – edition 3 – last update: 20/05/2022   7
+      SID8...SID1 = Module address
+      RTR = 0
+      DLC3...DLC0 = 7 databytes received
+      DATABYTE1 = COMMAND_WRITE_MEMORY_BLOCK (H’CA’)
+      DATABYTE2 = High memory address
+      DATABYTE3 = LOW memory address
+      DATABYTE4 = memory databyte1 to write
+      DATABYTE5 = memory databyte2 to write
+      DATABYTE6 = memory databyte3 to write
+      DATABYTE7 = memory databyte4 to write
+
+      Remark:
+      Wait for ‘memory data block’ feedback before sending a next command on the velbus.
+      Address range: H’0000’ to H’1A00’
+      Terminate always with a write command at the last memory location .
+
+  Memory map 1 build before 1908
+
+  No memory map
+
+  Memory map 2 build 1908 or higher
+
+Address    Contents                                            Address     Contents
+H’0000’    name character 1                                    H’0001’     name character 2
+...        ...                                                 ...         ...
+H’003E’    name character 63                                   H’003F’     name character 64
+H’0040’    Update hour (00..23)                                H’0041’     Update minute (00..59)
+H’0042’    Unused                                              H’0043’     Enable_masterclock (enabled = 0x01 / disabled = 0x00)
+H’03FF’    Write something to apply changes to memory map
+
+  Remark: memory dumps only first 68 bytes.
+
+  Default values
+
+Address    Contents                                                                                       Type
+H’0000’    VMBSIG or VMBUSBIP or VMCM3                                                                    64 char (8 bit)
+H’0040’    0x03                                                                                           Hour
+H’0041’    0x00                                                                                           Minute
+H’0042’    0xFF                                                                                           Unused
+H’0043’    0x01                                                                                           True or false
+
+
+
+
+                        VMBSIG/VMBUSBIP/VMCM3 PROTOCOL – edition 3 – last update: 20/05/2022                                8
+  Memory map 3 build 1948 or higher
+
+Address    Contents                                         Address   Contents
+H’0000’    name character 1                                 H’0001’   name character 2
+...        ...                                              ...       ...
+H’003E’    name character 63                                H’003F’   name character 64
+H’0040’    Update hour (00..23)                             H’0041’   Update minute (00..59)
+H’0042’    Timezone hour offset                             H’0043’   Timezone minute offset
+H’0044’    DST hour offset when active                      H’0045’   DST minute offset when active
+H’0046’    DST active                                       H’0047’   Enable_masterclock
+H’03FF’    Write something to apply changes to memory map
+
+  Remark: memory dumps only first 72 bytes.
+
+  Default values
+
+Address    Contents                                                                                   Type
+H’0000’    VMBSIG or VMBUSBIP or VMCM3                                                                64 char (8 bit)
+H’0040’    0x03                                                                                       Hour [0–23]
+H’0041’    0x00                                                                                       Minute [0-59]
+H’0042’    0x01                                                                                       Hour [-23-+23]
+H’0043’    0x00                                                                                       Minute [-59-+59]
+H’0044’    0x01                                                                                       Hour [-23-+23]
+H’0045’    0x00                                                                                       Minute [-59-+59]
+H’0046’    0x01                                                                                       True or false
+H’0047’    0x01                                                                                       True or false
+
+
+
+
+                        VMBSIG/VMBUSBIP/VMCM3 PROTOCOL – edition 3 – last update: 20/05/2022                             9
+

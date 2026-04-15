@@ -1,0 +1,1238 @@
+VMBPSUMNGR-20
+     PSU Manager
+  for VELBUS system
+
+
+
+
+  VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025   1
+Contents
+   ................................................................................................................................................................. 1
+Velbus Packet Format .................................................................................................................................. 3
+Changelog .................................................................................................................................................... 3
+Transmit Packets .......................................................................................................................................... 4
+  0xAB: Power up message ........................................................................................................................ 4
+  0xD7: Real time clock status request ....................................................................................................... 4
+  0xD8: Real time clock status ................................................................................................................... 4
+  0xB7: Date status ..................................................................................................................................... 4
+  0xAF: Daylight savings status ................................................................................................................. 4
+  0x00: Alarm status ................................................................................................................................... 5
+  0xFF: Module type................................................................................................................................... 5
+  0xB0: Module subtype ............................................................................................................................. 5
+  0xED: Module status ............................................................................................................................... 6
+  0xDA: Bus error counter status ............................................................................................................... 7
+  0xFE: Memory data ................................................................................................................................. 7
+  0xCC: Memory data block (4 bytes)........................................................................................................ 7
+  0xCC: Memory data block (5...60 bytes)(only allowed for CAN FD frames) ........................................ 8
+  0xF0: First part of channel name ............................................................................................................. 8
+  0xF1: Second part of the channel name ................................................................................................... 9
+  0xF2: Third part of the channel name ...................................................................................................... 9
+  0xA1: Warranty counter status ................................................................................................................ 9
+  0xA2: PSU load status ............................................................................................................................. 9
+  0xA3: PSU values status ........................................................................................................................ 10
+Receive....................................................................................................................................................... 12
+  0xA0: Warranty Counter Request.......................................................................................................... 12
+  0xAB: Power up message ...................................................................................................................... 12
+  0xB5: CAN FD enable ........................................................................................................................... 12
+  0xD7: Real time clock status request ..................................................................................................... 12
+  0xD8: Set real time clock....................................................................................................................... 12
+  0xB7: Set date ........................................................................................................................................ 12
+  0xAF: Set daylight savings .................................................................................................................... 13
+  0xAE: Enable/disable global sunrise/sunset related actions .................................................................. 13
+  0xAE: Enable/disable local sunrise/sunset related actions’ command received: .................................. 13
+  0xC3: Set global clock alarm ................................................................................................................. 13
+  0xC3: Set local clock alarm ................................................................................................................... 14
+  (Scan) Module type request ................................................................................................................... 14
+  0xFA: Module status request ................................................................................................................. 14
+  0xEF: Channel name request ................................................................................................................. 14
+  0xFD: Read data from memory ............................................................................................................. 14
+  0xCB: Memory dump request................................................................................................................ 14
+  0xC9: Read data block from memory .................................................................................................... 15
+  0xFC: Write data to memory ................................................................................................................. 15
+  0xCA: Write memory block .................................................................................................................. 15
+  0xD9: Bus error counter status request .................................................................................................. 16
+Memory map .............................................................................................................................................. 17
+
+
+
+
+                                          VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025                                                                  2
+Velbus Packet Format
+Binairy format:
+
+<SOF-SID10...SID0-RTR-IDE-r0-DLC3...0-DATABYTE1...DATABYTEn-CRC15...CRC1-CRCDEL-ACK-ACKDEL-
+EOF7...EOF1-IFS3...IFS1>
+   bits                          Description
+   SOF                           Start Of Frame (always 0)
+   SID10 & SID9                  Priority (00: highest … 11: lowest priority)
+   SID8…SID1                     Address
+   SID0                          Always 0
+   RTR                           Remote Transmit Request
+   IDE                           Identifier Extension (always 0)
+   r0                            reserved (always 0)
+   DLC3…DLC0                     Data Length Code (0…8)
+   Databyte1                     Command
+   Databyte2                     Parameter
+   Databyte3                     Parameter
+   Databyte4                     Parameter
+   Databyte5                     Parameter
+   Databyte6                     Parameter
+   Databyte7                     Parameter
+   Databyte8                     Parameter
+   CRC15…CRC1                    Cyclic Redundancy Checksum
+   CRCDEL                        CRC Delimiter (always 1)
+   ACK                           Acknowledge slot (transmit 1 readback 0 if received correctly)
+   ACKDEL                        Acknowledge Delimiter (always 1)
+   EOF7...EOF1                   End Of Frame (always 1111111)
+   IFS3...IFS1                   InterFrame Space (always 111)
+
+
+
+Changelog
+V1: Init protocol
+V2: Updated Memory map
+V3: Updated Memory map (Build 2437)
+V4: Updated Memory map (Build 2444)
+
+
+
+
+                         VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025                 3
+Transmit Packets
+0xAB: Power up message
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 2 data byte to send
+   DATABYTE1 = COMMAND_POWER_UP (0xAB)
+   DATABYTE2 = module address
+
+
+0xD7: Real time clock status request
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 1 data byte to send
+   DATABYTE1 = COMMAND_REALTIME_CLOCK_STATUS_REQUEST (0xD7)
+
+
+0xD8: Real time clock status
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 4 data bytes to send
+   DATABYTE1 = COMMAND_REALTIME_CLOCK_STATUS (0xD8)
+   DATABYTE2 = Day
+                       Contents      Day
+                           0         Monday
+                           1         Tuesday
+                           2         Wednesday
+                           3         Thursday
+                           4         Friday
+                           5         Saturday
+                           6         Sunday
+   DATABYTE3 = Hour (0…23)
+   DATABYTE4 = Minute (0…59)
+
+
+0xB7: Date status
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 5 data bytes to send
+   DATABYTE1 = COMMAND_DATE_STATUS (0xB7)
+   DATABYTE2 = Day (1…31)
+   DATABYTE3 = Month (1…12)
+   DATABYTE4 = High byte of Year
+   DATABYTE5 = Low byte of Year
+
+
+0xAF: Daylight savings status
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes to send
+   DATABYTE1 = COMMAND_DAYLIGHT_SAVING_STATUS (0xAF)
+   DATABYTE2 = 0 =disabled / 1 = enabled
+
+
+
+
+                       VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025   4
+0x00: Alarm status
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Module address, sub-address1
+   RTR = 0
+   DLC3...DLC0 = 4 data bytes to send
+   DATABYTE1 = COMMAND_PUSH_BUTTON_STATUS (0x00)
+   DATABYTE2 = Channel just pressed
+   DATABYTE3 = Channel just released
+   DATABYTE4 = Channel long pressed (Never used, fixed 0)
+
+                          Contents                         Description
+                        B’xxxxxxx1’                       PSU1 Offline
+                        B’xxxxxx1x’                       PSU2 Offline
+                        B’xxxxx1xx’             Warranty Expired(High if expired)
+                        B’xxxx1xxx’                      PSU1 Alarm 1
+                        B’xxx1xxxx’          PSU1 peak load > xx% (not implemented)
+                        B’xx1xxxxx’                      PSU2 Alarm 1
+                        B’x1xxxxxx’          PSU2 peak load > xx% (not implemented)
+                        B’1xxxxxxx’                     PSUOut Alarm 1
+                                               Sub Address 1
+                          Contents                         Description
+                        B’xxxxxxx1’                      PSU1 Alarm 2
+                        B’xxxxxx1x’                      PSU1 Alarm 3
+                        B’xxxxx1xx’                      PSU1 Alarm 4
+                        B’xxxx1xxx’                      PSU2 Alarm 2
+                        B’xxx1xxxx’                      PSU2 Alarm 3
+                        B’xx1xxxxx’                      PSU2 Alarm 4
+                        B’x1xxxxxx’                     PSUOut Alarm 2
+                        B’1xxxxxxx’         PSUOut peak load > xx% (not implemented)
+
+
+0xFF: Module type
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 8 data bytes to send
+   DATABYTE1 = COMMAND_MODULE_TYPE (0xFF)
+   DATABYTE2 = VMBPSUMNGR-20 type (0x04)
+   DATABYTE3 = High byte of serial number
+   DATABYTE4 = Low byte of serial number
+   DATABYTE5 = Memory map version
+   DATABYTE6 = Build year
+   DATABYTE7 = Build week
+   DATABYTE8 = Properties
+                      Contents        Output channel
+                      B’xxxxxxx0’ Terminator open
+                      B’xxxxxxx1’ Terminator closed
+                      B’xxxx000x’ Hardware version number
+                      B’xxx0xxxx’ Velbus connection type
+                      B’xx0xxxxx’ Only standard CAN allowed
+                      B’xx1xxxxx’ CAN FD support
+
+
+0xB0: Module subtype
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 8 data bytes to send
+   DATABYTE1 = COMMAND_SUBTYPE (0xB0)
+   DATABYTE2 = VMBPSUMNGR-20 type (0x04)
+
+
+
+
+                          VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025     5
+   DATABYTE3 = High byte of serial number
+   DATABYTE4 = Low byte of serial number
+   DATABYTE5 = Subaddress1 (0xFF sub-address disabled)
+   DATABYTE6 = Subaddress2 (0xFF sub-address disabled)
+   DATABYTE7 = Subaddress3 (0xFF sub-address disabled)
+   DATABYTE8 = Subaddress4 (0xFF always disabled)
+
+
+0xED: Module status
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 8 data bytes to send
+   DATABYTE1 = COMMAND_MODULE_STATUS (0xED)
+   DATABYTE2 = Alarm status
+                            Contents                 Description
+                          B’xxxxxxx1’               PSU1 Offline
+                          B’xxxxxx1x’               PSU2 Offline
+                          B’xxxxx1xx’     Warranty Expired(High if expired)
+                          B’xxxx1xxx’              PSU1 Alarm 1
+                          B’xxx1xxxx’  PSU1 peak load > xx% (not implemented)
+                          B’xx1xxxxx’              PSU2 Alarm 1
+                          B’x1xxxxxx’  PSU2 peak load > xx% (not implemented)
+                          B’1xxxxxxx’             PSUOut Alarm 1
+DATABYTE3 = Alarm status part 2
+                            Contents                 Description
+                          B’xxxxxxx1’              PSU1 Alarm 2
+                          B’xxxxxx1x’              PSU1 Alarm 3
+                          B’xxxxx1xx’              PSU1 Alarm 4
+                          B’xxxx1xxx’              PSU2 Alarm 2
+                          B’xxx1xxxx’              PSU2 Alarm 3
+                          B’xx1xxxxx’              PSU2 Alarm 4
+                          B’x1xxxxxx’             PSUOut Alarm 2
+                          B’1xxxxxxx’ PSUout peak load > xx% (not implemented)
+
+   DATABYTE4 = PSU1 Load %
+   DATABYTE5 = PSU2 Load %
+   DATABYTE6 = PSUOut Load %
+   DATABYTE7 = alarm & program selection
+                   Contents        Selected program
+               B’xxxxxx00’         None
+               B’xxxxxx01’         Program group 1
+               B’xxxxxx10’         Program group 2
+               B’xxxxxx11’         Program group 3
+               B’xxxxx0xx’         Clock alarm 1 off
+               B’xxxxx1xx’         Clock alarm 1 on
+               B’xxxx0xxx’         Local clock alarm 1
+               B’xxxx1xxx’         Global clock alarm 1
+               B’xxx0xxxx’         Clock alarm 2 off
+               B’xxx1xxxx’         Clock alarm 2 on
+               B’xx0xxxxx’         Local clock alarm 2
+               B’xx1xxxxx’         Global clock alarm 2
+               B’x0xxxxxx’         Sunrise related program steps are disabled
+               B’x1xxxxxx’         Sunrise related program steps are enabled
+               B’0xxxxxxx’         Sunset related program steps are disabled
+               B’1xxxxxxx’         Sunset related program steps are enabled
+
+
+
+
+                            VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025   6
+   DATABYTE8 = auto send interval
+                  10…255s fixed interval
+                  5…9 = auto send on change with 2s as minimum interval
+                  1…4 = auto send on change disabled
+                  0 = no change on auto send interval
+
+   Remark: the auto send interval is common for all channels
+
+
+0xDA: Bus error counter status
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 4 data bytes to send
+   DATABYTE1 = COMMAND_BUSERROR_COUNTER_STATUS (0xDA)
+   DATABYTE2 = Transmit error counter
+   DATABYTE3 = Receive error counter
+   DATABYTE4 = Bus off counter
+
+
+0xFE: Memory data
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 4 data bytes to send
+   DATABYTE1 = COMMAND_MEMORY_DATA (0xFE)
+   DATABYTE2 = High memory address
+   DATABYTE3 = LOW memory address
+   DATABYTE4 = memory data
+
+   Remark: address range: 0x0000 to 0x07FF
+
+0xCC: Memory data block (4 bytes)
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 7 data bytes to send
+   DATABYTE1 = COMMAND_MEMORY_DATA_BLOCK (0xCC)
+   DATABYTE2 = High start address of memory block
+   DATABYTE3 = LOW start address of memory block
+   DATABYTE4 = memory data1
+   DATABYTE5 = memory data2
+   DATABYTE6 = memory data3
+   DATABYTE7 = memory data4
+
+   Remark: address range: 0x0000 to 0x07FC
+
+
+
+
+                              VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025   7
+0xCC: Memory data block (5...60 bytes)(only allowed for CAN FD frames)
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = number of data bytes to send
+                      Contents        Number of data bytes
+                      0x09            12 data bytes
+                      0x0A            16 data bytes
+                      0x0B            20 data bytes
+                      0x0C            24 data bytes
+                      0x0D            32 data bytes
+                      0x0E            48 data bytes
+                      0x0F            64 data bytes
+   DATABYTE1 = COMMAND_MEMORY_DATA_BLOCK (0xCC)
+   DATABYTE2 = High start address of memory block
+   DATABYTE3 = LOW start address of memory block
+   DATABYTE4 = memory block length (5…60)
+   DATABYTE5 = memory data 1
+   …
+   DATABYTE12 = memory data 8 (end of data for DLC3...DLC0 = 0x09)
+   …
+   DATABYTE16 = memory data 12 (end of data for DLC3...DLC0 = 0x0A)
+   …
+   DATABYTE20 = memory data 16 (end of data for DLC3...DLC0 = 0x0B)
+   …
+   DATABYTE24 = memory data 20 (end of data for DLC3...DLC0 = 0x0C)
+   …
+   DATABYTE32 = memory data 28 (end of data for DLC3...DLC0 = 0x0D)
+   …
+   DATABYTE48 = memory data 44 (end of data for DLC3...DLC0 = 0x0E)
+   …
+   DATABYTE64 = memory data 60 (end of data for DLC3...DLC0 = 0x0F)
+
+   Remark:
+   Contents of unused data bytes = 0x55
+   Address range: 0x0000 to (0x0800 – memory block length)
+
+
+0xF0: First part of channel name
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 8 data bytes to send
+   DATABYTE1 = COMMAND_CHANNEL_NAME_PART1 (0xF0)
+   DATABYTE2 = channel number 1…10
+   DATABYTE3 = Character 1 of the channel name
+   DATABYTE4 = Character 2 of the channel name
+   DATABYTE5 = Character 3 of the channel name
+   DATABYTE6 = Character 4 of the channel name
+   DATABYTE7 = Character 5 of the channel name
+   DATABYTE8 = Character 6 of the channel name
+
+
+
+
+                            VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025   8
+0xF1: Second part of the channel name
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 8 data bytes to send
+   DATABYTE1 = COMMAND_CHANNEL_NAME_PART2 (0xF1)
+   DATABYTE2 = Channel number 1…10
+   DATABYTE3 = Character 7 of the channel name
+   DATABYTE4 = Character 8 of the channel name
+   DATABYTE5 = Character 9 of the channel name
+   DATABYTE6 = Character 10 of the channel name
+   DATABYTE7 = Character 11 of the channel name
+   DATABYTE8 = Character 12 of the channel name
+
+
+0xF2: Third part of the channel name
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 6 data bytes to send
+   DATABYTE1 = COMMAND_CHANNEL_NAME_PART3 (0xF2)
+   DATABYTE2 = channel number 1…10
+   DATABYTE3 = Character 13 of the channel name
+   DATABYTE4 = Character 14 of the channel name
+   DATABYTE5 = Character 15 of the channel name
+   DATABYTE6 = Character 16 of the channel name
+
+   Remarks:
+   Unused characters contain 0xFF.
+
+
+0xA1: Warranty counter status
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 5 data bytes to send
+   DATABYTE1 = COMMAND_WARRANTY_COUNTER_STATUS (0xA1)
+   DATABYTE2 = 1st byte of 31 bit value
+   DATABYTE3 = 2nd byte of 31 bit value
+   DATABYTE4 = 3rd byte of 31 bit value
+   DATABYTE5 = bit of expiration status + 7 bits of 31 bit value
+                   B7          B6 B5       B4      B3     B2     B1 B0
+                   Warranty X        X     X       X      X      X  X
+                   status
+                   0 = valid
+                   1=
+                   expired
+
+
+   31bit value is amount of hours in operation
+   Limit is 10 years => 87660hours
+
+0xA2: PSU load status
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 5 data bytes to send
+   DATABYTE1 = COMMAND_WARRANTY_COUNTER_STATUS (0xA2)
+   DATABYTE2 = PSU Mode (0x01 = balance load, 0x02 = boost mode, 0x03 = back-up mode)
+   DATABYTE3 = Load PSU1 (0…100%)
+   DATABYTE4 = Load PSU2 (0…100%)
+   DATABYTE5 = Load PSUOut (0…100%)
+
+
+
+                              VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025   9
+0xA3: PSU values status
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 8 data bytes to send
+   DATABYTE1 = COMMAND_WARRANTY_COUNTER_STATUS (0xA3)
+   DATABYTE2 = channel + 4 bits wattage (MSB)(mW)
+    B7     B6    B5    B4     B3      B2 B1   B0
+    Channel:                  X       X  X    X
+    1 => PSU1
+    2 => PSU2
+    3 => PSUOut
+
+
+   DATABYTE3 = middle byte wattage (mW)
+   DATABYTE4 = low byte wattage (mW)
+   DATABYTE5 = high byte voltage(mV)
+   DATABYTE6 = low byte voltage(mV)
+   DATABYTE6 = high byte amperage(mA)
+   DATABYTE6 = low byte amperage(mA)
+
+   Wattage = 0…1048575mW
+   Voltage = 0…65535mV
+   Amperage = 0…65535mA
+
+
+
+
+                         VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025   10
+VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025   11
+Receive
+0xA0: Warranty Counter Request
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 1 data byte received
+   DATABYTE1 = COMMAND_POWER_UP (0xA0)
+
+
+0xAB: Power up message
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 2 data byte received
+   DATABYTE1 = COMMAND_POWER_UP (0xAB)
+   DATABYTE2 = module address
+
+
+0xB5: CAN FD enable
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 2 data byte received
+   DATABYTE1 = COMMAND_SET_CLR_LEARN_RF_CODE (0xB5)
+   DATABYTE2 = enable/disable (0 = disable CAN FD / 1 = enable CAN FD)
+
+
+0xD7: Real time clock status request
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 1 data byte to send
+   DATABYTE1 = COMMAND_REALTIME_CLOCK_STATUS_REQUEST (0xD7)
+
+
+0xD8: Set real time clock
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 4 data bytes to send
+   DATABYTE1 = COMMAND_SET_REALTIME_CLOCK (0xD8)
+   DATABYTE2 = Day of week
+               Contents day of week’  Description
+                         0            Monday
+                         1            Tuesday
+                         2            Wednesday
+                         3            Thursday
+                         4            Friday
+                         5            Saterday
+                         6            Sunday
+   DATABYTE3 = Hours (0…23)
+   DATABYTE4 = Minutes (0…59)
+
+0xB7: Set date
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 5 data bytes to send
+
+
+
+                            VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025   12
+   DATABYTE1 = COMMAND_SET_REALTIME_DATE (0xB7)
+   DATABYTE2 = Day (1…31)
+   DATABYTE3 = Month (1…12)
+   DATABYTE4 = High byte of Year
+   DATABYTE5 = Low byte of Year
+
+0xAF: Set daylight savings
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes to send
+   DATABYTE1 = COMMAND_SET_DAYLIGHT_SAVING (0xAF)
+   DATABYTE2 = 0 =disabled / 1 = enabled
+
+
+0xAE: Enable/disable global sunrise/sunset related actions
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 3 data bytes to send
+   DATABYTE1 = COMMAND_ENA_DIS_SUNRISE_SUNSET (0xAE)
+   DATABYTE2 = Channel (0xFF)
+   DATABYTE3 = enable/disable flags
+                      Contents        Description
+                    B’xxxxxxx0’       Disable sunrise related actions
+                    B’xxxxxxx1’       Enable sunrise related actions
+                    B’xxxxxx0x’       Disable sunset related actions
+                    B’xxxxxx1x’       Enable sunset related actions
+
+
+
+0xAE: Enable/disable local sunrise/sunset related actions’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 3 data bytes to send
+   DATABYTE1 = COMMAND_ENA_DIS_SUNRISE_SUNSET (0xAE)
+   DATABYTE2 = Channel (0xFF)
+   DATABYTE3 = enable/disable flags
+                     Contents         Description
+                   B’xxxxxxx0’        Disable sunrise related actions
+                   B’xxxxxxx1’        Enable sunrise related actions
+                   B’xxxxxx0x’        Disable sunset related actions
+                   B’xxxxxx1x’        Enable sunset related actions
+
+
+0xC3: Set global clock alarm
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 7 data bytes to send
+   DATABYTE1 = COMMAND_SET_ALARM_CLOCK (0xC3)
+      DATABYTE2 = Alarm number (1 or 2)
+   DATABYTE3 = Wake up hour (0…23)
+   DATABYTE4 = Wake up minute (0…59)
+   DATABYTE5 = Go to bed hour (0…23)
+   DATABYTE6 = Go to bed minute (0…59)
+   DATABYTE7 = Clock alarm enable flag (0 = disabled / 1 = enabled)
+
+
+
+
+                            VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025   13
+0xC3: Set local clock alarm
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 7 data bytes to send
+   DATABYTE1 = COMMAND_SET_ALARM_CLOCK (0xC3)
+   DATABYTE2 = Alarm number (1 or 2)
+   DATABYTE3 = Wake up hour (0…23)
+   DATABYTE4 = Wake up minute (0…59)
+   DATABYTE5 = Go to bed hour (0…23)
+   DATABYTE6 = Go to bed minute (0…59)
+   DATABYTE7 = Clock alarm enable flag (0 = disabled / 1 = enabled)
+
+
+(Scan) Module type request
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 1
+   DLC3...DLC0 = 0 data bytes received
+
+
+0xFA: Module status request
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+   DATABYTE1 = COMMAND_MODULE_STATUS_REQUEST (0xFA)
+   DATABYTE2 = don’t care
+   Response sequence: 0xED, 0xA3(psu1),0xA3(psu2),0xA3(psuOut),0xA2,0xA1
+
+
+0xEF: Channel name request
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+   DATABYTE1 = COMMAND_CHANNEL_NAME_REQUEST (0xEF)
+   DATABYTE2 = Channel number 1…16 for alarms (255 for all channels)
+
+
+
+
+0xFD: Read data from memory
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 3 data bytes received
+   DATABYTE1 = COMMAND_READ_DATA_FROM_MEMORY (0xFD)
+   DATABYTE2 = High memory address
+   DATABYTE3 = LOW memory address
+
+   Remark: address range: 0x0000 to 0x07FF
+
+0xCB: Memory dump request
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 1 data bytes received
+   DATABYTE1 = COMMAND_MEMORY_DUMP_REQUEST (0xCB)
+
+
+
+
+                            VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025   14
+0xC9: Read data block from memory
+  SID10-SID9 = 11 (lowest priority)
+  SID8...SID1 = Module address
+  RTR = 0
+  DLC3...DLC0 = 3 data bytes for standard CAN received / 4 data bytes for CAN FD response
+  DATABYTE1 = COMMAND_READ_MEMORY_BLOCK (0xC9)
+  DATABYTE2 = High memory address
+  DATABYTE3 = LOW memory address
+  DATABYTE4 = memory block length (5…60)
+
+  Remark:
+  address range: 0x0000 to 0x07FC for standard CAN response
+  address range: 0x0000 to (0x0800 – memory block length) for CAN FD response
+
+
+0xFC: Write data to memory
+  SID10-SID9 = 11 (lowest priority)
+  SID8...SID1 = Module address
+  RTR = 0
+  DLC3...DLC0 = 4 data bytes received
+  DATABYTE1 = COMMAND_WRITE_DATA_TO_MEMORY (0xFC)
+  DATABYTE2 = High memory address
+  DATABYTE3 = LOW memory address (0x00...0xFF)
+  DATABYTE4 = memory data to write
+  Remark:
+  Wait at least 10ms for sending a next command on the velbus.
+  Address range: 0x0000 to 0x07FF
+  Terminate always with a write command at the last memory location.
+
+
+0xCA: Write memory block
+  SID10-SID9 = 11 (lowest priority)
+  SID8...SID1 = Address of the module
+  RTR = 0
+  DLC3...DLC0 = 7 data bytes received
+  DATABYTE1 = COMMAND_WRITE_MEMORY_BLOCK (0xCA)
+  DATABYTE2 = High memory address
+  DATABYTE3 = LOW memory address
+  DATABYTE4 = memory databyte1 to write
+  DATABYTE5 = memory databyte2 to write
+  DATABYTE6 = memory databyte3 to write
+  DATABYTE7 = memory databyte4 to write
+
+  Or
+
+  SID10-SID9 = 11 (lowest priority)
+  SID8...SID1 = Address of the module
+  RTR = 0
+  DLC3...DLC0 = number of data bytes to send
+                     Contents         Number of data bytes
+                     0x09             12 data bytes
+                     0x0A             16 data bytes
+                     0x0B             20 data bytes
+                     0x0C             24 data bytes
+                     0x0D             32 data bytes
+                     0x0E             48 data bytes
+                     0x0F             64 data bytes
+  DATABYTE1 = COMMAND_WRITE_MEMORY_BLOCK (0xCA)
+  DATABYTE2 = High memory address
+  DATABYTE3 = LOW memory address
+
+
+
+
+                           VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025         15
+   DATABYTE4 = memory block length (5…60)
+   DATABYTE5 = memory data 1 to write
+   …
+   DATABYTE12 = memory data 8 to write (end of data for DLC3...DLC0 = 0x09)
+   …
+   DATABYTE16 = memory data 12 to write (end of data for DLC3...DLC0 = 0x0A)
+   …
+   DATABYTE20 = memory data 16 to write (end of data for DLC3...DLC0 = 0x0B)
+   …
+   DATABYTE24 = memory data 20 to write (end of data for DLC3...DLC0 = 0x0C)
+   …
+   DATABYTE32 = memory data 28 to write (end of data for DLC3...DLC0 = 0x0D)
+   …
+   DATABYTE48 = memory data 44 to write (end of data for DLC3...DLC0 = 0x0E)
+   …
+   DATABYTE64 = memory data 60 to write (end of data for DLC3...DLC0 = 0x0F)
+
+   Remark:
+   Wait for ‘memory data block’ feedback before sending a next command on the velbus.
+   address range: 0x0000 to 0x07FC for standard CAN response
+   address range: 0x0000 to (0x0800 – memory block length) for CAN FD response
+   Contents of unused data bytes = 0x55
+   Terminate always with a write command at the last memory location.
+
+
+0xD9: Bus error counter status request
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 1 data bytes to send
+   DATABYTE1 = COMMAND_BUS_ERROR_CONTER_STATUS_REQUEST (0xD9)
+
+
+
+
+                            VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025    16
+Memory map
+Addr        Contents                                                   Addr     Contents
+0x0000      Alarm 1 Parameters                                         0x0001   Alarm 1 Activation Level
+0x0002      Alarm 1 Deactivation Level                                 0x0003   Alarm 1 Interval
+0x0004      Alarm 1 Name char 1                                        0x0005   Alarm 1 Name char 2
+…           …                                                          …        …
+0x0012      Alarm 1 Name char 15                                       0x0013   Alarm 1 Name char 16
+…           …                                                          …        …
+0x012C      Alarm 16 Parameters                                        0x012D   Alarm 16 Activation Level
+0x012E      Alarm 16 Deactivation Level                                0x012F   Alarm 16 Interval
+0x0130      Alarm 16 Name char 1                                       0x0131   Alarm 16 Name char 2
+…           …                                                          …        …
+0x013E      Alarm 16 Name char 15                                      0x013F   Alarm 16 Name char 16
+0x0140      autoStatusInterval(Can not be changed: Default 0x3C)       0x0141   PSU1 Voltage
+0x0142      PSU2 Wattage                                               0x0143   PSU2 Voltage
+0x0144      PSU2 Wattage                                               0x0145   Padding = 0xFF
+0x0146      Padding = 0xFF                                             0x0147   Padding = 0xFF
+0x0148      Alarm clock configuration (byte1)                          0x0149   Alarm clock configuration (byte2)
+0x014A      Alarm clock configuration (byte3)                          0x014B   Alarm clock configuration (byte4)
+0x014C      Wake up 1 hour (0…23)                                      0x014D   Wake up 1 minutes (0…59)
+0x014E      Go to bed 1 hour (0…23)                                    0x014F   Go to bed 1 minutes (0…59)
+0x0150      Wake up 2 hour (0…23)                                      0x0151   Wake up 2 minutes (0…59)
+0x0152      Go to bed 2 hour (0…23)                                    0x0153   Go to bed 2 minutes (0…59)
+0x0154      Sunrise hour at 21 December (0…23)                         0x0155   Sunrise minutes at 21 December (0…59)
+0x0156      Sunrise 21 January – sunrise 5 January (-128’...127’)      0x0157   Sunrise 5 February – sunrise 21 January (-128’...127’)
+0x0158      Sunrise 21 February – sunrise 5 February (-128’...127’)    0x0159   Sunrise 5 March – sunrise 21 February (-128’...127’)
+0x015A      Sunrise 21 March – sunrise 5 March (-128’...127’)          0x015B   Sunrise 5 April – sunrise 21 March (-128’...127’)
+0x015C      Sunrise 21 April – sunrise 5 April (-128’...127’)          0x015D   Sunrise 5 May – sunrise 21 April (-128’...127’)
+0x015E      Sunrise 21 May – sunrise 5 May (-128’...127’)              0x015F   Sunrise 5 June – sunrise 21 May (-128’...127’)
+0x0160      Sunrise 21 June – sunrise 5 June (-128’...127’)            0x0161   Sunrise 5 July – sunrise 21 June (-128’...127’)
+0x0162      Sunrise 21 July – sunrise 5 July (-128’...127’)            0x0163   Sunrise 5 August – sunrise 21 July (-128’...127’)
+0x0164      Sunrise 21 August – sunrise 5 August (-128’...127’)        0x0165   Sunrise 5 September – sunrise 21 August (-128’...127’)
+0x0166      Sunrise 21 September – sunrise 5 September (-128...127’)   0x0167   Sunrise 5 October – sunrise 21 September (-128’...127’)
+0x0168      Sunrise 21 October – sunrise 5 October (-128’...127’)      0x0169   Sunrise 5 November – sunrise 21 October (-128’...127’)
+0x016A      Sunrise 21 November – sunrise 5 November (-128’...127’)    0x016B   Sunrise 5 December – sunrise 21 November (-128’...127’)
+0x016C      Sunrise 21 December – sunrise 5 December (-128’...127’)    0x016D   Sunrise 5 January – sunrise 21 December (-128’…127’)
+
+Addr        Contents                                                   Addr     Contents
+0x016E      Not used                                                   0x016F   Not used
+0x0170      Sunset hour at 21 December (0…23)                          0x0171   Sunset minutes at 21 December (0…59)
+0x0172      Sunset 21 January – sunrise 5 January (-128’...127’)       0x0173   Sunset 5 February – sunrise 21 January (-128’...127’)
+0x0174      Sunset 21 February – sunrise 5 February (-128’...127’)     0x0175   Sunset 5 March – sunrise 21 February (-128’...127’)
+0x0176      Sunset 21 March – sunrise 5 March (-128’...127’)           0x0177   Sunset 5 April – sunrise 21 March (-128’...127’)
+0x0178      Sunset 21 April – sunrise 5 April (-128’...127’)           0x0179   Sunset 5 May – sunrise 21 April (-128’...127’)
+0x017A      Sunset 21 May – sunrise 5 May (-128’...127’)               0x017B   Sunset 5 June – sunrise 21 May (-128’...127’)
+0x017C      Sunset 21 June – sunrise 5 June (-128’...127’)             0x017D   Sunset 5 July – sunrise 21 June (-128’...127’)
+0x017E      Sunset 21 July – sunrise 5 July (-128’...127’)             0x017F   Sunset 5 August – sunrise 21 July (-128’...127’)
+0x0180      Sunset 21 August – sunrise 5 August (-128’...127’)         0x0181   Sunset 5 September – sunrise 21 August (-128’...127’)
+0x0182      Sunset 21 September – sunrise 5 September (-128’...127’)   0x0183   Sunset 5 October – sunrise 21 September (-128’...127’)
+0x0184      Sunset 21 October – sunrise 5 October (-128’...127’)       0x0185   Sunset 5 November – sunrise 21 October (-128’...127’)
+0x0186      Sunset 21 November – sunrise 5 November (-128’...127’)     0x0187   Sunset 5 December – sunrise 21 November (-128’...127’)
+0x0188      Sunset 21 December – sunrise 5 December (-128’...127’)     0x0189   Sunset 5 January – sunrise 21 December (-128’...127’)
+0x018A      Not used                                                   0x018B   Not used
+
+       Remark:
+       Unused locations contain 0xFF
+
+
+
+
+                                   VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025                                     17
+Alarm Parameters
+     B0          B1      B2               B3        B4           B5      B6      B7
+ Enable = 1   Alarm Channel              Alarm unit           Alarm Type
+ Disable = 0  PSU1 = 00                  VOLT = 00            LARGER_THAN = 00
+              PSU2 = 01                  AMPERE = 01          SMALLER_THAN = 01
+              PSUOUT = 10                WATT = 10            PEAK_DETECTED = 10
+                                         *YEARS = 11          WARRANTY_EXPIRED = 11
+
+*Remark years can only have a warranty expired type and channel doesn’t matter
+Alarm ActivationLvl
+ Alarm unit    Value
+ VOLT          1…255 volt
+ AMPERE        1… 255 ampere
+ WATT          1…255 watt
+ YEARS         1…255 year
+
+
+Valid reaction times
+          Contents               Reaction time
+            0x01                 Immediately (0.065s) (default)
+            0x1C                 1s
+            0x38                 2s
+            0x54                 3s
+            0xFF                 Channel disabled
+
+Channel x start/end function
+           Contents              Function
+               1                 Channel 1
+               2                 Channel 2
+              ...                ...
+               7                 Channel 7
+               8                 Channel 8
+Remark:
+For a normal one function button, the start and end function channel are the same.
+For a multi-function button, the start function channel must be less than the end function. At every press the
+next channel will be send. When the end function channel is reached, the start channel will be send again at
+the next press.
+For a dual function button, the start function channel will be send at a short press or the end function will be
+send at a long press.
+
+Channels mode
+           Contents           Description
+         B’xxxxxxx0’          Dual function disabled (default)
+         B’xxxxxxx1’          Dual function enabled
+         B’xxxxxx0x’          Multi-function auto reset disabled (default)
+         B’xxxxxx1x’          Multi-function auto reset enabled
+         B’xxxxx0xx’          Led backlight off
+         B’xxxxx1xx’          Led backlight on
+         B’xxxx0xxx’          Led monitor mode
+         B’xxxx1xxx’          Led feedback mode (default)
+         B’xxx0xxxx’          Slow blinking led feedback disabled
+         B’xxx1xxxx’          Slow blinking led feedback enabled (default)
+         B’xx0xxxxx’          Fast blinking led feedback disabled
+         B’xx1xxxxx’          Fast blinking led feedback enabled (default)
+         B’x0xxxxxx’          Very fast blinking led feedback disabled
+         B’x1xxxxxx’          Very fast blinking led feedback enabled (default)
+         B’0xxxxxxx’          Channel inverted
+         B’1xxxxxxx’          Channel normal
+Remark:
+When auto reset is enabled, the start function will be loaded again after 3 seconds inactivity of the channel.
+For a dual function button, the start function channel will be send at a short press or the end function will be
+send at a long press.
+
+
+
+
+                VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025                                       18
+The dual function overwrites the multi-function mode.
+
+Valid long pressed delay
+          Contents             Reaction time
+            0x17               0.8s
+            0x2E               1.6s
+
+Valid dual function long pressed times
+         Contents              Long pressed time
+            0x1C               1s
+            0x38               2s
+            0x54               3s
+
+Alarm clock configuration
+         Contents         Channel locked/unlocked
+       B’xxxxxxx0’           Alarm 1 disabled
+       B’xxxxxxx1’           Alarm 1 enabled
+       B’0xxxxx0x’           Local alarm 1
+       B’1xxxxx1x’           Global alarm 1
+       B’xxxxx0xx’           Alarm 2 disabled
+       B’xxxxx1xx’           Alarm 2 enabled
+       B’xxxx0xxx’           Local alarm 2
+       B’xxxx1xxx’           Global alarm 2
+       B’xxx0xxxx’           Sunrise disabled
+       B’xxx1xxxx’           Sunrise enabled
+       B’xx0xxxxx’           Sunset disabled
+       B’xx1xxxxx’           Sunset enabled
+       B’x0xxxxxx’           Daylight savings disabled
+       B’x1xxxxxx’           Daylight savings enabled
+
+Counter pulses per unit
+    Contents high byte        Contents low byte           Counter unit
+       B’00000000’            B’00000000’                 Counter input disabled
+       B’00000000’            B’00000001’                 1 pulse per unit (/kWh, /m3 or /l)
+       B’00000000’            B’00000010’                 2 pulses per unit (/kWh, /m3 or /l)
+            …                 …                           …
+       B’11111111’            B’11111111’                 65535 pulses per unit (/kWh, /m3 or /l)
+
+Counter units
+         Contents             Counter unit
+              0               reserved
+              1               liter
+              2               m3
+              3               kWh (default)
+
+Counter alarm conditons
+         Contents             Condition
+       B’xxxxxx00’            Counter value equal with activation level in Wh, l or ml
+       B’xxxxxx01’            Counter value equal with multiples of activation level in Wh, l or ml
+       B’xxxxxx10’            Power greater than or equal with activation level in W
+       B’xxxxxx11’            Power less than activation level in W
+       B’0xxxxxxx’            Alarm disabled
+       B’1xxxxxxx’            Alarm enabled
+
+ Remark:
+ The alarm modes ‘counter value equal with’ does not use the reaction times and de-activation level
+
+
+
+
+               VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025                               19
+Assigned counter channel
+         Contents             Assigned channel
+            0                 Input counter 1
+            1                 Input counter 2
+            …                 …
+            7                 Input counter 8
+
+Alarm condition activation / de-activation reaction time
+         contents              Reaction time
+              0                0s
+              1                1s
+              2                2s
+             ...
+            59                 59s
+            60                 1min
+            61                 1min1s
+             ...
+            …
+           119                 1min59s
+           120                 2min
+           121                 2min15s
+             ...
+           131                 4min45s
+           132                 5min
+           133                 5min30s
+             ...
+           181                 29min30s
+           182                 30min
+           183                 31min
+             ...
+           211                 59min
+           212                 1h
+
+
+
+
+               VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025   20
+  Address      Contents                                         Address         Contents
+  0x018C       Links in use byte 0 (LSB)                        0x018D          Links in use high byte1
+  0x018E       Links in use low byte 2                          0x018F          Links in use low byte 3 (MSB)
+               Linked Push button 1 module address                              Linked Push button 1 bit number
+               Linked Push button 1 action                                      Linked Push button 1 parameter 1
+               Linked Push button 1 parameter 2                                 …
+               ...                                                              ...
+               …                                                                Linked Push button 80 module address
+               Linked Push button 80 bit number                                 Linked Push button 80 action
+               Linked Push button 80 parameter 1                                Linked Push button 80 parameter 2
+
+Remark: Unused locations contain 0xFF
+
+Action
+   Action Byte       Action
+   B’0xxxxxxx’       Execute action at button pressed or during closed switch
+   B’1xxxxxxx’       Execute action at button released or during open switch*
+   B’x0000000’       Action number 0
+       …             …
+   B’x1111111’       Action number 127
+
+            Action
+               Action         Action                                                 Parameter 1           Parameter 2
+               number
+               1              Lock channel at closed/open switch                     -                     Channel 1…32
+               2              Lock channel                                           Timeout               Channel 1…32
+               3              Lock/unlock channel                                    Timeout               Channel 1…32
+               4              Unlock channel                                         -                     Channel 1…32
+               5              Disable channel program at closed/open switch          -                     Channel 1…32
+               6              Disable channel program channel                        Timeout               Channel 1…32
+               7              Disable/enable channel program                         Timeout               Channel 1…32
+               8              Enable channel program                                 -                     Channel 1…32
+               9              Select no programs                                     -                     -
+               10             Select program group 1                                 -                     -
+               11             Toggle program group 1                                 -                     -
+               12             Select program group 2                                 -                     -
+               13             Toggle program group 2                                 -                     -
+               14             Select program group 3                                 -                     -
+               15             Toggle program group 3                                 -                     -
+               16             Enable Alarm 1 at closed/open switch                   -                     -
+               17             Disable Alarm 1 at closed/open switch                  -                     -
+               18             Enable Alarm 1                                         -                     -
+               19             Enable/Disable Alarm 1                                 -                     -
+               20             Disable Alarm 1                                        -                     -
+               21             Enable Alarm 2 at closed/open switch                   -                     -
+               22             Disable Alarm 2 at closed/open switch                  -                     -
+               23             Enable Alarm 2                                         -                     -
+               24             Enable/Disable Alarm 2                                 -                     -
+               25             Disable Alarm 2                                        -                     -
+               26             Enable Sunrise at closed/open switch                   -                     -
+               27             Disable Sunrise at closed/open switch                  -                     -
+               28             Enable Sunrise                                         -                     -
+               29             Enable/Disable Sunrise                                 -                     -
+               30             Disable Sunrise                                        -                     -
+               31             Enable Sunset at closed/open switch                    -                     -
+               32             Disable Sunset at closed/open switch                   -                     -
+               33             Enable Sunset                                          -                     -
+               34             Enable/Disable Sunset                                  -                     -
+               35             Disable Sunset                                         -                     -
+
+
+
+
+                             VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025                                     21
+Time parameter
+     Time parameter   Timeout
+            0         0s (No timer)
+            1         1s
+            2         2s
+           ...
+          119         1min59s
+          120         2min
+          121         2min15s
+           ...
+          131         4min45s
+          132         5min
+          133         5min30s
+           ...
+          181         29min30s
+          182         30min
+          183         31min
+           ...
+          211         59min
+          212         1h
+          213         1h15min
+           ...
+          227         4h45min
+          228         5h
+          229         5h30min
+           ...
+          237         9h30min
+          238         10h
+          239         11h
+           ...
+          251         23h
+          252         1d
+          253         2d
+          254         3d
+          255         infinite
+
+
+
+
+            VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025   22
+Address     Contents                                     Address      Contents
+0x0320      Program steps used byte 0 (LSB)              0x0321       Program steps used byte 1
+0x0322      Program steps used byte 2                    0x0323       Program steps used byte 3 (MSB)
+            Program step 1 byte1                                      Program step 1 byte2
+            Program step 1 byte3                                      Program step 1 byte4
+            Program step 1 byte5                                      Program step 1 byte6
+            ..                                                        ..
+            Program step 68 byte1                                     Program step 68 byte2
+            Program step 68 byte3                                     Program step 68 byte4
+            Program step 68 byte5                                     Program step 68 byte6
+
+            Contents program byte1             Description
+                 B’000xxxxx’                   Disable program step
+
+                  B’001xxxxx’                  Absolute time
+                  B’010xxxxx’                  Wake up time 1 + relative time
+                  B’011xxxxx’                  Go to bed time 1 + relative time
+                  B’100xxxxx’                  Wake up time 2 + relative time
+                  B’101xxxxx’                  Go to bed time 2 + relative time
+                  B’110xxxxx’                  Sunrise + relative time
+                  B’111xxxxx’                  Sunset + relative time
+                  B’xxx01111’                  Rel. time = 3h45min
+                      …
+                  B’xxx00001’                  Rel. time = 15min
+                  B’xxx00000’                  Rel. time = 0
+                  B’xxx11111’                  Rel. time = -15min
+                      …
+                  B’xxx10000’                  Rel. time = -4h
+ Remark: Wake up, Go to bed, sunrise & sunset time are only allowed for weekly programs
+
+            Contents program byte2             Description
+                 B’xxxx0000’                   Weekly program
+                 B’xxxx0001’                   January
+                 B’xxxx0010’                   February
+                 B’xxxx0011’                   March
+                 B’xxxx0100’                   April
+                 B’xxxx0101’                   May
+                 B’xxxx0110’                   June
+                 B’xxxx0111’                   July
+                 B’xxxx1000’                   August
+                 B’xxxx1001’                   September
+                 B’xxxx1010’                   October
+                 B’xxxx1011’                   November
+                 B’xxxx1100’                   December
+                 B’xxxx1101’                   Monthly program
+                 B’xxxx1110’                   Monthly program
+                 B’xxxx1111’                   Monthly program
+
+            Contents program byte3             Description
+                 B’xxx00000’                   0h
+                 B’xxx00001’                   1h
+                      …                        …
+                 B’xxx10111’                   23h
+                 B’xx1xxxxx’                   Program group 1
+                 B’x1xxxxxx’                   Program group 2
+                 B’1xxxxxxx’                   Program group 3
+
+            Contents program byte4             Description
+                 B’xx000000’                   0min
+                 B’xx000001’                   1min
+                      …                        …
+
+
+
+
+                        VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025                        23
+B’xx111011’             59min
+
+
+
+
+    VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025   24
+Contents program byte4               Contents program byte2          Description
+     B’00xxxxxx’                          B’0000xxxx’                Never
+     B’00xxxxxx’                          B’0001xxxx’                Day 1of the month
+     B’00xxxxxx’                          B’0010xxxx’                Day 2of the month
+          …                                    …                     …
+     B’01xxxxxx’                          B’1111xxxx’                Day 31of the month
+     B’10xxxxxx’                          B’0000xxxx’                Never
+     B’10xxxxxx’                          B’0001xxxx’                Every Monday
+     B’10xxxxxx’                          B’0010xxxx’                Every Tuesday
+          …                                    …                     …
+     B’10xxxxxx’                          B’0111xxxx’                Every Sunday
+     B’10xxxxxx’                          B’1000xxxx’                Every weekend (sa & su)
+     B’10xxxxxx’                          B’1001xxxx’                Every working day (mo…fr)
+     B’10xxxxxx’                          B’1010xxxx’                Every day except Sunday
+     B’10xxxxxx’                          B’1011xxxx’                Every day
+     B’10xxxxxx’                          B’1100xxxx’                Never
+          …                                    …                     …
+     B’11xxxxxx’                          B’1111xxxx’                Never
+
+Contents program byte5        Action
+
+
+
+
+         252                  No action
+         …                    …
+         255                  No action
+
+
+
+
+          VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025                           25
+Contents program byte6        Channel
+           1                  Channel 1
+           2                  Channel 2
+          …                   …
+          10                  Channel 10
+
+
+
+
+          VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025   26
+Address   Contents                                    Address    Contents
+0x07B8    Location id low byte                        0x07B9     Location id high byte
+0x07BA    Group id low byte                           0x07BB     Group id high byte
+0x07BC    Module name character 1                     0x07BD     Module name character 2
+…         ..                                          ..         ..
+0x07FA    Module name character 63                    0x07FB     Module name character 64
+0x07FC    Not used                                    0x07FD     Not used
+0x07FE    Not used                                    0x07FF     Used for flash writing
+
+
+
+
+                      VMB8IN-20 PROTOCOL – edition 1 – last update: 14/03/2025              27
+

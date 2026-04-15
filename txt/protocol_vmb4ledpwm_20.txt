@@ -1,0 +1,2459 @@
+ VMB4LEDPWM-20
+4 channel led PWM dimmer module
+       for VELBUS system
+
+
+
+
+      VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025   1
+Binairy format:
+
+<SOF-SID10...SID0-RTR-IDE-r0-DLC3...0-DATABYTE1...DATABYTEn-CRC15...CRC1-CRCDEL-ACK-ACKDEL-
+EOF7...EOF1-IFS3...IFS1>
+  bits                          Description
+  SOF                           Start Of Frame (always 0)
+  SID10 & SID9                  Priority (00: highest … 11: lowest priority)
+  SID8…SID1                     Address
+  SID0                          Always 0
+  RTR                           Remote Transmit Request
+  IDE                           Identifier Extension (always 0)
+  r0                            reserved (always 0)
+  DLC3…DLC0                     Data Length Code (0…8)
+  Databyte1                     Command
+  Databyte2                     Parameter
+  Databyte3                     Parameter
+  Databyte4                     Parameter
+  Databyte5                     Parameter
+  Databyte6                     Parameter
+  Databyte7                     Parameter
+  Databyte8                     Parameter
+  CRC15…CRC1                    Cyclic Redundancy Checksum
+  CRCDEL                        CRC Delimiter (always 1)
+  ACK                           Acknowledge slot (transmit 1 readback 0 if received correctly)
+  ACKDEL                        Acknowledge Delimiter (always 1)
+  EOF7...EOF1                   End Of Frame (always 1111111)
+  IFS3...IFS1                   InterFrame Space (always 111)
+
+
+
+
+                      VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025               2
+Transmits power up message:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = 0x00
+    RTR = 0
+    DLC3...DLC0 = 2 data byte to send
+    DATABYTE1 = COMMAND_POWER_UP (0xAB)
+    DATABYTE2 = module address
+
+Transmits real time clock status request:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = 0x00
+    RTR = 0
+    DLC3...DLC0 = 1 data byte to send
+    DATABYTE1 = COMMAND_REALTIME_CLOCK_STATUS_REQUEST (0xD7)
+
+Transmits the real time clock status:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 4 data bytes to send
+    DATABYTE1 = COMMAND_REALTIME_CLOCK_STATUS (0xD8)
+    DATABYTE2 = Day
+                         Contents     Day
+                            0         Monday
+                            1         Tuesday
+                            2         Wednesday
+                            3         Thursday
+                            4         Friday
+                            5         Saturday
+                            6         Sunday
+    DATABYTE3 = Hour (0…23)
+    DATABYTE4 = Minute (0…59)
+
+Transmits the date status:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 5 data bytes to send
+    DATABYTE1 = COMMAND_DATE_STATUS (0xB7)
+    DATABYTE2 = Day (1…31)
+    DATABYTE3 = Month (1…12)
+    DATABYTE4 = High byte of Year
+    DATABYTE5 = Low byte of Year
+
+Transmits the daylight savings status:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes to send
+    DATABYTE1 = COMMAND_DAYLIGHT_SAVING_STATUS (0xAF)
+    DATABYTE2 = 0 =disabled / 1 = enabled
+
+
+
+
+                   VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025   3
+Transmits the module type:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 8 data bytes to send
+    DATABYTE1 = COMMAND_MODULE_TYPE (0xFF)
+    DATABYTE2 = type (0x06 = VMB4LEDPWM-20)
+    DATABYTE3 = High byte of serial number
+    DATABYTE4 = Low byte of serial number
+    DATABYTE5 = Memory map version
+    DATABYTE6 = Build year
+    DATABYTE7 = Build week
+    DATABYTE8 = Properties
+                      Contents        Output channel
+                      B’xxxxxxx0’ Terminator open
+                      B’xxxxxxx1’ Terminator closed
+                      B’xxxx000x’ Hardware version number
+                      B’xxx0xxxx’ Velbus connection type
+                      B’xx0xxxxx’ Only standard CAN allowed
+                      B’xx1xxxxx’ CAN FD support
+
+Transmit: Bus error counter status
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 4 data bytes to send
+    DATABYTE1 = COMMAND_BUSERROR_COUNTER_STATUS (0xDA)
+    DATABYTE2 = Transmit error counter
+    DATABYTE3 = Receive error counter
+    DATABYTE4 = Bus off counter
+
+Transmits the memory data:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 4 data bytes to send
+    DATABYTE1 = COMMAND_MEMORY_DATA (0xFE)
+    DATABYTE2 = High memory address
+    DATABYTE3 = LOW memory address
+    DATABYTE4 = memory data
+
+   Remark: address range: 0x0000 to 0x07FF
+
+Transmits memory data block (4 bytes):
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 7 data bytes to send
+    DATABYTE1 = COMMAND_MEMORY_DATA_BLOCK (0xCC)
+    DATABYTE2 = High start address of memory block
+    DATABYTE3 = LOW start address of memory block
+    DATABYTE4 = memory data1
+    DATABYTE5 = memory data2
+    DATABYTE6 = memory data3
+    DATABYTE7 = memory data4
+
+   Remark: address range: 0x0000 to 0x07FC
+
+
+
+
+                         VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025   4
+Transmits memory data block (5...60 bytes)(only allowed for CAN FD frames):
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = number of data bytes to send
+                      Contents         Number of data bytes
+                      0x09             12 data bytes
+                      0x0A             16 data bytes
+                      0x0B             20 data bytes
+                      0x0C             24 data bytes
+                      0x0D             32 data bytes
+                      0x0E             48 data bytes
+                      0x0F             64 data bytes
+    DATABYTE1 = COMMAND_MEMORY_DATA_BLOCK (0xCC)
+    DATABYTE2 = High start address of memory block
+    DATABYTE3 = LOW start address of memory block
+    DATABYTE4 = memory block length (5…60)
+    DATABYTE5 = memory data 1
+    …
+    DATABYTE12 = memory data 8 (end of data for DLC3...DLC0 = 0x09)
+    …
+    DATABYTE16 = memory data 12 (end of data for DLC3...DLC0 = 0x0A)
+    …
+    DATABYTE20 = memory data 16 (end of data for DLC3...DLC0 = 0x0B)
+    …
+    DATABYTE24 = memory data 20 (end of data for DLC3...DLC0 = 0x0C)
+    …
+    DATABYTE32 = memory data 28 (end of data for DLC3...DLC0 = 0x0D)
+    …
+    DATABYTE48 = memory data 44 (end of data for DLC3...DLC0 = 0x0E)
+    …
+    DATABYTE64 = memory data 60 (end of data for DLC3...DLC0 = 0x0F)
+
+    Remark:
+    Contents of unused data bytes = 0x55
+    Address range: 0x0000 to (0x0800 – memory block length)
+
+Transmits the first part of channel name:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 8 data bytes to send
+    DATABYTE1 = COMMAND_CHANNEL_NAME_PART1 (0xF0)
+    DATABYTE2 = Channel 1…4
+    DATABYTE3 = Character 1 of the channel name
+    DATABYTE4 = Character 2 of the channel name
+    DATABYTE5 = Character 3 of the channel name
+    DATABYTE6 = Character 4 of the channel name
+    DATABYTE7 = Character 5 of the channel name
+    DATABYTE8 = Character 6 of the channel name
+
+
+
+
+                          VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025   5
+Transmits the second part of the channel name:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 8 data bytes to send
+    DATABYTE1 = COMMAND_CHANNEL_NAME_PART2 (0xF1)
+    DATABYTE2 = Channel 1…4
+    DATABYTE3 = Character 7 of the channel name
+    DATABYTE4 = Character 8 of the channel name
+    DATABYTE5 = Character 9 of the channel name
+    DATABYTE6 = Character 10 of the channel name
+    DATABYTE7 = Character 11 of the channel name
+    DATABYTE8 = Character 12 of the channel name
+
+Transmits the third part of the channel name:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 6 data bytes to send
+    DATABYTE1 = COMMAND_CHANNEL_NAME_PART3 (0xF2)
+    DATABYTE2 = Channel 1…4
+    DATABYTE3 = Character 13 of the channel name
+    DATABYTE4 = Character 14 of the channel name
+    DATABYTE5 = Character 15 of the channel name
+    DATABYTE6 = Character 16 of the channel name
+
+   Remarks:
+   Unused characters contain H’FF’.
+
+Transmits the channel status:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 4 data bytes to send
+    DATABYTE1 = COMMAND_PUSH_BUTTON_STATUS (0x00)
+    DATABYTE2 = Channel 1…4 just pressed
+    DATABYTE3 = Channel 1…4 just released
+    DATABYTE4 = 0
+                                             Databyte2               Databyte3       Databyte4
+                        ch1 just switched on B’0000xxx1’            B’0000xxx0’      B’00000000’
+                       ch1 just switched off B’0000xxx0’            B’0000xxx1’      B’00000000’
+                        ch2 just switched on B’0000xx1x’            B’0000xx0x’      B’00000000’
+                       ch2 just switched off B’0000xx0x’            B’0000xx1x’      B’00000000’
+                        ch3 just switched on B’0000x1xx’            B’0000x0xx’      B’00000000’
+                       ch3 just switched off B’0000x0xx’            B’0000x1xx’      B’00000000’
+                        ch4 just switched on B’00001xxx’            B’00000xxx’      B’00000000’
+                       ch4 just switched off B’00000xxx’            B’00001xxx’      B’00000000’
+
+
+Transmits channel slider status:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 4 data bytes to send
+    DATABYTE1 = COMMAND_SLIDER_STATUS (0x0F)
+    DATABYTE2 = slider channel 1…4
+    DATABYTE3 = dim raw value 0...254 (slider status)
+    DATABYTE4 = 0x00
+
+
+
+
+                          VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025             6
+Transmits the module status:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 8 data bytes to send
+    DATABYTE1 = COMMAND_DIMMER_STATUS (0xEE)
+    DATABYTE2 = channel 1…4 status
+    DATABYTE3 = channel 1…4 inhibited status (1 = inhibited)
+    DATABYTE4 = channel 1…4 forced on status (1 = forced on)
+    DATABYTE5 = channel 1…4 forced off (locked) status (1 = forced off)
+    DATABYTE6 = disabled channel 1…4 program status (0 = program enabled / 1 = program disabled)
+    DATABYTE7 = channel 1…4 error status (0 = normal / 1 = error)
+    DATABYTE8 = alarm & program selection
+                       Contents        Selected program
+                  B’xxxxxx00’          None
+                  B’xxxxxx01’          Program group 1 (Summer)
+                  B’xxxxxx10’          Program group 2 (Winter)
+                  B’xxxxxx11’          Program group 3 (Holiday)
+                  B’xxxxx0xx’          Clock alarm 1 off
+                  B’xxxxx1xx’          Clock alarm 1 on
+                  B’xxxx0xxx’          Local clock alarm 1
+                  B’xxxx1xxx’          Global clock alarm 1
+                  B’xxx0xxxx’          Clock alarm 2 off
+                  B’xxx1xxxx’          Clock alarm 2 on
+                  B’xx0xxxxx’          Local clock alarm 2
+                  B’xx1xxxxx’          Global clock alarm 2
+                  B’x0xxxxxx’          Sunrise disabled
+                  B’x1xxxxxx’          Sunrise enabled
+                  B’0xxxxxxx’          Sunset disabled
+                  B’1xxxxxxx’          Sunset enabled
+
+Transmits the dim value status:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 3…6 data bytes to send
+    DATABYTE1 = COMMAND_DIMVALUE_STATUS (0xA5)
+    DATABYTE2 = Channel 1…4
+    DATABYTE3 = dim value (0…254) of channel x (exponential curve)
+    DATABYTE4 = dim value (0…254) of channel x+1 (optional) (exponential curve)
+    DATABYTE5 = dim value (0…254) of channel x+2 (optional) (exponential curve)
+    DATABYTE6 = dim value (0…254) of channel x+3 (optional) (exponential curve)
+
+    Remark: dimvalue of 255 = unchanged
+
+Transmit: Clears LEDs on a linked push button module:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Address of the linked push button module for clearing LEDs
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes to send
+    DATABYTE1 = COMMAND_CLEAR_LED (0xF5)
+    DATABYTE2 = LED bit numbers (1 = clear LED)
+
+Transmit: Sets LEDs on a linked push button module:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Address of the linked push button module for setting LEDs on
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes to send
+    DATABYTE1 = COMMAND_SET_LED (0xF6)
+    DATABYTE2 = LED bit numbers (1 = set LED)
+
+
+
+
+                           VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025            7
+Transmit: Blinks LEDs slowly on a linked push button module:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Address of the linked push button module for slowly blinking LEDs
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes to send
+    DATABYTE1 = COMMAND_SLOW_BLINKING_LED (0xF7)
+    DATABYTE2 = LED bit numbers (1 = slow blink LED)
+
+Transmit: Blinks LEDs fast on a linked push button module:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Address of the linked push button module for fast blinking LEDs
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes to send
+    DATABYTE1 = COMMAND_FAST_BLINKING_LED (0xF8)
+    DATABYTE2 = LED bit numbers (1 = fast blink LED)
+
+Transmit device settings:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = data bytes to send
+    DATABYTE1 = COMMAND_TEMP_SENSOR_SETTINGS_P1 (0xE8)
+    DATABYTE2 = Channel 1…4
+    DATABYTE3 = setting index (0…28)
+                       index Configuration                                                      DLC3…0 (# of data bytes)
+                          0  Scene S0 level (+ RGBW for color control device)                   4 (or 8 for color control device)
+                          1  Scene S1 level (+ RGBW for color control device)                   4 (or 8 for color control device)
+                          2  Scene S2 level (+ RGBW for color control device)                   4 (or 8 for color control device)
+                          3  Scene S3 level (+ RGBW for color control device)                   4 (or 8 for color control device)
+                          4  Scene S4 level (+ RGBW for color control device)                   4 (or 8 for color control device)
+                          5  Scene S5 level (+ RGBW for color control device)                   4 (or 8 for color control device)
+                          6  Scene S6 level (+ RGBW for color control device)                   4 (or 8 for color control device)
+                          7  Scene S7 level (+ RGBW for color control device)                   4 (or 8 for color control device)
+                          8  Scene S8 level (+ RGBW for color control device)                   4 (or 8 for color control device)
+                          9  Scene S9 level (+ RGBW for color control device)                   4 (or 8 for color control device)
+                         10  Scene S10 level (+ RGBW for color control device)                  4 (or 8 for color control device)
+                         11  Scene S11 level (+ RGBW for color control device)                  4 (or 8 for color control device)
+                         12  Scene S12 level (+ RGBW for color control device)                  4 (or 8 for color control device)
+                         13  Scene S13 level (+ RGBW for color control device)                  4 (or 8 for color control device)
+                         14  Scene S14 level (+ RGBW for color control device)                  4 (or 8 for color control device)
+                         15  Scene S15 level (+ RGBW for color control device)                  4 (or 8 for color control device)
+                         16  Power-on level (+ RGBW for color control device)                   4 (or 8 for color control device)
+                         17  System failure level (+ RGBW for color control device)             4 (or 8 for color control device)
+                         18  Minimum level                                                      4
+                         19  Maximum level                                                      4
+                         20  Fade time & fade rate                                              4
+                         21  Group members G0…15                                                5
+                         22  Group Gx members A0…31 (only allowed for group addresses)          7
+                         23  Group Gx members A32…63 (only allowed for group addresses)         7
+                         24  -                                                                  -
+                         25  Device type                                                        4
+                         26  Actual level (+ RGBW for color control device)                     4 (or 8 for color control device)
+    DATABYTE4 = level (raw data 0…254, 255 = no change) (exponential curve)
+                       RAW    %       RAW   %       RAW   %       RAW   %      RAW    %       RAW   %       RAW    %
+                       0      0       40    0.290   80    0.864   120   2.58   160    7.68    200   22.89   240    68.23
+                       1      0.1     41    0.298   81    0.888   121   2.65   161    7.89    201   23.53   241    70.12
+                       2      0.103   42    0.306   82    0.913   122   2.72   162    8.11    202   24.18   242    72.06
+                       3      0.106   43    0.315   83    0.938   123   2.80   163    8.34    203   24.85   243    74.06
+                       4      0.109   44    0.324   84    0.964   124   2.87   164    8.57    204   25.53   244    76.11
+                       5      0.112   45    0.332   85    0.991   125   2.95   165    8.80    205   26.24   245    78.21
+                       6      0.115   46    0.342   86    1.018   126   3.04   166    9.05    206   26.97   246    80.38
+                       7      0.118   47    0.351   87    1.047   127   3.12   167    9.30    207   27.71   247    82.60
+                       8      0.121   48    0.361   88    1.076   128   3.21   168    9.56    208   28.48   248    84.89
+                       9      0.124   49    0.371   89    1.105   129   3.29   169    9.82    209   29.27   249    87.24
+                       10     0.128   50    0.381   90    1.136   130   3.39   170    10.09   210   30.08   250    89.65
+                       11     0.131   51    0.392   91    1.167   131   3.48   171    10.37   211   30.91   251    92.14
+
+
+
+
+                           VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025                                    8
+                 12     0.135   52    0.402   92    1.200   132   3.58   172   10.66   212   31.77   252   94.69
+                 13     0.139   53    0.414   93    1.233   133   3.67   173   10.95   213   32.65   253   97.31
+                 14     0.143   54    0.425   94    1.267   134   3.78   174   11.26   214   33.55   254   100
+                 15     0.147   55    0.437   95    1.302   135   3.88   175   11.57   215   34.48   255   No change
+                 16     0.151   56    0.449   96    1.338   136   3.99   176   11.89   216   35.43
+                 17     0.155   57    0.461   97    1.375   137   4.10   177   12.22   217   36.41
+                 18     0.159   58    0.474   98    1.413   138   4.21   178   12.55   218   37.42
+                 19     0.163   59    0.487   99    1.452   139   4.33   179   12.90   219   38.46
+                 20     0.168   60    0.501   100   1.492   140   4.45   180   13.26   220   39.52
+                 21     0.173   61    0.515   101   1.534   141   4.57   181   13.63   221   40.62
+                 22     0.177   62    0.529   102   1.576   142   4.70   182   14.00   222   41.74
+                 23     0.182   63    0.543   103   1.620   143   4.83   183   14.39   223   42.90
+                 24     0.187   64    0.559   104   1.665   144   4.96   184   14.79   224   44.08
+                 25     0.193   65    0.574   105   1.711   145   5.10   185   15.20   225   45.30
+                 26     0.198   66    0.590   106   1.758   146   5.24   186   15.62   226   46.56
+                 27     0.203   67    0.606   107   1.807   147   5.39   187   16.05   227   47.85
+                 28     0.209   68    0.623   108   1.857   148   5.53   188   16.50   228   49.17
+                 29     0.215   69    0.640   109   1.908   149   5.69   189   16.95   229   50.53
+                 30     0.221   70    0.658   110   1.961   150   5.85   190   17.42   230   51.93
+                 31     0.227   71    0.676   111   2.02    151   6.01   191   17.90   231   53.37
+                 32     0.233   72    0.695   112   2.07    152   6.17   192   18.40   232   54.84
+                 33     0.240   73    0.714   113   2.13    153   6.34   193   18.91   233   56.36
+                 34     0.246   74    0.734   114   2.19    154   6.52   194   19.43   234   57.92
+                 35     0.253   75    0.754   115   2.25    155   6.70   195   19.97   235   59.53
+                 36     0.260   76    0.775   116   2.31    156   6.89   196   20.52   236   61.17
+                 37     0.267   77    0.796   117   2.37    157   7.08   197   21.09   237   62.87
+                 38     0.275   78    0.819   118   2.44    158   7.27   198   21.68   238   64.61
+                 39     0.282   79    0.841   119   2.51    159   7.47   199   22.28   239   66.39
+DATABYTE5 = red value (0…254, 255 = no change)
+DATABYTE6 = green value (0…254, 255 = no change)
+DATABYTE7 = blue value (0…254, 255 = no change)
+DATABYTE8 = white value (0…254, 255 = no change)
+DATABYTE4 = fade time (raw data 0…15)
+                      Fade raw data         Fade time / rate
+                          H’0x’             No fade
+                          H’1x’             Fade time 0.7 s
+                          H’2x’             Fade time 1.0 s
+                          H’3x’             Fade time 1.4 s
+                          H’4x’             Fade time 2.0 s
+                          H’5x’             Fade time 2.8 s
+                          H’6x’             Fade time 4.0 s
+                          H’7x’             Fade time 5.7 s
+                          H’8x’             Fade time 8.0 s
+                          H’9x’             Fade time 11.3 s
+                          H’Ax’             Fade time 16.0 s
+                          H’Bx’             Fade time 22.6 s
+                          H’Cx’             Fade time 32.0 s
+                          H’Dx’             Fade time 45.3 s
+                          H’Ex’             Fade time 64.0 s
+                          H’Fx’             Fade time 90.5 s
+                          H’x0’             Fade rate not applicable
+                          H’x1’             Fade rate 358.0 steps/s
+                          H’x2’             Fade rate 253.0 steps/s
+                          H’x3’             Fade rate 179.0 steps/s
+                          H’x4’             Fade rate 127.0 steps/s
+                          H’x5’             Fade rate 89.4 steps/s
+                          H’x6’             Fade rate 63.3 steps/s
+                          H’x7’             Fade rate 44.7 steps/s
+                          H’x8’             Fade rate 31.6 steps/s
+                          H’x9’             Fade rate 22.4 steps/s
+                          H’xA’             Fade rate 15.8 steps/s
+                          H’xB’             Fade rate 11.2 steps/s
+                          H’xC’             Fade rate 7.9 steps/s
+                          H’xD’             Fade rate 5.6 steps/s
+                          H’xE’             Fade rate 4.0 steps/s
+                          H’xF’             Fade rate 2.8 steps/s
+DATABYTE4 = device type
+                         contents           Device type
+
+
+
+                      VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025                              9
+                                   0                Fluorescent lamp
+                                   1                Emergency lamp
+                                   2                Discharge lamp
+                                   3                Low voltage lamp
+                                   4                Dimmer
+                                   5                Conversion to dc
+                                   6                Led module
+                                   7                Relay
+                                   8                Color control
+                                   9                Sequencer
+                                  254               Device present
+                                  255               No device present
+
+
+Transmits program step info:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 8 data bytes to send
+    DATABYTE1 = COMMAND_PROGRAM_STEP_INFO (0xC1)
+    DATABYTE2 = Program step number (1…116 / 255 step not found)
+    DATABYTE3 = Program reference
+                          Contents     Description
+                          000xxxxx     Disable program step
+                          001xxxxx     Absolute time
+                          010xxxxx     Wake up time 1 + relative time
+                          011xxxxx     Go to bed time 1 + relative time
+                          100xxxxx     Wake up time 2 + relative time
+                          101xxxxx     Go to bed time 2 + relative time
+                          110xxxxx     Sunrise + relative time
+                          111xxxxx     Sunset + relative time
+                          xxx01111     Rel. time = 3h45min
+                             …
+                          xxx00001     Rel. time = 15min
+                          xxx00000     Rel. time = 0
+                          xxx11111     Rel. time = -15min
+                             …
+                          xxx10000     Rel. time = -4h
+
+    DATABYTE4 = Program step month & four least significant bits of day
+                      Contents                            Description
+                      xxxx0000      Weekly program
+                      xxxx0001      January
+                      xxxx0010      February
+                      xxxx0011      March
+                      xxxx0100      April
+                      xxxx0101      May
+                      xxxx0110      June
+                      xxxx0111      July
+                      xxxx1000      August
+                      xxxx1001      September
+                      xxxx1010      October
+                      xxxx1011      November
+                      xxxx1100      December
+                      xxxx1101      Monthly program
+                      xxxx1110      Monthly program
+                      xxxx1111      Monthly program
+
+                       Contents byte6     Contents byte4    Description
+                         00xxxxxx           0000xxxx        Never
+                         00xxxxxx           0001xxxx        Day 1of the month
+                         00xxxxxx           0010xxxx        Day 2of the month
+
+
+
+                           VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025   10
+                       …                 ...            …
+                    01xxxxxx          1111xxxx          Day 31of the month
+                    10xxxxxx          0000xxxx          Never
+                    10xxxxxx          0001xxxx          Every Monday
+                    10xxxxxx          0010xxxx          Every Tuesday
+                       ...               …              …
+                    10xxxxxx          0111xxxx          Every Sunday
+                    10xxxxxx          1000xxxx          Every weekend (sa & su)
+                    10xxxxxx          1001xxxx          Every working day (mo…fr)
+                    10xxxxxx          1010xxxx          Every day except Sunday
+                    10xxxxxx          1011xxxx          Every day
+                    10xxxxxx          1100xxxx          Never
+                       …                 …              …
+                    11xxxxxx          1111xxxx          Never
+
+DATABYTE5 = Program step hour & group number
+                  Contents       Description
+                  xxx00000       0h
+                  xxx00001       1h
+                     …           …
+                  xxx10111       23h
+                  xx1xxxxx       Program group 1 (Summer program)
+                  x1xxxxxx       Program group 2 (Winter program)
+                  1xxxxxxx       Program group 3 (Holiday program)
+
+DATABYTE6 = Program step minute & every flag & msb of day
+                  Contents       Description
+                  xx000000       0min
+                  xx000001       1min
+                     …           …
+                  xx111011       59min
+
+                 Contents byte6     Contents byte4      Description
+                   00xxxxxx           0000xxxx          Never
+                   00xxxxxx           0001xxxx          Day 1of the month
+                   00xxxxxx           0010xxxx          Day 2of the month
+                       …                 ...            …
+                   01xxxxxx           1111xxxx          Day 31of the month
+                   10xxxxxx           0000xxxx          Never
+                   10xxxxxx           0001xxxx          Every Monday
+                   10xxxxxx           0010xxxx          Every Tuesday
+                       ...               …              …
+                   10xxxxxx           0111xxxx          Every Sunday
+                   10xxxxxx           1000xxxx          Every weekend (sa & su)
+                   10xxxxxx           1001xxxx          Every working day (mo…fr)
+                   10xxxxxx           1010xxxx          Every day except Sunday
+                   10xxxxxx           1011xxxx          Every day
+                   10xxxxxx           1100xxxx          Never
+                       …                 …              …
+                   11xxxxxx           1111xxxx          Never
+
+DATABYTE7 = Program step action
+                  Contents        Action
+                      0           Not yet implemented
+
+
+DATABYTE8 = Channel
+                  Contents        Channel
+                     1            Channel 1
+                    ...           …
+                     4            Channel 4
+
+
+
+
+                     VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025   11
+VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025   12
+‘Linked push button status’ received:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = Address of the linked push button module
+    RTR = 0
+    DLC3...DLC0 = 4 data bytes received
+    DATABYTE1 = COMMAND_PUSH_BUTTON_STATUS (0x00)
+    DATABYTE2 = Linked push buttons just pressed (1 = just pressed)
+    DATABYTE3 = Linked push buttons just released (1 = just released)
+    DATABYTE4 = linked push buttons long pressed (1 = longer than 0.85s pressed)
+
+Power up message’ received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 2 data byte received
+   DATABYTE1 = COMMAND_POWER_UP (0xAB)
+   DATABYTE2 = module address
+
+‘CAN FD enable command’ received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 2 data byte received
+   DATABYTE1 = COMMAND_SET_CLR_LEARN_RF_CODE (0xB5)
+   DATABYTE2 = enable/disable (0 = disable CAN FD / 1 = enable CAN FD)
+
+‘Real time clock status request’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = 0x00
+    RTR = 0
+    DLC3...DLC0 = 1 data byte to send
+    DATABYTE1 = COMMAND_REALTIME_CLOCK_STATUS_REQUEST (0xD7)
+
+‘Real time clock status request’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 1 data byte to send
+    DATABYTE1 = COMMAND_REALTIME_CLOCK_STATUS_REQUEST (0xD7)
+
+‘Set real time clock’ command received:
+     SID10-SID9 = 11 (lowest priority)
+     SID8...SID1 = 0x00
+     RTR = 0
+     DLC3...DLC0 = 4 data bytes received
+     DATABYTE1 = COMMAND_SET_REALTIME_CLOCK (0xD8)
+     DATABYTE2 = Day of week
+                 Contents day of week’   Description
+                         H’00’           Monday
+                         H’01’           Tuesday
+                         H’02’           Wednesday
+                         H’03’           Thursday
+                         H’04’           Friday
+                         H’05’           Saterday
+                         H’06’           Sunday
+     DATABYTE3 = Hours (0…23)
+     DATABYTE4 = Minutes (0…59)
+
+
+
+
+                          VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025   13
+‘Set date’ command received:
+     SID10-SID9 = 11 (lowest priority)
+     SID8...SID1 = 0x00
+     RTR = 0
+     DLC3...DLC0 = 5 data bytes received
+     DATABYTE1 = COMMAND_SET_REALTIME_DATE (0xB7)
+     DATABYTE2 = Day (1…31)
+     DATABYTE3 = Month (1…12)
+     DATABYTE4 = High byte of Year
+     DATABYTE5 = Low byte of Year
+
+‘Set daylight savings’ command received:
+     SID10-SID9 = 11 (lowest priority)
+     SID8...SID1 = 0x00
+     RTR = 0
+     DLC3...DLC0 = 2 data bytes received
+     DATABYTE1 = COMMAND_SET_DAYLIGHT_SAVING (0xAF)
+     DATABYTE2 = 0 =disabled / 1 = enabled
+
+‘Enable/disable global sunrise/sunset related actions’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 3 data bytes received
+   DATABYTE1 = COMMAND_ENA_DIS_SUNRISE_SUNSET (0xAE)
+   DATABYTE2 = Channel (0xFF)
+   DATABYTE3 = enable/disable flags
+                       Contents              Description
+                    B’xxxxxxx0’              Disable sunrise related actions
+                    B’xxxxxxx1’              Enable sunrise related actions
+                    B’xxxxxx0x’              Disable sunset related actions
+                    B’xxxxxx1x’              Enable sunset related actions
+
+‘Enable/disable local sunrise/sunset related actions’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 3 data bytes received
+   DATABYTE1 = COMMAND_ENA_DIS_SUNRISE_SUNSET (0xAE)
+   DATABYTE2 = Channel (0xFF)
+   DATABYTE3 = enable/disable flags
+                       Contents               Description
+                     B’xxxxxxx0’              Disable sunrise related actions
+                     B’xxxxxxx1’              Enable sunrise related actions
+                     B’xxxxxx0x’              Disable sunset related actions
+                     B’xxxxxx1x’              Enable sunset related actions
+
+‘Set global clock alarm’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = 0x00
+    RTR = 0
+    DLC3...DLC0 = 7 data bytes received
+    DATABYTE1 = COMMAND_SET_ALARM_CLOCK (0xC3)
+    DATABYTE2 = Alarm number (1 or 2)
+    DATABYTE3 = Wake up hour (0…23)
+    DATABYTE4 = Wake up minute (0…59)
+    DATABYTE5 = Go to bed hour (0…23)
+    DATABYTE6 = Go to bed minute (0…59)
+    DATABYTE7 = Clock alarm enable flag (0 = disabled / 1 = enabled)
+
+
+
+
+                            VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025   14
+‘Set local clock alarm’ command received:
+     SID10-SID9 = 11 (lowest priority)
+     SID8...SID1 = Module address
+     RTR = 0
+     DLC3...DLC0 = 7 data bytes received
+     DATABYTE1 = COMMAND_SET_ALARM_CLOCK (0xC3)
+     DATABYTE2 = Alarm number (1 or 2)
+     DATABYTE3 = Wake up hour (0…23)
+     DATABYTE4 = Wake up minute (0…59)
+     DATABYTE5 = Go to bed hour (0…23)
+     DATABYTE6 = Go to bed minute (0…59)
+     DATABYTE7 = Clock alarm enable flag (0 = disabled / 1 = enabled)
+
+‘Module type request’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 1
+   DLC3...DLC0 = 0 data bytes received
+
+‘Module status request’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+   DATABYTE1 = COMMAND_MODULE_STATUS_REQUEST (0xFA)
+   DATABYTE2 = don’t care
+
+‘Channel name request’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_CHANNEL_NAME_REQUEST (0xEF)
+    DATABYTE2 = Channel 1…4
+
+    Remark: channel = 0xFF for all channels
+
+‘Clear channel LED’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Linked module address
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_CLEAR_LED (0xF5)
+    DATABYTE2 = LEDs to clear (a one clears the corresponding LED of channel 1 to 8)
+
+‘Clear channel LED’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_CLEAR_LED (0xF5)
+    DATABYTE2 = LEDs to clear (a one clears the corresponding LED of channel 1 to 8)
+
+‘Set channel LED’ command received:
+     SID10-SID9 = 11 (lowest priority)
+     SID8...SID1 = Module address
+     RTR = 0
+     DLC3...DLC0 = 2 data bytes received
+     DATABYTE1 = COMMAND_SET_LED (0xF6)
+     DATABYTE2 = LEDs to set (a one sets the corresponding LED of channel 1 to 8)
+
+‘Slow blink channel LED’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+
+
+
+
+                           VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025   15
+    DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_SLOW_BLINK_LED (0xF7)
+    DATABYTE2 = LEDs to blink slow (a one blinks slow the corresponding LED of channel 1 to 8)
+
+‘Fast blink channel LED’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_FAST_BLINK_LED (0xF8)
+    DATABYTE2 = LEDs to blink fast (a one blinks fast the corresponding LED of channel 1 to 8)
+
+‘Very fast blink channel LED’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_VERY_FAST_BLINK_LED (0xF9)
+    DATABYTE2 = LEDs to blink very fast (a one blinks very fast the corresponding LED of channel 1 to 8)
+
+‘Update channel LEDs’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 4 data bytes received
+   DATABYTE1 = COMMAND_UPDATE_LED_STATUS (0xF4)
+   DATABYTE2 = LEDs to set (a one sets the corresponding LED of channel 1 to 8)
+   DATABYTE3 = LEDs to blink slow (a one blinks slow the corresponding LED of channel 1 to 8)
+   DATABYTE4 = LEDs to blink fast (a one blinks very fast the corresponding LED of channel 1 to 8)
+
+    Remark:
+    The ‘LEDs to set’ status overrides the blinking modes.
+    Very fast blinking if slow & fast blinking are set.
+
+‘Read data from memory’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 3 data bytes received
+    DATABYTE1 = COMMAND_READ_DATA_FROM_MEMORY (0xFD)
+    DATABYTE2 = High memory address
+    DATABYTE3 = LOW memory address
+
+    Remark: address range: 0x0000 to 0x07FF
+
+‘Read data block from memory’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 3 data bytes received / 4 data bytes for CAN FD response
+    DATABYTE1 = COMMAND_READ_MEMORY_BLOCK (0xC9)
+    DATABYTE2 = High memory address
+    DATABYTE3 = LOW memory address
+    DATABYTE4 = memory block length (5…60)
+
+    Remark:
+    address range: 0x0000 to 0x07FC
+    address range: 0x0000 to (0x0800 – memory block length) for CAN FD response
+
+‘Memory dump request’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 1 data bytes received
+   DATABYTE1 = COMMAND_MEMORY_DUMP_REQUEST (0xCB)
+
+
+
+
+                            VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025                   16
+‘Write data to memory’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 4 data bytes received
+    DATABYTE1 = COMMAND_WRITE_DATA_TO_MEMORY (0xFC)
+    DATABYTE2 = High memory address
+    DATABYTE3 = LOW memory address
+    DATABYTE4 = memory data to write
+  Remark:
+  Wait for ‘memory data’ feedback before sending a next command on the velbus.
+  Address range: 0x0000 to 0x07FF
+  Read only location cannot be changed
+  Terminate always with a write command at the last memory location.
+
+‘Write memory block’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 7 data bytes received
+    DATABYTE1 = COMMAND_WRITE_MEMORY_BLOCK (0xCA)
+    DATABYTE2 = High memory address
+    DATABYTE3 = LOW memory address
+    DATABYTE4 = memory databyte1 to write
+    DATABYTE5 = memory databyte2 to write
+    DATABYTE6 = memory databyte3 to write
+    DATABYTE7 = memory databyte4 to write
+
+  Or
+
+  SID10-SID9 = 11 (lowest priority)
+  SID8...SID1 = Address of the module
+  RTR = 0
+  DLC3...DLC0 = number of data bytes to send
+                    Contents         Number of data bytes
+                    0x09             12 data bytes
+                    0x0A             16 data bytes
+                    0x0B             20 data bytes
+                    0x0C             24 data bytes
+                    0x0D             32 data bytes
+                    0x0E             48 data bytes
+                    0x0F             64 data bytes
+  DATABYTE1 = COMMAND_WRITE_MEMORY_BLOCK (0xCA)
+  DATABYTE2 = High memory address
+  DATABYTE3 = LOW memory address
+
+
+
+
+                         VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025   17
+    DATABYTE4 = memory block length (5…60)
+    DATABYTE5 = memory data 1 to write
+    …
+    DATABYTE12 = memory data 8 to write (end of data for DLC3...DLC0 = 0x09)
+    …
+    DATABYTE16 = memory data 12 to write (end of data for DLC3...DLC0 = 0x0A)
+    …
+    DATABYTE20 = memory data 16 to write (end of data for DLC3...DLC0 = 0x0B)
+    …
+    DATABYTE24 = memory data 20 to write (end of data for DLC3...DLC0 = 0x0C)
+    …
+    DATABYTE32 = memory data 28 to write (end of data for DLC3...DLC0 = 0x0D)
+    …
+    DATABYTE48 = memory data 44 to write (end of data for DLC3...DLC0 = 0x0E)
+    …
+    DATABYTE64 = memory data 60 to write (end of data for DLC3...DLC0 = 0x0F)
+
+    Remark:
+    Wait for ‘memory data block’ feedback before sending a next command on the velbus.
+    address range: 0x0000 to 0x07FC for standard CAN response
+    address range: 0x0000 to (0x0800 – memory block length) for CAN FD response
+    Contents of unused data bytes = 0x55
+    Terminate always with a write command at the last memory location.
+
+‘Bus error counter status request’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 1 data byte received
+    DATABYTE1 = COMMAND_BUS_ERROR_COUNTER_STATUS_REQUEST (H’D9’)
+
+‘Set dim value’ command received:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 5 data bytes received
+     DATABYTE1 = COMMAND_SET_DIMVALUE (0x07)
+     DATABYTE2 = Channel 1…4
+     DATABYTE3 = Dim value (0 to 254, 255 = unchanged, exponential curve)
+     DATABYTE4 = Fade mode (0 = direct / 1 = use fade rate / 2 = use fade time
+     DATABYTE5 = don’t care
+
+‘Set to last used dim value’ command received:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = Address of the module
+    RTR = 0
+    DLC3...DLC0 = 5 data bytes received
+     DATABYTE1 = COMMAND_RESTORE_LAST_DIMVALUE (0x11)
+     DATABYTE2 = Channel 1…4
+     DATABYTE3 = don’t care
+     DATABYTE4 = Fade mode (0 = direct / 1 = use fade rate / 2 = use fade time
+     DATABYTE5 = low byte of dim speed = don’t care
+
+‘Start timer’ command received:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = Address of the module
+    RTR = 0
+    DLC3...DLC0 = 5 data bytes received
+    DATABYTE1 = COMMAND_START_DIMMER_TIMER (0x08)
+    DATABYTE2 = Channel 1…4
+    DATABYTE3 = high byte of time-out time
+    DATABYTE4 = mid byte of time-out time
+    DATABYTE5 = low byte of time-out time
+
+    Remark: [DATABYTE3][DATABYTE4][DATABYTE5] contains a 24-bit time-out time in seconds.
+
+
+
+
+                           VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025     18
+   If the time-out parameter contains zero then no timer starts.
+   If the time-out parameter contains 0xFFFFFF then the light switches permanently on (no time-out).
+
+‘Stop channel dimming’ command received:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_STOP_DIMMING (0x10)
+    DATABYTE2 = Channel 1…4
+
+‘Go to scene’ command received:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 3 data bytes received
+    DATABYTE1 = COMMAND_SET_DIMSCENE (0x1D)
+    DATABYTE2 = Channel 1…4
+    DATABYTE3 = Scene number (0 to 15)
+
+‘Set color value’ command received:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 7 data bytes received
+     DATABYTE1 = COMMAND_SET_COLOR (0x1E)
+     DATABYTE2 = Channel 1…4
+     DATABYTE3 = Dim value (0 to 254, 255 = unchanged)
+     DATABYTE4 = Red value 0…254, 255 = unchanged)
+     DATABYTE5 = Green value 0…254, 255 = unchanged)
+     DATABYTE6 = Blue value 0…254, 255 = unchanged)
+     DATABYTE7 = White value 0…254, 255 = unchanged)
+
+‘Forced off’ command received:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 5 data bytes received
+    DATABYTE1 = COMMAND_FORCED_OFF (0x12)
+    DATABYTE2 = Channel 1…4
+    DATABYTE3 = high byte of delay time
+    DATABYTE4 = mid byte of delay time
+    DATABYTE5 = low byte of delay time
+
+   Remark:
+   Channel number = 0xFF for all channels
+   [DATABYTE3][DATABYTE4][DATABYTE5] contain a 24-bit time in seconds
+   The command will be skipped when the time parameter contains zero.
+   When the time parameter contains 0xFFFFFF then the dimmer is permanently forced off.
+
+‘Cancel forced off’ command received:
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_CANCEL_FORCED_OFF (0x13)
+    DATABYTE2 = Channel 1…4
+
+   Remark:
+   Channel number = 0xFF for all channels
+
+
+
+
+                          VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025                 19
+‘Forced on’ command received:
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 5 data bytes received
+   DATABYTE1 = COMMAND_FORCED_ON (0x14)
+   DATABYTE2 = Channel 1…4
+   DATABYTE3 = high byte of delay time
+   DATABYTE4 = mid byte of delay time
+   DATABYTE5 = low byte of delay time
+
+   Remark:
+   Channel number = 0xFF for all channels
+   [DATABYTE3][DATABYTE4][DATABYTE5] contain a 24-bit time in seconds
+   The command will be skipped when the time parameter contains zero or the channels are already forced off.
+   When the time parameter contains 0xFFFFFF then the dimmer is permanently forced on.
+
+‘Cancel forced on’ command received:
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_CANCEL_FORCED_ON (0x15)
+    DATABYTE2 = Channel 1…4
+
+   Remark:
+   Channel number = 0xFF for all channels
+
+‘Inhibit’ command received:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 5 data bytes received
+    DATABYTE1 = COMMAND_INHIBIT (0x16)
+    DATABYTE2 = Channel 1…4
+    DATABYTE3 = high byte of delay time
+    DATABYTE4 = mid byte of delay time
+    DATABYTE5 = low byte of delay time
+
+   Remark:
+   Channel number = 0xFF for all channels
+   [DATABYTE3][DATABYTE4][DATABYTE5] contain a 24-bit time in seconds
+   The command will be skipped when the time parameter contains zero or the channels are already forced off/on.
+   When the time parameter contains 0xFFFFFF then the dimmer is permanently inhibited.
+
+‘Cancel inhibit’ command received:
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_CANCEL_INHIBIT (0x17)
+    DATABYTE2 = Channel 1…4
+
+   Remark:
+   Channel number = 0xFF for all channels
+
+‘Write device settings’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 4, 5, 7 or 8 data bytes received
+   DATABYTE1 = COMMAND_SET_TEMP (0xE4)
+   DATABYTE2 = Channel 1…4
+   DATABYTE3 = setting index (0…28)
+                       index Configuration                                                      DLC3…0 (# of data bytes)
+
+
+
+                          VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025                              20
+                  0   Scene S0 level (+ RGBW for color control device)                    4 (or 8 for color control device)
+                  1   Scene S1 level (+ RGBW for color control device)                    4 (or 8 for color control device)
+                  2   Scene S2 level (+ RGBW for color control device)                    4 (or 8 for color control device)
+                  3   Scene S3 level (+ RGBW for color control device)                    4 (or 8 for color control device)
+                  4   Scene S4 level (+ RGBW for color control device)                    4 (or 8 for color control device)
+                  5   Scene S5 level (+ RGBW for color control device)                    4 (or 8 for color control device)
+                  6   Scene S6 level (+ RGBW for color control device)                    4 (or 8 for color control device)
+                  7   Scene S7 level (+ RGBW for color control device)                    4 (or 8 for color control device)
+                  8   Scene S8 level (+ RGBW for color control device)                    4 (or 8 for color control device)
+                  9   Scene S9 level (+ RGBW for color control device)                    4 (or 8 for color control device)
+                  10  Scene S10 level (+ RGBW for color control device)                   4 (or 8 for color control device)
+                  11  Scene S11 level (+ RGBW for color control device)                   4 (or 8 for color control device)
+                  12  Scene S12 level (+ RGBW for color control device)                   4 (or 8 for color control device)
+                  13  Scene S13 level (+ RGBW for color control device)                   4 (or 8 for color control device)
+                  14  Scene S14 level (+ RGBW for color control device)                   4 (or 8 for color control device)
+                  15  Scene S15 level (+ RGBW for color control device)                   4 (or 8 for color control device)
+                  16  Power-on level (+ RGBW for color control device)                    4 (or 8 for color control device)
+                  17  System failure level (+ RGBW for color control device)              4 (or 8 for color control device)
+                  18  Minimum level                                                       4
+                  19  Maximum level                                                       4
+                  20  Fade time & fade rate                                               4
+                  21  Group members G0…G15                                                5
+                  22  Group Gx member A31…0 (only allowed for group addresses)            7
+                  23  Group Gx member A63…32 (only allowed for group addresses)           7
+                  24  Start addressing devices (only allowed for broadcast address)       4
+                  25  -                                                                   4
+                  26  -                                                                   4
+                  27  Config Dali power supply (only allowed for broadcast address)       4
+                  28  Config Substitute ‘Go to Last Active Level’ (only allowed for       4
+                                     broadcast address)
+DATABYTE4 = level (raw data 0…254, 255 = no change)
+                 RAW     %       RAW   %       RAW   %       RAW   %      RAW   %       RAW   %       RAW    %
+                 0       0       40    0.290   80    0.864   120   2.58   160   7.68    200   22.89   240    68.23
+                 1       0.1     41    0.298   81    0.888   121   2.65   161   7.89    201   23.53   241    70.12
+                 2       0.103   42    0.306   82    0.913   122   2.72   162   8.11    202   24.18   242    72.06
+                 3       0.106   43    0.315   83    0.938   123   2.80   163   8.34    203   24.85   243    74.06
+                 4       0.109   44    0.324   84    0.964   124   2.87   164   8.57    204   25.53   244    76.11
+                 5       0.112   45    0.332   85    0.991   125   2.95   165   8.80    205   26.24   245    78.21
+                 6       0.115   46    0.342   86    1.018   126   3.04   166   9.05    206   26.97   246    80.38
+                 7       0.118   47    0.351   87    1.047   127   3.12   167   9.30    207   27.71   247    82.60
+                 8       0.121   48    0.361   88    1.076   128   3.21   168   9.56    208   28.48   248    84.89
+                 9       0.124   49    0.371   89    1.105   129   3.29   169   9.82    209   29.27   249    87.24
+                 10      0.128   50    0.381   90    1.136   130   3.39   170   10.09   210   30.08   250    89.65
+                 11      0.131   51    0.392   91    1.167   131   3.48   171   10.37   211   30.91   251    92.14
+                 12      0.135   52    0.402   92    1.200   132   3.58   172   10.66   212   31.77   252    94.69
+                 13      0.139   53    0.414   93    1.233   133   3.67   173   10.95   213   32.65   253    97.31
+                 14      0.143   54    0.425   94    1.267   134   3.78   174   11.26   214   33.55   254    100
+                 15      0.147   55    0.437   95    1.302   135   3.88   175   11.57   215   34.48   255    No change
+                 16      0.151   56    0.449   96    1.338   136   3.99   176   11.89   216   35.43
+                 17      0.155   57    0.461   97    1.375   137   4.10   177   12.22   217   36.41
+                 18      0.159   58    0.474   98    1.413   138   4.21   178   12.55   218   37.42
+                 19      0.163   59    0.487   99    1.452   139   4.33   179   12.90   219   38.46
+                 20      0.168   60    0.501   100   1.492   140   4.45   180   13.26   220   39.52
+                 21      0.173   61    0.515   101   1.534   141   4.57   181   13.63   221   40.62
+                 22      0.177   62    0.529   102   1.576   142   4.70   182   14.00   222   41.74
+                 23      0.182   63    0.543   103   1.620   143   4.83   183   14.39   223   42.90
+                 24      0.187   64    0.559   104   1.665   144   4.96   184   14.79   224   44.08
+                 25      0.193   65    0.574   105   1.711   145   5.10   185   15.20   225   45.30
+                 26      0.198   66    0.590   106   1.758   146   5.24   186   15.62   226   46.56
+                 27      0.203   67    0.606   107   1.807   147   5.39   187   16.05   227   47.85
+                 28      0.209   68    0.623   108   1.857   148   5.53   188   16.50   228   49.17
+                 29      0.215   69    0.640   109   1.908   149   5.69   189   16.95   229   50.53
+                 30      0.221   70    0.658   110   1.961   150   5.85   190   17.42   230   51.93
+                 31      0.227   71    0.676   111   2.02    151   6.01   191   17.90   231   53.37
+                 32      0.233   72    0.695   112   2.07    152   6.17   192   18.40   232   54.84
+                 33      0.240   73    0.714   113   2.13    153   6.34   193   18.91   233   56.36
+                 34      0.246   74    0.734   114   2.19    154   6.52   194   19.43   234   57.92
+                 35      0.253   75    0.754   115   2.25    155   6.70   195   19.97   235   59.53
+                 36      0.260   76    0.775   116   2.31    156   6.89   196   20.52   236   61.17
+                 37      0.267   77    0.796   117   2.37    157   7.08   197   21.09   237   62.87
+
+
+
+
+                       VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025                              21
+                      38     0.275   78    0.819   118   2.44   158   7.27   198    21.68   238   64.61
+                      39     0.282   79    0.841   119   2.51   159   7.47   199    22.28   239   66.39
+    DATABYTE5 = red value (0…254, 255 = no change)
+    DATABYTE6 = green value (0…254, 255 = no change)
+    DATABYTE7 = blue value (0…254, 255 = no change)
+    DATABYTE8 = white value (0…254, 255 = no change)
+    DATABYTE4 = fade time / rate
+                          Fade raw data         Fade time / rate
+                               H’0x’            No fade
+                               H’1x’            Fade time 0.7 s
+                               H’2x’            Fade time 1.0 s
+                               H’3x’            Fade time 1.4 s
+                               H’4x’            Fade time 2.0 s
+                               H’5x’            Fade time 2.8 s
+                               H’6x’            Fade time 4.0 s
+                               H’7x’            Fade time 5.7 s
+                               H’8x’            Fade time 8.0 s
+                               H’9x’            Fade time 11.3 s
+                               H’Ax’            Fade time 16.0 s
+                               H’Bx’            Fade time 22.6 s
+                               H’Cx’            Fade time 32.0 s
+                               H’Dx’            Fade time 45.3 s
+                               H’Ex’            Fade time 64.0 s
+                               H’Fx’            Fade time 90.5 s
+                               H’x0’            Fade rate not applicable
+                               H’x1’            Fade rate 358.0 steps/s
+                               H’x2’            Fade rate 253.0 steps/s
+                               H’x3’            Fade rate 179.0 steps/s
+                               H’x4’            Fade rate 127.0 steps/s
+                               H’x5’            Fade rate 89.4 steps/s
+                               H’x6’            Fade rate 63.3 steps/s
+                               H’x7’            Fade rate 44.7 steps/s
+                               H’x8’            Fade rate 31.6 steps/s
+                               H’x9’            Fade rate 22.4 steps/s
+                               H’xA’            Fade rate 15.8 steps/s
+                               H’xB’            Fade rate 11.2 steps/s
+                               H’xC’            Fade rate 7.9 steps/s
+                               H’xD’            Fade rate 5.6 steps/s
+                               H’xE’            Fade rate 4.0 steps/s
+                               H’xF’            Fade rate 2.8 steps/s
+
+‘Device settings request’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 3 data bytes received for all settings request
+                     4 data bytes received for individual setting request
+    DATABYTE1 = COMMAND_TEMP_SENSOR_SETTINGS_REQUEST (0xE7)
+    DATABYTE2 = Channel 1…4 (255 for all channels)
+    DATABYTE3 = access settings from the devices (don’t care)
+    DATABYTE4 = individual setting request index (0…26)
+                       index Configuration
+                          0     Scene S0 level (+ RGBW for color control device)
+                          1     Scene S1 level (+ RGBW for color control device)
+                          2     Scene S2 level (+ RGBW for color control device)
+                          3     Scene S3 level (+ RGBW for color control device)
+                          4     Scene S4 level (+ RGBW for color control device)
+                          5     Scene S5 level (+ RGBW for color control device)
+                          6     Scene S6 level (+ RGBW for color control device)
+                          7     Scene S7 level (+ RGBW for color control device)
+                          8     Scene S8 level (+ RGBW for color control device)
+                          9     Scene S9 level (+ RGBW for color control device)
+                         10     Scene S10 level (+ RGBW for color control device)
+
+
+
+
+                           VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025                   22
+                      11     Scene S11 level (+ RGBW for color control device)
+                      12     Scene S12 level (+ RGBW for color control device)
+                      13     Scene S13 level (+ RGBW for color control device)
+                      14     Scene S14 level (+ RGBW for color control device)
+                      15     Scene S15 level (+ RGBW for color control device)
+                      16     Power-on level (+ RGBW for color control device)
+                      17     System failure level (+ RGBW for color control device)
+                      18     Minimum level
+                      19     Maximum level
+                      20     Fade time & fade rate
+                      21     Group members G0…G15
+                      22     -
+                      23     -
+                      24     -
+                      25     Device type
+                      26     Actual level (+ RGBW for color control device)
+
+
+‘Enable Channel Program’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+   DATABYTE1 = COMMAND_ENABLE_PROGRAM (0xB2)
+   DATABYTE2 = Channel 1…4
+
+   Remark: channel number = 0xFF for all channels
+
+‘Disable Channel Program’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 5 data bytes received
+    DATABYTE1 = COMMAND_DISABLE_PROGRAM (0xB1)
+    DATABYTE2 = Channel 1…4
+    DATABYTE3 = high byte of delay time
+    DATABYTE4 = mid byte of delay time
+    DATABYTE5 = low byte of delay time
+
+   Remark:
+   Channel number = 0xFF for all channels
+   [DATABYTE3][DATABYTE4][DATABYTE5] contain a 24-bit time in seconds
+   The command will be skipped when the time parameter contains zero.
+   When the time parameter contains 0xFFFFFF then the channel program will be permanently disabled.
+
+‘Select Program’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_SELECT_PROGRAM (0xB3)
+    DATABYTE2 = Program mode
+                     Contents         Selected program
+                      0               None
+                      1               Program group 1 (Summer)
+                      2               Program group 2 (Winter)
+                      3               Program group 3 (Holiday)
+
+
+
+
+                           VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025               23
+‘Read program step’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 5 data bytes received
+    DATABYTE1 = COMMAND_READ_PROGRAM_STEP (0xC0)
+    DATABYTE2 = Start program step number (1…116)
+    DATABYTE3 = Program group number (1…3)
+    DATABYTE2 = Channel 1…4
+    DATABYTE5 = Search direction (1 = search for next matched step / 0 = search for previous matched program step)
+
+‘Write program step’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 8 data bytes received
+   DATABYTE1 = COMMAND_WRITE_PROGRAM_STEP (0xC2)
+   DATABYTE2 = Program step number (1…116)
+   DATABYTE3 = Program reference
+                         Contents      Description
+                        000xxxxx       Disable program step
+                        001xxxxx       Absolute time
+                        010xxxxx       Wake up time 1 + relative time
+                        011xxxxx       Go to bed time 1 + relative time
+                        100xxxxx       Wake up time 2 + relative time
+                        101xxxxx       Go to bed time 2 + relative time
+                        110xxxxx       Sunrise + relative time
+                        111xxxxx       Sunset + relative time
+                        xxx01111       Rel. time = 3h45min
+                           …
+                        xxx00001       Rel. time = 15min
+                        xxx00000       Rel. time = 0
+                        xxx11111       Rel. time = -15min
+                           …
+                        xxx10000       Rel. time = -4h
+
+    DATABYTE4 = Program step month & four least significant bits of day
+                      Contents                           Description
+                     xxxx0000       Weekly program
+                     xxxx0001       January
+                     xxxx0010       February
+                     xxxx0011       March
+                     xxxx0100       April
+                     xxxx0101       May
+                     xxxx0110       June
+                     xxxx0111       July
+                     xxxx1000       August
+                     xxxx1001       September
+                     xxxx1010       October
+                     xxxx1011       November
+                     xxxx1100       December
+                     xxxx1101       Monthly program
+                     xxxx1110       Monthly program
+                     xxxx1111       Monthly program
+
+                       Contents byte6     Contents byte4     Description
+                         00xxxxxx           0000xxxx         Never
+                         00xxxxxx           0001xxxx         Day 1of the month
+                         00xxxxxx           0010xxxx         Day 2of the month
+                            …                  ...           …
+                         01xxxxxx           1111xxxx         Day 31of the month
+                         10xxxxxx           0000xxxx         Never
+
+
+
+
+                           VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025                              24
+                       10xxxxxx            0001xxxx           Every Monday
+                       10xxxxxx            0010xxxx           Every Tuesday
+                          ...                 …               …
+                       10xxxxxx            0111xxxx           Every Sunday
+                       10xxxxxx            1000xxxx           Every weekend (sa & su)
+                       10xxxxxx            1001xxxx           Every working day (mo…fr)
+                       10xxxxxx            1010xxxx           Every day except Sunday
+                       10xxxxxx            1011xxxx           Every day
+                       10xxxxxx            1100xxxx           Never
+                          …                   …               …
+                       11xxxxxx            1111xxxx           Never
+
+DATABYTE5 = Program step hour & group number
+                  Contents      Description
+                 xxx00000       0h
+                 xxx00001       1h
+                    …           …
+                 xxx10111       23h
+                 xx1xxxxx       Program group 1 (Summer program)
+                 x1xxxxxx       Program group 2 (Winter program)
+                 1xxxxxxx       Program group 3 (Holiday program)
+
+DATABYTE6 = Program step minute & msb of day & every flag
+                  Contents      Description
+                 xx000000       0min
+                 xx000001       1min
+                    …           …
+                 xx111011       59min
+
+                    Contents byte6      Contents byte4        Description
+                      00xxxxxx            0000xxxx            Never
+                      00xxxxxx            0001xxxx            Day 1of the month
+                      00xxxxxx            0010xxxx            Day 2of the month
+                         …                   ...              …
+                      01xxxxxx            1111xxxx            Day 31of the month
+                      10xxxxxx            0000xxxx            Never
+                      10xxxxxx            0001xxxx            Every Monday
+                      10xxxxxx            0010xxxx            Every Tuesday
+                          ...                …                …
+                      10xxxxxx            0111xxxx            Every Sunday
+                      10xxxxxx            1000xxxx            Every weekend (sa & su)
+                      10xxxxxx            1001xxxx            Every working day (mo…fr)
+                      10xxxxxx            1010xxxx            Every day except Sunday
+                      10xxxxxx            1011xxxx            Every day
+                      10xxxxxx            1100xxxx            Never
+                         …                   …                …
+                      11xxxxxx            1111xxxx            Never
+
+DATABYTE7 = Program step action
+                  Contents      Action
+
+
+DATABYTE8 = Channel
+                 Contents              Channel
+                     1                 Channel 1
+                    ...                …
+                     4                 Channel 4
+
+Remark:
+Erase program step if channel parameter is equal with zero.
+
+
+
+
+                        VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025      25
+‘Change master address and serial number’ command received:
+   SID10-SID9 = 01 (firmware priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 7 data bytes received
+   DATABYTE1 = COMMAND_WRITE_ADDR_SERIALNR (0x6A)
+   DATABYTE2 = Module type (0x06 = VMB4LEDPWM-20)
+   DATABYTE3 = Current serial nr high byte
+   DATABYTE4 = Current serial nr low byte
+   DATABYTE5 = New module address
+   DATABYTE6 = New serial nr high byte
+   DATABYTE7 = New serial nr low byte
+
+
+
+
+                       VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025   26
+ Memory map version 1:
+
+Address   Contents
+0x0000    Channel 1 name character 1
+0x0001    Channel 1 name character 2
+...       ...
+0x000E    Channel 1 name character 15
+0x000F    Channel 1 name character 16
+...       ...
+0x0030    Channel 4 name character 1
+0x0031    Channel 4 name character 2
+...       ...
+0x003F    Channel 4 name character 15
+0x003F    Channel 4 name character 16
+0x0040    Not used
+0x0041    Not used
+0x0042    Not used
+0x0043    Alarm clock configuration
+0x0044    Wake up 1 hour (0…23)
+0x0045    Wake up 1 minutes (0…59)
+0x0046    Go to bed 1 hour (0…23)
+0x0047    Go to bed 1 minutes (0…59)
+0x0048    Wake up 2 hour (0…23)
+0x0049    Wake up 2 minutes (0…59)
+0x004A    Go to bed 2 hour (0…23)
+0x004B    Go to bed 2 minutes (0…59)
+0x004C    Sunrise hour at 21 December (0…23)
+0x004D    Sunrise minutes at 21 December (0…59)
+0x004E    Sunrise 21 January – sunrise 5 January (-128’...127’)
+0x004F    Sunrise 5 February – sunrise 21 January (-128’...127’)
+0x0050    Sunrise 21 February – sunrise 5 February (-128’...127’)
+0x0051    Sunrise 5 March – sunrise 21 February (-128’...127’)
+0x0052    Sunrise 21 March – sunrise 5 March (-128’…127’)
+0x0053    Sunrise 5 April – sunrise 21 March (-128’...127’)
+0x0054    Sunrise 21 April – sunrise 5 April (-128’…127’)
+0x0055    Sunrise 5 May – sunrise 21 April (-128’...127’)
+0x0056    Sunrise 21 May – sunrise 5 May (-128’…127’)
+0x0057    Sunrise 5 June – sunrise 21 May (-128’...127’)
+0x0058    Sunrise 21 June – sunrise 5 June (-128’…127’)
+0x0059    Sunrise 5 July – sunrise 21 June (-128’...127’)
+0x005A    Sunrise 21 July – sunrise 5 July (-128’…127’)
+0x005B    Sunrise 5 August – sunrise 21 July (-128’...127’)
+0x005C    Sunrise 21 August – sunrise 5 August (-128’...127’)
+0x005D    Sunrise 5 September – sunrise 21 August (-128’...127’)
+0x005E    Sunrise 21 September – sunrise 5 September (-128...127’)
+0x005F    Sunrise 5 October – sunrise 21 Sept. (-128’...127’)
+0x0060    Sunrise 21 October – sunrise 5 October (-128’…127’)
+0x0061    Sunrise 5 November – sunrise 21 Oct. (-128’...127’)
+0x0062    Sunrise 21 November – sunrise 5 November (-128’...127’)
+0x0063    Sunrise 5 December – sunrise 21 Nov. (-128’...127’)
+0x0064    Sunrise 21 December – sunrise 5 December (-128’...127’)
+0x0065    Sunrise 5 January – sunrise 21 December (-128’...127’)
+0x0066    Not used
+0x0067    Not used
+0x0068    Sunset hour at 21 December (0…23)
+0x0069    Sunset minutes at 21 December (0…59)
+0x006A    Sunset 21 January – sunset 5 January (-128’...127’)
+0x006B    Sunset 5 February – sunset 21 January (-128’...127’)
+0x006C    Sunset 21 February – sunset 5 February (-128’...127’)
+0x006D    Sunset 5 March – sunset 21 February (-128’...127’)
+0x006E    Sunset 21 March – sunset 5 March (-128’...127’)
+0x006F    Sunset 5 April – sunset 21 March (-128’...127’)
+0x0070    Sunset 21 April – sunset 5 April (-128’...127’)
+0x0071    Sunset 5 May – sunset 21 April (-128’...127’)
+0x0072    Sunset 21 May – sunset 5 May (-128’...127’)
+
+
+
+
+                             VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025   27
+0x0073    Sunset 5 June – sunset 21 May (-128’...127’)
+0x0074    Sunset 21 June – sunset 5 June (-128’...127’)
+0x0075    Sunset 5 July – sunset 21 June (-128’...127’)
+0x0076    Sunset 21 July – sunset 5 July (-128’...127’)
+0x0077    Sunset 5 August – sunset 21 July (-128’...127’)
+0x0078    Sunset 21 August – sunset 5 August (-128’...127’)
+0x0079    Sunset 5 September – sunset 21 August (-128’...127’)
+0x007A    Sunset 21 September – sunset 5 September (-128’...127’)
+0x007B    Sunset 5 October – sunset 21 September (-128’...127’)
+0x007C    Sunset 21 October – sunset 5 October (-128’...127’)
+0x007D    Sunset 5 November - sunset 21 October (-128’...127’)
+0x007E    Sunset 21 November – sunset 5 November (-128’...127’)
+0x007F    Sunset 5 December - sunset 21 Nov. (-128’...127’)
+0x0080    Sunset 21 December – sunset 5 December (-128’...127’)
+0x0081    Sunset 5 January – sunset 21 December (-128’...127’)
+0x0082    Not used
+0x0083    Not used
+0x0084    Not used
+0x0085    Not used
+…         …
+0x008A    Not used
+0x008B    Not used
+
+     Remark:
+     Unused locations contain H’FF’
+
+                Alarm clock configuration
+                        Contents        Channel locked/unlocked
+                      B’xxxxxxx0’       Alarm 1 disabled (default)
+                      B’xxxxxxx1’       Alarm 1 enabled
+                      B’0xxxxx0x’       Local alarm 1 (default)
+                      B’1xxxxx1x’       Global alarm 1
+                      B’xxxxx0xx’       Alarm 2 disabled (default)
+                      B’xxxxx1xx’       Alarm 2 enabled
+                      B’xxxx0xxx’       Local alarm 2 (default)
+                      B’xxxx1xxx’       Global alarm 2
+                      B’xxx0xxxx’       Sunrise disabled
+                      B’xxx1xxxx’       Sunrise enabled (default)
+                      B’xx0xxxxx’       Sunset disabled
+                      B’xx1xxxxx’       Sunset enabled (default)
+                      B’x0xxxxxx’       Day light savings disabled
+                      B’x1xxxxxx’       Day light savings enabled (default)
+
+
+
+
+                              VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025   28
+ Address        Contents
+ 0x008C         Links in use byte 0 (LSB)
+ 0x008D         Links in use high byte1
+ 0x008E         Links in use low byte 2
+ 0x008F         Links in use low byte 3 (MSB)
+ 0x0090         Linked Push button 1 module address
+ 0x0091         Linked Push button 1 bit number
+ 0x0092         Linked Push button 1 action
+ 0x0093         Linked Push button 1 parameter 1
+ 0x0094         Linked Push button 1 parameter 2
+ 0x0095         Linked Push button 1 parameter 3
+ ...            ...
+ 0x035A         Linked Push button 120 address
+ 0x035B         Linked Push button 120 bit number
+ 0x035C         Linked Push button 120 action
+ 0x035D         Linked Push button 120 parameter 1
+ 0x035E         Linked Push button 120 parameter 2
+ 0x035F         Linked Push button 120 parameter 3
+
+Remark: Unused locations contain 0xFF
+
+Action
+  Action Byte         Action
+  B’0xxxxxxx’         Execute action at button pressed or during closed switch
+  B’1xxxxxxx’         Execute action at button released or during open switch*
+  B’x0000000’         Action number 0
+      …               …
+  B’x1111111’         Action number 127
+
+  Action     Action                                  Parameter 1   Parameter 2   Parameter 3
+      nr
+       0     No action                               -
+       1     Forced Off (lock) channel at            -             -             Bit7-3: unused
+             closed/open switch                                                  Bit2…0: Channel (1…4)
+         2   Forced Off (lock) channel               Time-out      -             Bit7-3: unused
+                                                                                 Bit2…0: Channel (1…4)
+         3   Toggle Forced Off (lock/unlock)         Time-out      -             Bit7-3: unused
+             channel                                                             Bit2…0: Channel (1…4)
+         4   Cancel Forced Off (unlock) channel      -             -             Bit7-3: unused
+                                                                                 Bit2…0: Channel (1…4)
+         5   Forced On channel at closed/open        -             -             Bit7-3: unused
+             switch                                                              Bit2…0: Channel (1…4)
+         6   Forced On channel                       Time-out      -             Bit7-3: unused
+                                                                                 Bit2…0: Channel (1…4)
+         7   Toggle Forced On channel                Time-out      -             Bit7-3: unused
+                                                                                 Bit2…0: Channel (1…4)
+         8   Cancel Forced On channel                -             -             Bit7-3: unused
+                                                                                 Bit2…0: Channel (1…4)
+         9   Inhibit channel at closed/open switch   -             -             Bit7-3: unused
+                                                                                 Bit2…0: Channel (1…4)
+     10      Inhibit channel                         Time-out      -             Bit7-3: unused
+                                                                                 Bit2…0: Channel (1…4)
+     11      Toggle Inhibit channel                  Time-out      -             Bit7-3: unused
+                                                                                 Bit2…0: Channel (1…4)
+     12      Cancel Inhibit channel                  -             -             Bit7-3: unused
+                                                                                 Bit2…0: Channel (1…4)
+     13      Disable channel program at              -             -             Bit7-3: unused
+             closed/open switch                                                  Bit2…0: Channel (1…4)
+     14      Disable channel program channel         Time-out      -             Bit7-3: unused
+                                                                                 Bit2…0: Channel (1…4)
+     15      Disable/enable channel program          Time-out      -             Bit7-3: unused
+                                                                                 Bit2…0: Channel (1…4)
+     16      Enable channel program                  -             -             Bit7-3: unused
+                                                                                 Bit2…0: Channel (1…4)
+     17      Select no programs                      -             -             -
+     18      Select program group 1                  -             -             -
+     19      Toggle program group 1                  -             -             -
+     20      Select program group 2                  -             -             -
+     21      Toggle program group 2                  -             -             -
+     22      Select program group 3                  -             -             -
+     23      Toggle program group 3                  -             -             -
+     24      Enable Alarm 1 at closed/open switch    -             -             -
+
+
+
+
+                               VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025              29
+25   Disable Alarm 1 at closed/open switch   -           -           -
+26   Enable Alarm 1                          -           -           -
+27   Enable/Disable Alarm 1                  -           -           -
+28   Disable Alarm 1                         -           -           -
+29   Enable Alarm 2 at closed/open switch    -           -           -
+30   Disable Alarm 2 at closed/open switch   -           -           -
+31   Enable Alarm 2                          -           -           -
+32   Enable/Disable Alarm 2                  -           -           -
+33   Disable Alarm 2                         -           -           -
+34   Enable Sunrise at closed/open switch    -           -           -
+35   Disable Sunrise at closed/open switch   -           -           -
+36   Enable Sunrise                          -           -           -
+37   Enable/Disable Sunrise                  -           -           -
+38   Disable Sunrise                         -           -           -
+39   Enable Sunset at closed/open switch     -           -           -
+40   Disable Sunset at closed/open switch    -           -           -
+41   Enable Sunset                           -           -           -
+42   Enable/Disable Sunset                   -           -           -
+43   Disable Sunset                          -           -           -
+44   Off                                     -           -           Bit7-5: unused
+                                                                     Bit4-3: Fade mode at press
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit2…0: Channel (1…4)
+45   On                                      -           -           Bit7-5: unused
+                                                                     Bit4-3: Fade mode at press
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit2…0: Channel (1…4)
+46   Toggle                                  -           -           Bit7-5: unused
+                                                                     Bit4-3: Fade mode at press
+                                                                             0=direct / 1=use fade rate / 2=use fade time
+                                                                     Bit2…0: Channel (1…4)
+47   Delayed-on at closed/open switch        Delay-on    Target      Bit7-5: unused
+     (momentary value)                       time                    Bit4-3: Fade mode
+                                                                             0=direct / 1=use fade rate / 2=use fade time
+                                                                     Bit2…0: Channel (1…4)
+48   Restartable delayed-on                  Delay-on    Target      Bit7-5: unused
+                                             time                    Bit4-3: Fade mode at press
+                                                                             0=direct / 1=use fade rate / 2=use fade time
+                                                                     Bit2…0: Channel (1…4)
+49   Non-restartable delayed-on              Delay-on    Target      Bit7-5: unused
+                                             time                    Bit4-3: Fade mode at press
+                                                                             0=direct / 1=use fade rate / 2=use fade time
+                                                                     Bit2…0: Channel (1…4)
+50   Start-stop delayed-on                   Delay-on    Target      Bit7-5: unused
+                                             time                    Bit4-3: Fade mode at press
+                                                                             0=direct / 1=use fade rate / 2=use fade time
+                                                                     Bit2…0: Channel (1…4)
+51   Restartable delayed-off                 Delay-off   -           Bit7: unused
+                                             time                    Bit6-5: Fade out mode at time-out
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit4-3: unused
+                                                                     Bit2…0: Channel (1…4)
+52   Non-restartable delayed-off             Delay-off   -           Bit7: unused
+                                             time                    Bit6-5: Fade out mode at time-out
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit4-3: unused
+                                                                     Bit2…0: Channel (1…4)
+53   Start-stop delayed-off                  Delay-off   -           Bit7: unused
+                                             time                    Bit6-5: Fade out mode at time-out
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit4-3: unused
+                                                                     Bit2…0: Channel (1…4)
+54   Restartable timer                       Time-out    Target      Bit7: unused
+                                                                     Bit6-5: Fade out mode at time-out
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit4-3: Fade mode at press
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit2…0: Channel (1…4)
+55   Non-restartable timer                   Time-out    Target      Bit7: unused
+                                                                     Bit6-5: Fade out mode at time-out
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit4-3: Fade mode at press
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit2…0: Channel (1…4)
+56   Start-stop timer                        Time-out    Target      Bit7: unused
+                                                                     Bit6-5: Fade out mode at time-out
+                                                                             0=direct / 1=use fade rate / 2=use fade time
+                                                                     Bit4-3: Fade mode at press
+                                                                             0=direct/1=use fade rate/2=use fade time
+
+
+
+
+                        VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025                                        30
+                                                                  Bit2…0: Channel (1…4)
+57   Dim up*                              Time-out   -            Bit7: unused
+                                                                  Bit6-5: Fade out mode at time-out
+                                                                          0=direct/1=use fade rate/2=use fade time
+                                                                  Bit4-3: unused
+                                                                  Bit2…0: Channel (1…4)
+58   Dim up/on at short press*            Time-out   Target       Bit7: unused
+                                                                  Bit6-5: Fade out mode at time-out
+                                                                          0=direct/1=use fade rate/2=use fade time
+                                                                  Bit4-3: Fade mode at short press
+                                                                          0=direct/1=use fade rate/2=use fade time
+                                                                  Bit2…0: Channel (1…4)
+59   Dim down*                            Time-out   -            Bit7: unused
+                                                                  Bit6-5: Fade out mode at time-out
+                                                                          0=direct/1=use fade rate/2=use fade time
+                                                                  Bit4-3: unused
+                                                                  Bit2…0: Channel (1…4)
+60   Dim down/off at short press*         Time-out   -            Bit7: dim down to minimum level
+                                                                         0=dim to 0% / 1=dim to minimum level
+                                                                  Bit6-5: Fade out mode at time-out
+                                                                          0=direct / 1=use fade rate / 2=use fade time
+                                                                  Bit4-3: Fade mode at short press
+                                                                          0=direct/1=use fade rate/2=use fade time
+                                                                  Bit2…0: Channel (1…4)
+61   Dim up-down*                         Time-out   -            Bit7: unused
+                                                                  Bit6-5: Fade out mode at time-out
+                                                                          0=direct/1=use fade rate/2=use fade time
+                                                                  Bit4-3: unused
+                                                                  Bit2…0: Channel (1…4)
+62   Dim up-down/toggle at short press*   Time-out   Target       Bit7: dim down to minimum level
+                                                                         0=dim to 0% / 1=dim to minimum level
+                                                                  Bit6-5: Fade out mode at time-out
+                                                                          0=direct / 1=use fade rate / 2=use fade time
+                                                                  Bit4-3: Fade mode at short press
+                                                                          0=direct/1=use fade rate/2=use fade time
+                                                                  Bit2…0: Channel (1…4)
+63   Go to scene 0                        Time-out   -            Bit7: unused
+                                                                  Bit6-5: Fade out mode at time-out
+                                                                          0=direct / 1=use fade rate / 2=use fade time
+                                                                  Bit4-3: Fade mode at press
+                                                                          0=direct / 1=use fade rate / 2=use fade time
+                                                                  Bit2…0: Channel (1…4)
+64   Go to scene 1                        Time-out   -            Bit7: unused
+                                                                  Bit6-5: Fade out mode at time-out
+                                                                          0=direct / 1=use fade rate / 2=use fade time
+                                                                  Bit4-3: Fade mode at press
+                                                                          0=direct / 1=use fade rate / 2=use fade time
+                                                                  Bit2…0: Channel (1…4)
+65   Go to scene 2                        Time-out   -            Bit7: unused
+                                                                  Bit6-5: Fade out mode at time-out
+                                                                          0=direct / 1=use fade rate / 2=use fade time
+                                                                  Bit4-3: Fade mode at press
+                                                                          0=direct / 1=use fade rate / 2=use fade time
+                                                                  Bit2…0: Channel (1…4)
+66   Go to scene 3                        Time-out   -            Bit7: unused
+                                                                  Bit6-5: Fade out mode at time-out
+                                                                          0=direct / 1=use fade rate / 2=use fade time
+                                                                  Bit4-3: Fade mode at press
+                                                                          0=direct / 1=use fade rate / 2=use fade time
+                                                                  Bit2…0: Channel (1…4)
+67   Go to scene 4                        Time-out   -            Bit7: unused
+                                                                  Bit6-5: Fade out mode at time-out
+                                                                          0=direct / 1=use fade rate / 2=use fade time
+                                                                  Bit4-3: Fade mode at press
+                                                                          0=direct / 1=use fade rate / 2=use fade time
+                                                                  Bit2…0: Channel (1…4)
+68   Go to scene 5                        Time-out   -            Bit7: unused
+                                                                  Bit6-5: Fade out mode at time-out
+                                                                          0=direct / 1=use fade rate / 2=use fade time
+                                                                  Bit4-3: Fade mode at press
+                                                                          0=direct / 1=use fade rate / 2=use fade time
+                                                                  Bit2…0: Channel (1…4)
+69   Go to scene 6                        Time-out   -            Bit7: unused
+                                                                  Bit6-5: Fade out mode at time-out
+                                                                          0=direct / 1=use fade rate / 2=use fade time
+                                                                  Bit4-3: Fade mode at press
+                                                                          0=direct / 1=use fade rate / 2=use fade time
+                                                                  Bit2…0: Channel (1…4)
+70   Go to scene 7                        Time-out   -            Bit7: unused
+                                                                  Bit6-5: Fade out mode at time-out
+
+
+
+
+                     VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025                                        31
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit4-3: Fade mode at press
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit2…0: Channel (1…4)
+71   Go to scene 8                     Time-out     -              Bit7: unused
+                                                                   Bit6-5: Fade out mode at time-out
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit4-3: Fade mode at press
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit2…0: Channel (1…4)
+72   Go to scene 9                     Time-out     -              Bit7: unused
+                                                                   Bit6-5: Fade out mode at time-out
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit4-3: Fade mode at press
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit2…0: Channel (1…4)
+73   Go to scene 10                    Time-out     -              Bit7: unused
+                                                                   Bit6-5: Fade out mode at time-out
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit4-3: Fade mode at press
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit2…0: Channel (1…4)
+74   Go to scene 11                    Time-out     -              Bit7: unused
+                                                                   Bit6-5: Fade out mode at time-out
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit4-3: Fade mode at press
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit2…0: Channel (1…4)
+75   Go to scene 12                    Time-out     -              Bit7: unused
+                                                                   Bit6-5: Fade out mode at time-out
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit4-3: Fade mode at press
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit2…0: Channel (1…4)
+76   Go to scene 13                    Time-out     -              Bit7: unused
+                                                                   Bit6-5: Fade out mode at time-out
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit4-3: Fade mode at press
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit2…0: Channel (1…4)
+77   Go to scene 14                    Time-out     -              Bit7: unused
+                                                                   Bit6-5: Fade out mode at time-out
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit4-3: Fade mode at press
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit2…0: Channel (1…4)
+78   Go to scene 15                    Time-out     -              Bit7: unused
+                                                                   Bit6-5: Fade out mode at time-out
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit4-3: Fade mode at press
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit2…0: Channel (1…4)
+79   Toggle scene 0                    Time-out     -              Bit7: unused
+                                                                   Bit6-5: Fade out mode at time-out
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit4-3: Fade mode at press
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit2…0: Channel (1…4)
+80   Toggle scene 1                    Time-out     -              Bit7: unused
+                                                                   Bit6-5: Fade out mode at time-out
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit4-3: Fade mode at press
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit2…0: Channel (1…4)
+81   Toggle scene 2                    Time-out     -              Bit7: unused
+                                                                   Bit6-5: Fade out mode at time-out
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit4-3: Fade mode at press
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit2…0: Channel (1…4)
+82   Toggle scene 3                    Time-out     -              Bit7: unused
+                                                                   Bit6-5: Fade out mode at time-out
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit4-3: Fade mode at press
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit2…0: Channel (1…4)
+83   Toggle scene 4                    Time-out     -              Bit7: unused
+                                                                   Bit6-5: Fade out mode at time-out
+                                                                           0=direct / 1=use fade rate / 2=use fade time
+                                                                   Bit4-3: Fade mode at press
+
+
+
+
+                      VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025                                        32
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit2…0: Channel (1…4)
+84   Toggle scene 5                     Time-out     -              Bit7: unused
+                                                                    Bit6-5: Fade out mode at time-out
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit4-3: Fade mode at press
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit2…0: Channel (1…4)
+85   Toggle scene 6                     Time-out     -              Bit7: unused
+                                                                    Bit6-5: Fade out mode at time-out
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit4-3: Fade mode (at go to scene)
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit2…0: Channel (1…4)
+86   Toggle scene 7                     Time-out     -              Bit7: unused
+                                                                    Bit6-5: Fade out mode (at time-out
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit4-3: Fade mode at press
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit2…0: Channel (1…4)
+87   Toggle scene 8                     Time-out     -              Bit7: unused
+                                                                    Bit6-5: Fade out mode at time-out
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit4-3: Fade mode at press
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit2…0: Channel (1…4)
+88   Toggle scene 9                     Time-out     -              Bit7: unused
+                                                                    Bit6-5: Fade out mode at time-out
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit4-3: Fade mode at press
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit2…0: Channel (1…4)
+89   Toggle scene 10                    Time-out     -              Bit7: unused
+                                                                    Bit6-5: Fade out mode at time-out
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit4-3: Fade mode at press
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit2…0: Channel (1…4)
+90   Toggle scene 11                    Time-out     -              Bit7: unused
+                                                                    Bit6-5: Fade out mode at time-out
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit4-3: Fade mode at press
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit2…0: Channel (1…4)
+91   Toggle scene 12                    Time-out     -              Bit7: unused
+                                                                    Bit6-5: Fade out mode at time-out
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit4-3: Fade mode at press
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit2…0: Channel (1…4)
+92   Toggle scene 13                    Time-out     -              Bit7: unused
+                                                                    Bit6-5: Fade out mode at time-out
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit4-3: Fade mode at press
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit2…0: Channel (1…4)
+93   Toggle scene 14                    Time-out     -              Bit7: unused
+                                                                    Bit6-5: Fade out mode at time-out
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit4-3: Fade mode at press
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit2…0: Channel (1…4)
+94   Toggle scene 15                    Time-out     -              Bit7: unused
+                                                                    Bit6-5: Fade out mode at time-out
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit4-3: Fade mode at press
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit2…0: Channel (1…4)
+95   Multi step dimmer                  Time-out     -              Bit7: unused
+                                                                    Bit6-5: Fade out mode at time-out
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit4-3: Fade mode at press (next step/scene)
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit2…0: Channel (1…4)
+96   Go to dim value                    Time-out     Target         Bit7: unused
+                                                                    Bit6-5: Fade out mode at time-out
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit4-3: Fade mode at press
+                                                                            0=direct / 1=use fade rate / 2=use fade time
+                                                                    Bit2…0: Channel (1…4)
+
+
+
+
+                       VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025                                        33
+97    Red value up*                      Time-out     -              Bit7: unused
+                                                                     Bit6-5: Fade out mode at time-out
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit4-3: unused
+                                                                     Bit2…0: Channel (1…4)
+98    Red value down*                    Time-out     -              Bit7: unused
+                                                                     Bit6-5: Fade out mode at time-out
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit4-3: unused
+                                                                     Bit2…0: Channel (1…4)
+99    Red value up-down*                 Time-out     -              Bit7: unused
+                                                                     Bit6-5: Fade out mode at time-out
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit4-3: unused
+                                                                     Bit2…0: Channel (1…4)
+100   Green value up*                    Time-out     -              Bit7: unused
+                                                                     Bit6-5: Fade out mode at time-out
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit4-3: unused
+                                                                     Bit2…0: Channel (1…4)
+101   Green value down*                  Time-out     -              Bit7: unused
+                                                                     Bit6-5: Fade out mode at time-out
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit4-3: unused
+                                                                     Bit2…0: Channel (1…4)
+102   Green value up-down*               Time-out     -              Bit7: unused
+                                                                     Bit6-5: Fade out mode at time-out
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit4-3: unused
+                                                                     Bit2…0: Channel (1…4)
+103   Blue value up*                     Time-out     -              Bit7: unused
+                                                                     Bit6-5: Fade out mode at time-out
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit4-3: unused
+                                                                     Bit2…0: Channel (1…4)
+104   Blue value down*                   Time-out     -              Bit7: unused
+                                                                     Bit6-5: Fade out mode at time-out
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit4-3: unused
+                                                                     Bit2…0: Channel (1…4)
+105   Blue value up-down*                Time-out     -              Bit7: unused
+                                                                     Bit6-5: Fade out mode at time-out
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit4-3: unused
+                                                                     Bit2…0: Channel (1…4)
+106   White value up*                    Time-out     -              Bit7: unused
+                                                                     Bit6-5: Fade out mode at time-out
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit4-3: unused
+                                                                     Bit2…0: Channel (1…4)
+107   White value down*                  Time-out     -              Bit7: unused
+                                                                     Bit6-5: Fade out mode at time-out
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit4-3: unused
+                                                                     Bit2…0: Channel (1…4)
+108   White value up-down*               Time-out     -              Bit7: unused
+                                                                     Bit6-5: Fade out mode at time-out
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit4-3: unused
+                                                                     Bit2…0: Channel (1…4)
+109   Color hue up*                      Time-out     -              Bit7: unused
+                                                                     Bit6-5: Fade out mode at time-out
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit4-3: unused
+                                                                     Bit2…0: Channel (1…4)
+110   Color hue down*                    Time-out     -              Bit7: unused
+                                                                     Bit6-5: Fade out mode at time-out
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit4-3: unused
+                                                                     Bit2…0: Channel (1…4)
+111   Color hue up-down*                 Time-out     -              Bit7: unused
+                                                                     Bit6-5: Fade out mode at time-out
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit4-3: unused
+                                                                     Bit2…0: Channel (1…4)
+112   Color saturation up*               Time-out     -              Bit7: unused
+                                                                     Bit6-5: Fade out mode at time-out
+                                                                             0=direct/1=use fade rate/2=use fade time
+                                                                     Bit4-3: unused
+                                                                     Bit2…0: Channel (1…4)
+
+
+
+
+                        VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025                                    34
+113   Color saturation down*                     Time-out     -                    Bit7: unused
+                                                                                   Bit6-5: Fade out mode at time-out
+                                                                                           0=direct/1=use fade rate/2=use fade time
+                                                                                   Bit4-3: unused
+                                                                                   Bit2…0: Channel (1…4)
+114   Color saturation up-down*                  Time-out     -                    Bit7: unused
+                                                                                   Bit6-5: Fade out mode at time-out
+                                                                                           0=direct/1=use fade rate/2=use fade time
+                                                                                   Bit4-3: unused
+                                                                                   Bit2…0: Channel (1…4)
+      *
+          Execute action at button released or during open switch not applicable
+
+
+      Parameter 1: delay & time-out
+            Parameter 1           Delay/time-out
+                 0                0s (no timer)
+                 1                1s
+                 2                2s
+                 3                3s
+                 ...
+                119               1min59s
+                120               2min
+                121               2min15s
+                 ...
+                131               4min45s
+                132               5min
+                133               5min30s
+                 ...
+                181               29min30s
+                182               30min
+                183               31min
+                 ...
+                211               59min
+                212               1h
+                213               1h15min
+                 ...
+                227               4h45min
+                228               5h
+                229               5h30min
+                 ...              ...
+                237               9h30min
+
+                  238             10h
+                  239             11h
+                   ...
+                  251             23h
+                  252             1d
+                  253             2d
+                  254             3d
+                  255             Infinite
+
+      Parameter 2: Target ((exponential curve)
+           Parameter 2            Dim value
+                 0                Last actual 0%
+                 1                % see table below
+                 …                …
+                253               % see table below
+                254               Maximum level
+                255               Unchanged
+
+           RAW      %              RAW       %        RAW   %       RAW    %        RAW      %        RAW      %        RAW      %
+           0        Last actual    40        0.290    80    0.864   120    2.58     160      7.68     200      22.89    240      68.23
+           1        0.1            41        0.298    81    0.888   121    2.65     161      7.89     201      23.53    241      70.12
+           2        0.103          42        0.306    82    0.913   122    2.72     162      8.11     202      24.18    242      72.06
+           3        0.106          43        0.315    83    0.938   123    2.80     163      8.34     203      24.85    243      74.06
+           4        0.109          44        0.324    84    0.964   124    2.87     164      8.57     204      25.53    244      76.11
+           5        0.112          45        0.332    85    0.991   125    2.95     165      8.80     205      26.24    245      78.21
+           6        0.115          46        0.342    86    1.018   126    3.04     166      9.05     206      26.97    246      80.38
+           7        0.118          47        0.351    87    1.047   127    3.12     167      9.30     207      27.71    247      82.60
+           8        0.121          48        0.361    88    1.076   128    3.21     168      9.56     208      28.48    248      84.89
+           9        0.124          49        0.371    89    1.105   129    3.29     169      9.82     209      29.27    249      87.24
+
+
+
+
+                         VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025                                                 35
+  10     0.128      50       0.381     90    1.136   130   3.39   170   10.09   210   30.08   250   89.65
+  11     0.131      51       0.392     91    1.167   131   3.48   171   10.37   211   30.91   251   92.14
+  12     0.135      52       0.402     92    1.200   132   3.58   172   10.66   212   31.77   252   94.69
+  13     0.139      53       0.414     93    1.233   133   3.67   173   10.95   213   32.65   253   97.31
+  14     0.143      54       0.425     94    1.267   134   3.78   174   11.26   214   33.55   254   Max (100)
+  15     0.147      55       0.437     95    1.302   135   3.88   175   11.57   215   34.48   255   No change
+  16     0.151      56       0.449     96    1.338   136   3.99   176   11.89   216   35.43
+  17     0.155      57       0.461     97    1.375   137   4.10   177   12.22   217   36.41
+  18     0.159      58       0.474     98    1.413   138   4.21   178   12.55   218   37.42
+  19     0.163      59       0.487     99    1.452   139   4.33   179   12.90   219   38.46
+  20     0.168      60       0.501     100   1.492   140   4.45   180   13.26   220   39.52
+  21     0.173      61       0.515     101   1.534   141   4.57   181   13.63   221   40.62
+  22     0.177      62       0.529     102   1.576   142   4.70   182   14.00   222   41.74
+  23     0.182      63       0.543     103   1.620   143   4.83   183   14.39   223   42.90
+  24     0.187      64       0.559     104   1.665   144   4.96   184   14.79   224   44.08
+  25     0.193      65       0.574     105   1.711   145   5.10   185   15.20   225   45.30
+  26     0.198      66       0.590     106   1.758   146   5.24   186   15.62   226   46.56
+  27     0.203      67       0.606     107   1.807   147   5.39   187   16.05   227   47.85
+  28     0.209      68       0.623     108   1.857   148   5.53   188   16.50   228   49.17
+  29     0.215      69       0.640     109   1.908   149   5.69   189   16.95   229   50.53
+  30     0.221      70       0.658     110   1.961   150   5.85   190   17.42   230   51.93
+  31     0.227      71       0.676     111   2.02    151   6.01   191   17.90   231   53.37
+  32     0.233      72       0.695     112   2.07    152   6.17   192   18.40   232   54.84
+  33     0.240      73       0.714     113   2.13    153   6.34   193   18.91   233   56.36
+  34     0.246      74       0.734     114   2.19    154   6.52   194   19.43   234   57.92
+  35     0.253      75       0.754     115   2.25    155   6.70   195   19.97   235   59.53
+  36     0.260      76       0.775     116   2.31    156   6.89   196   20.52   236   61.17
+  37     0.267      77       0.796     117   2.37    157   7.08   197   21.09   237   62.87
+  38     0.275      78       0.819     118   2.44    158   7.27   198   21.68   238   64.61
+  39     0.282      79       0.841     119   2.51    159   7.47   199   22.28   239   66.39
+
+Parameter 3: Channel (0-index based)
+  Parameter 3      Channel
+       0           1
+       1           2
+       2           3
+       3           4
+
+Parameter 3: Fade mode
+  Parameter 3      Fade mode
+       0           Direct
+       1           Use fade rate
+       2           Use fade time
+
+
+
+
+            VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025                                36
+Address    Contents
+0x0360     Program steps used byte 0 (LSB)
+0x0361     Program steps used byte 1
+0x0362     Program steps used byte 2
+0x0363     Program steps used byte 3 (MSB)
+0x0364     Program step 1 byte1
+0x0365     Program step 1 byte2
+0x0366     Program step 1 byte3
+0x0367     Program step 1 byte4
+0x0368     Program step 1 byte5
+0x0369     Program step 1 byte6
+…          ..
+0x0622     Program step 118 byte1
+0x0623     Program step 118 byte2
+0x0624     Program step 118 byte3
+0x0625     Program step 118 byte4
+0x0626     Program step 118 byte5
+0x0627     Program step 118 byte6
+
+            Contents program byte1             Description
+                 B’000xxxxx’                   Disable program step
+                 B’001xxxxx’                   Absolute time
+                 B’010xxxxx’                   Wake up time 1 + relative time
+                 B’011xxxxx’                   Go to bed time 1 + relative time
+                 B’100xxxxx’                   Wake up time 2 + relative time
+                 B’101xxxxx’                   Go to bed time 2 + relative time
+                 B’110xxxxx’                   Sunrise + relative time
+                 B’111xxxxx’                   Sunset + relative time
+                 B’xxx01111’                   Rel. time = 3h45min
+                      …
+                 B’xxx00001’                   Rel. time = 15min
+                 B’xxx00000’                   Rel. time = 0
+                 B’xxx11111’                   Rel. time = -15min
+                      …
+                 B’xxx10000’                   Rel. time = -4h
+  Remark: Wake up, Go to bed, sunrise & sunset time are only allowed for weekly programs
+
+            Contents program byte2             Description
+                 B’xxxx0000’                   Weekly program
+                 B’xxxx0001’                   January
+                 B’xxxx0010’                   February
+                 B’xxxx0011’                   March
+                 B’xxxx0100’                   April
+                 B’xxxx0101’                   May
+                 B’xxxx0110’                   June
+                 B’xxxx0111’                   July
+                 B’xxxx1000’                   August
+                 B’xxxx1001’                   September
+                 B’xxxx1010’                   October
+                 B’xxxx1011’                   November
+                 B’xxxx1100’                   December
+                 B’xxxx1101’                   Monthly program
+                 B’xxxx1110’                   Monthly program
+                 B’xxxx1111’                   Monthly program
+
+            Contents program byte3             Description
+                 B’xxx00000’                   0h
+                 B’xxx00001’                   1h
+                      …                        …
+                 B’xxx10111’                   23h
+
+
+
+
+                      VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025         37
+     B’xx1xxxxx’            Program group 1 (Summer program)
+     B’x1xxxxxx’            Program group 2 (Winter program)
+     B’1xxxxxxx’            Program group 3 (Holiday program)
+
+Contents program byte4      Description
+     B’xx000000’            0min
+     B’xx000001’            1min
+          …                 …
+     B’xx111011’            59min
+
+
+
+
+        VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025   38
+Contents program byte4             Contents program byte2        Description
+     B’00xxxxxx’                        B’0000xxxx’              Never
+     B’00xxxxxx’                        B’0001xxxx’              Day 1of the month
+     B’00xxxxxx’                        B’0010xxxx’              Day 2of the month
+          …                                  …                   …
+     B’01xxxxxx’                        B’1111xxxx’              Day 31of the month
+     B’10xxxxxx’                        B’0000xxxx’              Never
+     B’10xxxxxx’                        B’0001xxxx’              Every Monday
+     B’10xxxxxx’                        B’0010xxxx’              Every Tuesday
+          …                                  …                   …
+     B’10xxxxxx’                        B’0111xxxx’              Every Sunday
+     B’10xxxxxx’                        B’1000xxxx’              Every weekend (sa & su)
+     B’10xxxxxx’                        B’1001xxxx’              Every working day (mo…fr)
+     B’10xxxxxx’                        B’1010xxxx’              Every day except Sunday
+     B’10xxxxxx’                        B’1011xxxx’              Every day
+     B’10xxxxxx’                        B’1100xxxx’              Never
+          …                                  …                   …
+     B’11xxxxxx’                        B’1111xxxx’              Never
+
+Contents program byte5       Action
+           0                 Not yet implemented
+
+
+Contents program byte6       Channel
+            0                Program step = empty
+            1                Channel 1
+           ...               …
+            4                Channel 4
+          255                Program step = empty
+
+
+
+
+         VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025                        39
+Address   Contents
+0x0628    Location id low byte
+0x0629    Location id high byte
+0x062A    Group id low byte
+0x062B    Group id high byte
+0x062C    Module name character 1
+0x062D    Module name character 2
+…         …
+0x066A    Module name character 63
+0x066B    Module name character 64
+
+
+Address   Contents
+0x066C    Device type of channel 1
+0x066D    Minimum level of channel A0
+0x066E    Maximum level of channel 1
+0x066F    Fade time & fade rate of channel A0
+0x0670    Scene 0 intensity of channel 1
+0x0671    Scene 0 red of channel 1
+0x0672    Scene 0 green of channel 1
+0x0673    Scene 0 blue of channel 1
+0x0674    Scene 0 white of channel 1
+…         …
+0x06BB    Scene 15 intensity of channel1
+0x06BC    Scene 15 red of channel 1
+0x06BD    Scene 15 green of channel 1
+0x06BE    Scene 15 blue of channel 1
+0x06BF    Scene 15 white of channel 1
+0x06C0    Power-on intensity of channel 1
+0x06C1    Power-on red of channel 1
+0x06C2    Power-on green of channel 1
+0x06C3    Power-on blue of channel 1
+0x06C4    Power-on white of channel 1
+0x06C5    System failure intensity of channel 1
+0x06C6    System failure red of channel 1
+0x06C7    System failure green of channel 1
+0x06C8    System failure blue of channel 1
+0x06C9    System failure white of channel 1
+0x06CA    Group G0…G7 member of channel 1
+0x06CB    Group G8…G15 member of channel 1
+0x06CC    Reserved
+0x06CD    Reserved
+0x06CE    Reserved
+0x06CF    Reserved
+…         ...
+…         ...
+…         ...
+0x0798    Device type of channel 4
+0x0799    Minimum level of channel 4
+0x079A    Maximum level of channel 4
+0x079B    Fade time & fade rate of channel 4
+0x079C    Scene 0 intensity of channel 4
+0x079D    Scene 0 red of channel 4
+0x079E    Scene 0 green of channel 4
+0x079F    Scene 0 blue of channel A4
+0x07A0    Scene 0 white of channel 4
+…         …
+0x07E7    Scene 15 intensity of channel 4
+0x07E8    Scene 15 red of channel 4
+0x07E9    Scene 15 green of channel 4
+
+
+
+
+                    VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025   40
+ 0x07EA      Scene 15 blue of channel 4
+ 0x07EB      Scene 15 white of channel 4
+ 0x07EC      Power-on intensity of channel 4
+ 0x07ED      Power-on red of channel 4
+ 0x07EE      Power-on green of channel 4
+ 0x07EF      Power-on blue of channel 4
+ 0x07F0      Power-on white of channel 4
+ 0x07F1      System failure intensity of channel 4
+ 0x07F2      System failure red of channel 4
+ 0x07F3      System failure green of channel 4
+ 0x07F4      System failure blue of channel 4
+ 0x07F5      System failure white of channel 4
+ 0x07F6      Group G0…G7 member of channel 4
+ 0x07F7      Group G8…G15 member of channel 4
+ 0x07F8      Reserved
+ 0x07F9      Reserved
+ 0x07FA      Reserved
+ 0x07FC      Reserved
+ 0x07FC      Not used
+ 0x07FD      Not used
+ 0x07FE      Not used
+ 0x07FF      Used for flash writing
+
+Remark:
+Unused locations contain H’FF’
+
+          Device type
+                   Contents         Type
+                    0x00            Fluorescent lamps
+                    0x01            Emergency lamps
+                    0x02            Discharge lamps
+                    0x03            Low voltage lamps
+                    0x04            Dimmer for incandescent lamps
+                    0x05            Conversion to dc voltage (1…10 V)
+                    0x06            Led module
+                    0x07            Switching device (relay)
+                    0x08            RGBW control
+                    0x09            Sequencer
+                    0xF0            RGB control
+                    0xFE            Device present but type unknown
+                    0xFF            Device not present (default)
+
+
+
+
+                       VMB4LEDPWM-20 PROTOCOL – edition 2 – last update: 01/07/2025   41
+

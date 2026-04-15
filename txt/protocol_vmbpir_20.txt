@@ -1,0 +1,1532 @@
+VMBPIR-20
+Mini PIR detector module
+  for VELBUS system
+
+
+
+
+   VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024   1
+Binairy format:
+
+<SOF-SID10...SID0-RTR-IDE-r0-DLC3...0-DATABYTE1...DATABYTEn-CRC15...CRC1-CRCDEL-ACK-ACKDEL-
+EOF7...EOF1-IFS3...IFS1>
+  bits                          Description
+  SOF                           Start Of Frame (always 0)
+  SID10 & SID9                  Priority (00: highest … 11: lowest priority)
+  SID8…SID1                     Address
+  SID0                          Always 0
+  RTR                           Remote Transmit Request
+  IDE                           Identifier Extension (always 0)
+  r0                            reserved (always 0)
+  DLC3…DLC0                     Data Length Code (0…8)
+  Databyte1                     Command
+  Databyte2                     Parameter
+  Databyte3                     Parameter
+  Databyte4                     Parameter
+  Databyte5                     Parameter
+  Databyte6                     Parameter
+  Databyte7                     Parameter
+  Databyte8                     Parameter
+  CRC15…CRC1                    Cyclic Redundancy Checksum
+  CRCDEL                        CRC Delimiter (always 1)
+  ACK                           Acknowledge slot (transmit 1 readback 0 if received correctly)
+  ACKDEL                        Acknowledge Delimiter (always 1)
+  EOF7...EOF1                   End Of Frame (always 1111111)
+  IFS3...IFS1                   InterFrame Space (always 111)
+
+
+The module can transmit the following messages:
+ • Channel status
+ • Module status
+ • Module type
+ • Bus error counter status
+ • Memory data
+ • Memory data block (4 bytes)
+ • Real-time clock status
+ • Date status
+ • Daylight savings status
+ • Real-time clock status request
+ • Clear linked push button led
+ • Set linked push button led
+ • Slow blink linked push button led
+
+The module can receive the following commands:
+ • Linked push button status
+ • Module type request
+ • Module status request
+ • Light value request
+ • Set or clear test mode
+ • Clear channel led
+ • Set channel led
+ • Slow blink channel led
+ • Fast blink channel led
+ • Very fast channel led
+ • Update channel leds
+ • Read memory data
+ • Read memory data block (4 bytes)
+ • Memory dump request
+ • Write memory data
+ • Write memory data block (4 bytes)
+ • Bus error counter status request
+
+
+
+                              VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024           2
+• Real-time clock status request
+• Set real-time clock
+• Set date
+• Set daylight savings
+• Enable/disable global sunrise/sunset related actions
+• Enable/disable local sunrise/sunset related actions
+• Set local alarm clock
+• Set global alarm clock
+• Lock channel
+• Unlock channel
+• Disable channel program
+• Enable channel program
+• Select program
+
+
+
+
+                               VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024   3
+Transmits power up message:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = 0x00
+    RTR = 0
+    DLC3...DLC0 = 2 data byte to send
+    DATABYTE1 = COMMAND_POWER_UP (0xAB)
+    DATABYTE2 = module address
+
+Transmits real time clock status request:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = H’00’
+    RTR = 0
+    DLC3...DLC0 = 1 data byte to send
+    DATABYTE1 = COMMAND_REALTIME_CLOCK_STATUS_REQUEST (0xD7)
+
+Transmits the real time clock status:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 4 data bytes to send
+    DATABYTE1 = COMMAND_REALTIME_CLOCK_STATUS (0xD8)
+    DATABYTE2 = Day
+                         Contents     Day
+                            0         Monday
+                            1         Tuesday
+                            2         Wednesday
+                            3         Thursday
+                            4         Friday
+                            5         Saturday
+                            6         Sunday
+    DATABYTE3 = Hour (0…23)
+    DATABYTE4 = Minute (0…59)
+
+Transmits the date status:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 5 data bytes to send
+    DATABYTE1 = COMMAND_DATE_STATUS (0xB7)
+    DATABYTE2 = Day (1…31)
+    DATABYTE3 = Month (1…12)
+    DATABYTE4 = High byte of Year
+    DATABYTE5 = Low byte of Year
+
+Transmits the daylight savings status:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes to send
+    DATABYTE1 = COMMAND_DAYLIGHT_SAVING_STATUS (0xAF)
+    DATABYTE2 = 0 =disabled / 1 = enabled
+
+
+
+
+                      VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024   4
+Transmits the channel switch status:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 4 data bytes to send
+    DATABYTE1 = COMMAND_PUSH_BUTTON_STATUS (0x00)
+    DATABYTE2 = Channel just pressed
+    DATABYTE3 = Channel just released
+    DATABYTE4 = Channel long pressed
+                       Contents        Channel number
+                    B’00000001’        Dark output
+                    B’00000010’        Light output
+                    B’00000100’        Motion 1 output
+                    B’00001000’        Light depending motion 1 output
+                    B’00010000’        Motion 2 output
+                    B’00100000’        Light depending motion 2 output
+                    B’01000000’        Absence output
+
+Transmits the module type:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 8 data bytes to send
+    DATABYTE1 = COMMAND_MODULE_TYPE (0xFF)
+    DATABYTE2 = VMBPIR-20 type (0x4D)
+    DATABYTE3 = High byte of serial number
+    DATABYTE4 = Low byte of serial number
+    DATABYTE5 = Memory map version
+    DATABYTE6 = Build year
+    DATABYTE7 = Build week
+    DATABYTE8 = Terminator (0 = open / 1 = closed)
+
+Transmits the module status:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 8 data bytes to send
+    DATABYTE1 = COMMAND_MODULE_STATUS (0xED)
+    DATABYTE2 = channel status (1 = pressed / 0 = released)
+                      Contents          Channel status
+                    B’xxxxxxx0’          Dark output off
+                    B’xxxxxxx1’          Dark output on
+                    B’xxxxxx0x’          Light output off
+                    B’xxxxxx1x’          Light output on
+                    B’xxxxx0xx’          Motion 1 output off
+                    B’xxxxx1xx’          Motion 1 output on
+                    B’xxxx0xxx’          Light depending motion 1 output off
+                    B’xxxx1xxx’          Light depending motion 1 output on
+                    B’xxx0xxxx’          Motion 2 output off
+                    B’xxx1xxxx’          Motion 2 output on
+                    B’xx0xxxxx’          Light depending motion 2 output off
+                    B’xx1xxxxx’          Light depending motion 2 output on
+                    B’x0xxxxxx’          Absence output off
+                    B’x1xxxxxx’          Absence output on
+    DATABYTE3 = light sensor value high byte
+    DATABYTE4 = light sensor value low byte
+    DATABYTE5 = test modus or locked channel status (0 = unlocked / 1 = locked)
+                      Contents          Test modus or locked status
+                    B’xxxxxxx0’          Dark output unlocked
+                    B’xxxxxxx1’          Dark output locked
+                    B’xxxxxx0x’          Light output unlocked
+                    B’xxxxxx1x’          Light output locked
+                    B’xxxxx0xx’          Motion 1 output unlocked
+
+
+
+
+                              VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024   5
+               B’xxxxx1xx’             Motion 1 output locked
+               B’xxxx0xxx’             Light depending motion 1 output unlocked
+               B’xxxx1xxx’             Light depending motion 1 output locked
+               B’xxx0xxxx’             Motion 2 output unlocked
+               B’xxx1xxxx’             Motion 2 output locked
+               B’xx0xxxxx’             Light depending motion 2 output unlocked
+               B’xx1xxxxx’             Light depending motion 2 output locked
+               B’x0xxxxxx’             Absence output unlocked
+               B’x1xxxxxx’             Absence output locked
+               B’10xxxxxx’             Test modus
+  DATABYTE6 = disabled channel program status (0 = program enabled / 1 = program disabled)
+                  Contents             Program disabled status
+               B’xxxxxxx0’             Dark output program enabled
+               B’xxxxxxx1’             Dark output program disabled
+               B’xxxxxx0x’             Light output program enabled
+               B’xxxxxx1x’             Light output l program disabled
+               B’xxxxx0xx’             Motion 1 output program enabled
+               B’xxxxx1xx’             Motion 1 output program disabled
+               B’xxxx0xxx’             Light depending motion 1 output program enabled
+               B’xxxx1xxx’             Light depending motion 1 output program disabled
+               B’xxx0xxxx’             Motion 2 output program enabled
+               B’xxx1xxxx’             Motion 2 output l program disabled
+               B’xx0xxxxx’             Light depending motion 2 output program enabled
+               B’xx1xxxxx’             Light depending motion 2 output program disabled
+               B’x0xxxxxx’             Absence output program enabled
+               B’x1xxxxxx’             Absence output program disabled
+  DATABYTE7 = alarm & program selection
+                  Contents         Selected programl
+            B’xxxxxx00’            None
+            B’xxxxxx01’            Program group 1 (Summer)
+            B’xxxxxx10’            Program group 2 (Winter)
+            B’xxxxxx11’            Program group 3 (Holiday)
+            B’xxxxx0xx’            Clock Alarm 1 off
+            B’xxxxx1xx’            Clock Alarm 1 on
+            B’xxxx0xxx’            Local clock alarm 1
+            B’xxxx1xxx’            Global clock alarm 1
+            B’xxx0xxxx’            Clock Alarm 2 off
+            B’xxx1xxxx’            Clock Alarm 2 on
+            B’xx0xxxxx’            Local clock alarm 2
+            B’xx1xxxxx’            Global clock alarm 2
+            B’x0xxxxxx’            Sunrise disabled
+            B’x1xxxxxx’            Sunrise enabled
+            B’0xxxxxxx’            Sunset disabled
+            B’1xxxxxxx’            Sunset enabled
+  DATABYTE8 = light value auto send interval time
+                (Valid range: 10…255s)
+                (5…9 = auto send on light value change with min interval 5…9s)
+                (<5 = auto send disabled)
+
+Transmit: Bus error counter status
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 4 data bytes to send
+    DATABYTE1 = COMMAND_BUSERROR_COUNTER_STATUS (0xDA)
+    DATABYTE2 = Transmit error counter
+    DATABYTE3 = Receive error counter
+    DATABYTE4 = Bus off counter
+
+
+
+
+                            VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024         6
+Transmits the memory data:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 4 data bytes to send
+    DATABYTE1 = COMMAND_MEMORY_DATA (0xFE)
+    DATABYTE2 = High memory address
+    DATABYTE3 = LOW memory address
+    DATABYTE4 = memory data
+
+    Remark: address range: 0x0000 to 0x03FF
+
+Transmits memory data block (4 bytes):
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 7 data bytes to send
+    DATABYTE1 = COMMAND_MEMORY_DATA_BLOCK (0xCC)
+    DATABYTE2 = High start address of memory block
+    DATABYTE3 = LOW start address of memory block
+    DATABYTE4 = memory data1
+    DATABYTE5 = memory data2
+    DATABYTE6 = memory data3
+    DATABYTE7 = memory data4
+
+    Remark: address range: 0x0000 to 0x03FC
+
+Transmit: Clears LEDs on a linked push button module:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Address of the linked push button module for clearing LEDs
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes to send
+    DATABYTE1 = COMMAND_CLEAR_LED (0xF5)
+    DATABYTE2 = LED bit numbers (1 = clear LED)
+
+Transmit: Sets LEDs on a linked push button module:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Address of the linked push button module for setting LEDs on
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes to send
+    DATABYTE1 = COMMAND_SET_LED (0xF6)
+    DATABYTE2 = LED bit numbers (1 = set LED)
+
+Transmit: Blinks LEDs slowly on a linked push button module:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Address of the linked push button module for slowly blinking LEDs
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes to send
+    DATABYTE1 = COMMAND_SLOW_BLINKING_LED (0xF7)
+    DATABYTE2 = LED bit numbers (1 = slow blink LED)
+
+Transmit the light raw value:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 3 data bytes to send
+    DATABYTE1 = COMMAND_SENSOR_RAW_DATA (0xA9)
+    DATABYTE4 = High byte current light value
+    DATABYTE5 = Low byte current light value
+
+
+
+
+                               VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024   7
+Transmits program step info:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 8 data bytes to send
+    DATABYTE1 = COMMAND_PROGRAM_STEP_INFO (0xC1)
+    DATABYTE2 = Program step number (1…80 / 255 step not found)
+    DATABYTE3 = Program reference
+                          Contents     Description
+                          000xxxxx     Disable program step
+                          001xxxxx     Absolute time
+                          010xxxxx     Wake up time 1 + relative time
+                          011xxxxx     Go to bed time 1 + relative time
+                          100xxxxx     Wake up time 2 + relative time
+                          101xxxxx     Go to bed time 2 + relative time
+                          110xxxxx     Sunrise + relative time
+                          111xxxxx     Sunset + relative time
+                          xxx01111     Rel. time = 3h45min
+                             …
+                          xxx00001     Rel. time = 15min
+                          xxx00000     Rel. time = 0
+                          xxx11111     Rel. time = -15min
+                             …
+                          xxx10000     Rel. time = -4h
+
+    DATABYTE4 = Program step month & four least significant bits of day
+                      Contents                           Description
+                     xxxx0000       Weekly program
+                     xxxx0001       January
+                     xxxx0010       February
+                     xxxx0011       March
+                     xxxx0100       April
+                     xxxx0101       May
+                     xxxx0110       June
+                     xxxx0111       July
+                     xxxx1000       August
+                     xxxx1001       September
+                     xxxx1010       October
+                     xxxx1011       November
+                     xxxx1100       December
+                     xxxx1101       Monthly program
+                     xxxx1110       Monthly program
+                     xxxx1111       Monthly program
+
+                       Contents byte6     Contents byte4    Description
+                         00xxxxxx           0000xxxx        Never
+                         00xxxxxx           0001xxxx        Day 1of the month
+                         00xxxxxx           0010xxxx        Day 2of the month
+                            …                  ...          …
+                         01xxxxxx           1111xxxx        Day 31of the month
+                         10xxxxxx           0000xxxx        Never
+                         10xxxxxx           0001xxxx        Every Monday
+                         10xxxxxx           0010xxxx        Every Tuesday
+                             ...               …            …
+                         10xxxxxx           0111xxxx        Every Sunday
+                         10xxxxxx           1000xxxx        Every weekend (sa & su)
+                         10xxxxxx           1001xxxx        Every working day (mo…fr)
+                         10xxxxxx           1010xxxx        Every day except Sunday
+                         10xxxxxx           1011xxxx        Every day
+                         10xxxxxx           1100xxxx        Never
+                            …                  …            …
+                         11xxxxxx           1111xxxx        Never
+
+
+
+                              VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024   8
+DATABYTE5 = Program step hour & group number
+                  Contents      Description
+                 xxx00000       0h
+                 xxx00001       1h
+                    …           …
+                 xxx10111       23h
+                 xx1xxxxx       Program group 1 (Summer program)
+                 x1xxxxxx       Program group 2 (Winter program)
+                 1xxxxxxx       Program group 3 (Holiday program)
+
+DATABYTE6 = Program step minute & every flag & msb of day
+                  Contents      Description
+                 xx000000       0min
+                 xx000001       1min
+                    …           …
+                 xx111011       59min
+
+                 Contents byte6    Contents byte4    Description
+                   00xxxxxx          0000xxxx        Never
+                   00xxxxxx          0001xxxx        Day 1of the month
+                   00xxxxxx          0010xxxx        Day 2of the month
+                      …                 ...          …
+                   01xxxxxx          1111xxxx        Day 31of the month
+                   10xxxxxx          0000xxxx        Never
+                   10xxxxxx          0001xxxx        Every Monday
+                   10xxxxxx          0010xxxx        Every Tuesday
+                       ...              …            …
+                   10xxxxxx          0111xxxx        Every Sunday
+                   10xxxxxx          1000xxxx        Every weekend (sa & su)
+                   10xxxxxx          1001xxxx        Every working day (mo…fr)
+                   10xxxxxx          1010xxxx        Every day except Sunday
+                   10xxxxxx          1011xxxx        Every day
+                   10xxxxxx          1100xxxx        Never
+                      …                 …            …
+                   11xxxxxx          1111xxxx        Never
+
+DATABYTE7 = Program step action
+                  Contents      Action
+                    249         Lock
+                    250         Unlock
+
+
+DATABYTE8 = Channel number
+                 Contents         Channel
+                     1            Dark channel
+                     2            Light channel
+                     3            Motion 1 channel
+                     4            Light depending motion 1 channel
+                     5            Motion 2 channel
+                     6            Light depending motion 2 channel
+                     7            Absence channel
+
+
+
+
+                        VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024   9
+‘Linked push button status’ received:
+    SID10-SID9 = 00 (highest priority)
+    SID8...SID1 = Address of the linked push button module
+    RTR = 0
+    DLC3...DLC0 = 4 data bytes received
+    DATABYTE1 = COMMAND_PUSH_BUTTON_STATUS (0x00)
+    DATABYTE2 = Linked push buttons just pressed (1 = just pressed)
+    DATABYTE3 = Linked push buttons just released (1 = just released)
+    DATABYTE4 = linked push buttons long pressed (1 = longer than 0.85s pressed)
+
+Power up message’ received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = 0x00
+   RTR = 0
+   DLC3...DLC0 = 2 data byte received
+   DATABYTE1 = COMMAND_POWER_UP (0xAB)
+   DATABYTE2 = module address
+
+‘Real time clock status request’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 1 data byte to send
+    DATABYTE1 = COMMAND_REALTIME_CLOCK_STATUS_REQUEST (0xD7)
+
+‘Set real time clock’ command received:
+     SID10-SID9 = 11 (lowest priority)
+     SID8...SID1 = H’00’
+     RTR = 0
+     DLC3...DLC0 = 4 data bytes to send
+     DATABYTE1 = COMMAND_SET_REALTIME_CLOCK (0xD8)
+     DATABYTE2 = Day of week
+                 Contents day of week’  Description
+                         0x00           Monday
+                         0x01           Tuesday
+                         0x02           Wednesday
+                         0x03           Thursday
+                         0x04           Friday
+                         0x05           Saterday
+                         0x06           Sunday
+     DATABYTE3 = Hours (0…23)
+     DATABYTE4 = Minutes (0…59)
+
+‘Set date’ command received:
+     SID10-SID9 = 11 (lowest priority)
+     SID8...SID1 = 0x00
+     RTR = 0
+     DLC3...DLC0 = 5 data bytes to send
+     DATABYTE1 = COMMAND_SET_REALTIME_DATE (0xB7)
+     DATABYTE2 = Day (1…31)
+     DATABYTE3 = Month (1…12)
+     DATABYTE4 = High byte of Year
+     DATABYTE5 = Low byte of Year
+
+‘Set daylight savings’ command received:
+     SID10-SID9 = 11 (lowest priority)
+     SID8...SID1 = 0x00
+     RTR = 0
+     DLC3...DLC0 = 2 data bytes to send
+     DATABYTE1 = COMMAND_SET_DAYLIGHT_SAVING (0xAF)
+     DATABYTE2 = 0 =disabled / 1 = enabled
+
+
+
+
+                              VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024   10
+‘Enable/disable global sunrise/sunset related actions’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = H’00’
+   RTR = 0
+   DLC3...DLC0 = 3 data bytes to send
+   DATABYTE1 = COMMAND_ENA_DIS_SUNRISE_SUNSET (0xAE)
+   DATABYTE2 = Channel (0xFF)
+   DATABYTE3 = enable/disable flags
+                       Contents              Description
+                    B’xxxxxxx0’              Disable sunrise related actions
+                    B’xxxxxxx1’              Enable sunrise related actions
+                    B’xxxxxx0x’              Disable sunset related actions
+                    B’xxxxxx1x’              Enable sunset related actions
+
+‘Enable/disable local sunrise/sunset related actions’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 3 data bytes to send
+   DATABYTE1 = COMMAND_ENA_DIS_SUNRISE_SUNSET (0xAE)
+   DATABYTE2 = Channel (0xFF)
+   DATABYTE3 = enable/disable flags
+                       Contents               Description
+                     B’xxxxxxx0’              Disable sunrise related actions
+                     B’xxxxxxx1’              Enable sunrise related actions
+                     B’xxxxxx0x’              Disable sunset related actions
+                     B’xxxxxx1x’              Enable sunset related actions
+
+‘Set global clock alarm’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = 0x00
+    RTR = 0
+    DLC3...DLC0 = 7 data bytes to send
+    DATABYTE1 = COMMAND_SET_ALARM_CLOCK (0xC3)
+    DATABYTE2 = Alarm number (1 or 2)
+    DATABYTE3 = Wake up hour (0…23)
+    DATABYTE4 = Wake up minute (0…59)
+    DATABYTE5 = Go to bed hour (0…23)
+    DATABYTE6 = Go to bed minute (0…59)
+    DATABYTE7 = Clock alarm enable flag (0 = disabled / 1 = enabled)
+
+‘Set local clock alarm’ command received:
+     SID10-SID9 = 11 (lowest priority)
+     SID8...SID1 = Module address
+     RTR = 0
+     DLC3...DLC0 = 7 data bytes to send
+     DATABYTE1 = COMMAND_SET_ALARM_CLOCK (0xC3)
+     DATABYTE2 = Alarm number (1 or 2)
+     DATABYTE3 = Wake up hour (0…23)
+     DATABYTE4 = Wake up minute (0…59)
+     DATABYTE5 = Go to bed hour (0…23)
+     DATABYTE6 = Go to bed minute (0…59)
+     DATABYTE7 = Clock alarm enable flag (0 = disabled / 1 = enabled)
+
+‘Module type request’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 1
+   DLC3...DLC0 = 0 data bytes received
+
+
+
+
+                                VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024   11
+‘Module status request’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+   DATABYTE1 = COMMAND_MODULE_STATUS_REQUEST (0xFA)
+   DATABYTE2 = don’t care
+
+‘Light value request’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes to send
+    DATABYTE1 = COMMAND_LIGHT_VALUE_REQUEST (0xAA)
+    DATABYTE2 = Auto send interval time into seconds
+                       (valid range: 10…255s)
+                       (5…9 = auto send on change)
+                       (1…4 = auto send disabled)
+                       (0 = no change on auto send interval time)
+
+‘Set or Clear test mode’ command received:
+     SID10-SID9 = 11 (lowest priority)
+     SID8...SID1 = Module address
+     RTR = 0
+     DLC3...DLC0 = 2 data bytes received
+     DATABYTE1 = COMMAND_SET_CLR_LEARN_MODE (0xB5)
+     DATABYTE2 = Operating mode
+                        Contents       Operating mode
+                    B’00000000’        Normal
+                    B’00000001’        Test mode
+
+    Remark:
+    After changing the operating mode, the module sends his status.
+    There is a timeout of 30 minutes for the test mode.
+
+‘Clear channel LED’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 2 databytes received
+    DATABYTE1 = COMMAND_CLEAR_LED (0xF5)
+    DATABYTE2 = LEDs to clear (a one clears the corresponding LED of channel 1 to 8)
+
+‘Set channel LED’ command received:
+     SID10-SID9 = 11 (lowest priority)
+     SID8...SID1 = Module address
+     RTR = 0
+     DLC3...DLC0 = 2 data bytes received
+     DATABYTE1 = COMMAND_SET_LED (0xF6)
+     DATABYTE2 = LEDs to set (a one sets the corresponding LED of channel 1 to 8)
+
+‘Slow blink channel LED’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_SLOW_BLINK_LED (0xF7)
+    DATABYTE2 = LEDs to blink slow (a one blinks slow the corresponding LED of channel 1 to 8)
+
+
+
+
+                                VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024         12
+‘Fast blink channel LED’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_FAST_BLINK_LED (0xF8)
+    DATABYTE2 = LEDs to blink fast (a one blinks fast the corresponding LED of channel 1 to 8)
+
+‘Very fast blink channel LED’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_VERY_FAST_BLINK_LED (0xF9)
+    DATABYTE2 = LEDs to blink very fast (a one blinks very fast the corresponding LED of channel 1 to 8)
+
+‘Update channel LEDs’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 4 data bytes received
+   DATABYTE1 = COMMAND_UPDATE_LED_STATUS (0xF4)
+   DATABYTE2 = LEDs to set (a one sets the corresponding LED of channel 1 to 8)
+   DATABYTE3 = LEDs to blink slow (a one blinks slow the corresponding LED of channel 1 to 8)
+   DATABYTE4 = LEDs to blink fast (a one blinks very fast the corresponding LED of channel 1 to 8)
+
+    Remark:
+    The ‘LEDs to set’ status overrides the blinking modes.
+    Very fast blinking if slow & fast blinking are set.
+
+‘Read data from memory’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 3 data bytes received
+    DATABYTE1 = COMMAND_READ_DATA_FROM_MEMORY (0xFD)
+    DATABYTE2 = High memory address
+    DATABYTE3 = LOW memory address
+
+    Remark: address range: 0x0000 to 0x03FF
+
+‘Memory dump request’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 1 data bytes received
+   DATABYTE1 = COMMAND_MEMORY_DUMP_REQUEST (0xCB)
+
+‘Read data block from memory’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 3 data bytes received
+    DATABYTE1 = COMMAND_READ_MEMORY_BLOCK (0xC9)
+    DATABYTE2 = High memory address
+    DATABYTE3 = LOW memory address
+
+    Remark: address range: 0x0000 to 0x03FC
+
+
+
+
+                                VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024                   13
+‘Write data to memory’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 4 data bytes received
+   DATABYTE1 = COMMAND_WRITE_DATA_TO_MEMORY (0xFC)
+   DATABYTE2 = High memory address
+   DATABYTE3 = LOW memory address
+   DATABYTE4 = memory data to write
+  Remark:
+  Wait at least 10ms for sending a next command on the velbus.
+  Address range: 0x0000 to 0x01FF
+  Terminate always with a write command at the last memory location.
+
+‘Write memory block’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Address of the module
+    RTR = 0
+    DLC3...DLC0 = 7 data bytes received
+    DATABYTE1 = COMMAND_WRITE_MEMORY_BLOCK (0xCA)
+    DATABYTE2 = High memory address
+    DATABYTE3 = LOW memory address
+    DATABYTE4 = memory databyte1 to write
+    DATABYTE5 = memory databyte2 to write
+    DATABYTE6 = memory databyte3 to write
+    DATABYTE7 = memory databyte4 to write
+
+  Remark:
+  Wait for ‘memory data block’ feedback before sending a next command on the velbus.
+  Address range: 0x0000 to 0x03FC
+  Terminate always with a write command at the last memory location.
+
+‘Bus error counter status request’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 1 data bytes to send
+    DATABYTE1 = COMMAND_BUS_ERROR_CONTER_STATUS_REQUEST (0xD9)
+
+
+
+
+                             VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024   14
+‘Unlock channel’ command received:
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_CANCEL_FORCED_OFF (0x13)
+    DATABYTE2 = Channel number 1…7
+                        Contents       Channel
+                            1          Dark channel
+                            2          Light channel
+                            3          Motion 1 channel
+                            4          Light depending motion 1 channel
+                            5          Motion 2 channel
+                            6          Light depending motion 2 channel
+                            7          Absence channel
+
+    Remark: channel number = 0xFF for all channels
+
+
+Lock channel’ command received:
+   SID10-SID9 = 00 (highest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 5 data bytes received
+   DATABYTE1 = COMMAND_FORCED_OFF (0x12)
+   DATABYTE2 = Channel number 1…7
+                        Contents       Channel
+                            1          Dark channel
+                            2          Light channel
+                            3          Motion 1 channel
+                            4          Light depending motion 1 channel
+                            5          Motion 2 channel
+                            6          Light depending motion 2 channel
+                            7          Absence channel
+   DATABYTE3 = high byte of delay time
+   DATABYTE4 = mid byte of delay time
+   DATABYTE5 = low byte of delay time
+
+    Remark:
+    Channel number = 0xFF for all channels
+    [DATABYTE3][DATABYTE4][DATABYTE5] contain a 24-bit time in seconds
+    The command will be skipped when the time parameter contains zero.
+    When the time parameter contains 0xFFFFFF then the channel will be permanently locked.
+
+‘Enable Channel Program’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+   DATABYTE1 = COMMAND_ENABLE_PROGRAM (0xB2)
+   DATABYTE2 = Channel number 1…7
+                        Contents       Channel
+                            1          Dark channel
+                            2          Light channel
+                            3          Motion 1 channel
+                            4          Light depending motion 1 channel
+                            5          Motion 2 channel
+                            6          Light depending motion 2 channel
+                            7          Absence channel
+
+    Remark: channel number = 0xFF for all channels
+
+
+
+
+                              VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024       15
+‘Disable Channel Program’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 5 data bytes received
+    DATABYTE1 = COMMAND_DISABLE_PROGRAM (0xB1)
+    DATABYTE2 = Channel number 1…7
+                        Contents       Channel
+                            1          Dark channel
+                            2          Light channel
+                            3          Motion 1 channel
+                            4          Light depending motion 1 channel
+                            5          Motion 2 channel
+                            6          Light depending motion 2 channel
+                            7          Absence channel
+    DATABYTE3 = high byte of delay time
+    DATABYTE4 = mid byte of delay time
+    DATABYTE5 = low byte of delay time
+
+    Remark:
+    Remark: channel number = 0xFF for all channels
+    [DATABYTE3][DATABYTE4][DATABYTE5] contain a 24-bit time in seconds
+    The command will be skipped when the time parameter contains zero.
+    When the time parameter contains H’FFFFFF’ then the channel program will be permanently disabled.
+
+‘Select Program’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 2 data bytes received
+    DATABYTE1 = COMMAND_SELECT_PROGRAM (0xB3)
+    DATABYTE2 = Program mode
+                     Contents         Selected program
+                      0               None
+                      1               Program group 1 (Summer)
+                      2               Program group 2 (Winter)
+                      3               Program group 3 (Holiday)
+
+‘Read program step’ command received:
+    SID10-SID9 = 11 (lowest priority)
+    SID8...SID1 = Module address
+    RTR = 0
+    DLC3...DLC0 = 5 data bytes received
+    DATABYTE1 = COMMAND_READ_PROGRAM_STEP (0xC0)
+    DATABYTE2 = Start program step number (1…66)
+    DATABYTE3 = Program group number (1…3)
+    DATABYTE4 = Channel number1…8, 9 or 18 (9 for temperature sensor name, 18 for open collector output)
+    DATABYTE5 = Search direction (1 = search for next matched step / 0 = search for previous matched program step)
+
+‘Write program step’ command received:
+   SID10-SID9 = 11 (lowest priority)
+   SID8...SID1 = Module address
+   RTR = 0
+   DLC3...DLC0 = 8 data bytes received
+   DATABYTE1 = COMMAND_WRITE_PROGRAM_STEP (0xC2)
+   DATABYTE2 = Program step number (1…66)
+   DATABYTE3 = Program reference
+                         Contents      Description
+                        000xxxxx       Disable program step
+                        001xxxxx       Absolute time
+                        010xxxxx       Wake up time 1 + relative time
+                        011xxxxx       Go to bed time 1 + relative time
+                        100xxxxx       Wake up time 2 + relative time
+                        101xxxxx       Go to bed time 2 + relative time
+
+
+
+                               VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024                              16
+                     110xxxxx       Sunrise + relative time
+                     111xxxxx       Sunset + relative time
+                     xxx01111       Rel. time = 3h45min
+                        …
+                     xxx00001       Rel. time = 15min
+                     xxx00000       Rel. time = 0
+                     xxx11111       Rel. time = -15min
+                        …
+                     xxx10000       Rel. time = -4h
+
+DATABYTE4 = Program step month & four least significant bits of day
+                  Contents                           Description
+                 xxxx0000       Weekly program
+                 xxxx0001       January
+                 xxxx0010       February
+                 xxxx0011       March
+                 xxxx0100       April
+                 xxxx0101       May
+                 xxxx0110       June
+                 xxxx0111       July
+                 xxxx1000       August
+                 xxxx1001       September
+                 xxxx1010       October
+                 xxxx1011       November
+                 xxxx1100       December
+                 xxxx1101       Monthly program
+                 xxxx1110       Monthly program
+                 xxxx1111       Monthly program
+
+                  Contents byte6     Contents byte4      Description
+                    00xxxxxx           0000xxxx          Never
+                    00xxxxxx           0001xxxx          Day 1of the month
+                    00xxxxxx           0010xxxx          Day 2of the month
+                       …                  ...            …
+                    01xxxxxx           1111xxxx          Day 31of the month
+                    10xxxxxx           0000xxxx          Never
+                    10xxxxxx           0001xxxx          Every Monday
+                    10xxxxxx           0010xxxx          Every Tuesday
+                        ...               …              …
+                    10xxxxxx           0111xxxx          Every Sunday
+                    10xxxxxx           1000xxxx          Every weekend (sa & su)
+                    10xxxxxx           1001xxxx          Every working day (mo…fr)
+                    10xxxxxx           1010xxxx          Every day except Sunday
+                    10xxxxxx           1011xxxx          Every day
+                    10xxxxxx           1100xxxx          Never
+                       …                  …              …
+                    11xxxxxx           1111xxxx          Never
+
+DATABYTE5 = Program step hour & group number
+                  Contents      Description
+                 xxx00000       0h
+                 xxx00001       1h
+                    …           …
+                 xxx10111       23h
+                 xx1xxxxx       Program group 1 (Summer program)
+                 x1xxxxxx       Program group 2 (Winter program)
+                 1xxxxxxx       Program group 3 (Holiday program)
+
+DATABYTE6 = Program step minute & msb of day & every flag
+                  Contents      Description
+                 xx000000       0min
+                 xx000001       1min
+
+
+
+                          VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024   17
+                          …            …
+                       xx111011        59min
+
+                    Contents byte6      Contents byte4        Description
+                      00xxxxxx            0000xxxx            Never
+                      00xxxxxx            0001xxxx            Day 1of the month
+                      00xxxxxx            0010xxxx            Day 2of the month
+                         …                   ...              …
+                      01xxxxxx            1111xxxx            Day 31of the month
+                      10xxxxxx            0000xxxx            Never
+                      10xxxxxx            0001xxxx            Every Monday
+                      10xxxxxx            0010xxxx            Every Tuesday
+                          ...                …                …
+                      10xxxxxx            0111xxxx            Every Sunday
+                      10xxxxxx            1000xxxx            Every weekend (sa & su)
+                      10xxxxxx            1001xxxx            Every working day (mo…fr)
+                      10xxxxxx            1010xxxx            Every day except Sunday
+                      10xxxxxx            1011xxxx            Every day
+                      10xxxxxx            1100xxxx            Never
+                         …                   …                …
+                      11xxxxxx            1111xxxx            Never
+
+DATABYTE7 = Program step action
+                  Contents      Action
+                    250         Lock
+                    251         Unlock
+
+
+DATABYTE8 = Channel number 1…7
+                 Contents     Channel
+                     1        Dark channel
+                     2        Light channel
+                     3        Motion 1 channel
+                     4        Light depending motion 1 channel
+                     5        Motion 2 channel
+                     6        Light depending motion 2 channel
+                     7        Absence channel
+
+Remark:
+Erase program step if channel parameter is equal with zero.
+
+
+
+
+                            VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024      18
+ Memory map version 1:
+
+Address   Contents                                                  Addres   Contents
+                                                                    s
+0x0000    Dark value low byte                                       0x0001   Dark value high byte
+0x0002    Light value low byte                                      0x0003   Light value high byte
+0x0004    Light to dark reaction time (default 1min)                0x0005   Dark timer mode = non restartable timer
+0x0006    Dark timeout (default momentary)                          0x0007   Dark flags (default cycling protect off & external overwrite off)
+0x0008    Dark to light reaction time (default 1min)                0x0009   Light timer mode = non restartable timer
+0x000A    Light timeout (default momentary)                         0x000B   Light flags cycling protect = off (default external overwrite off)
+0x000C    Motion 1 reaction time = 0 sec (fixed)                    0x000D   Motion 1 timer mode = restartable timer (fixed)
+0x000E    Motion 1 timeout (default 2 min)                          0x000F   Motion 1 flags:
+                                                                             Bit 0: cycling protect
+                                                                             Bit 1: external overwrite restartable timer (default off)
+0x0010    Dark value low byte for light depending motion 1          0x0011   Dark value high byte for light depending motion 1
+0x0012    Light value low byte for light depending motion 1         0x0013   light value high byte for light depending motion 1
+          (0.98*motion 1 dark value)
+0x0014    Dark reaction time for light depending motion 1 = 0 sec   0x0015   Dark timer mode for light depending motion 1 = non restartable
+          (fixed)                                                            timer (fixed)
+0x0016    Dark timeout for light depending motion 1 = momentary     0x0017   Dark flags for light depending motion 1:
+          (fixed)                                                            Bit 0: cycling protect = off (fixed)
+                                                                             Bit 1: external overwrite off (fixed)
+0x0018    Light depending motion 1 reaction time = 0 sec (fixed)    0x0019   Light depending motion 1 timer mode = restartable timer
+                                                                             (fixed)
+0x001A    Light depending motion 1 timeout (default 2 min)          0x001B   Light depending motion 1 flags:
+                                                                             Bit 0: cycling protect
+                                                                             Bit 1: external overwrite (default off)
+0x001C    Motion 2 reaction time = 0 sec (fixed)                    0x001D   Motion 2 timer mode = restartable timer (fixed)
+0x001E    Motion 2 timeout (default 2 min)                          0x001F   Motion 2 flags:
+                                                                             Bit 0: cycling protect
+                                                                             Bit 1: external overwrite restartable timer (default off)
+0x0020    Dark value low byte for light depending motion 2          0x0021   Dark value high byte for light depending motion 2
+0x0022    Light value low byte for light depending motion 2         0x0023   light value high byte for light depending motion 2
+          (0.98*motion 1 dark value)
+0x0024    Dark reaction time for light depending motion 2 = 0 sec   0x0025   Dark timer mode for light depending motion 2 = non restartable
+          (fixed)                                                            timer (fixed)
+0x0026    Dark timeout for light depending motion 2 = momentary     0x0027   Dark flags for light depending motion 2:
+          (fixed)                                                            Bit 0: cycling protect = off (fixed)
+                                                                             Bit 1: external overwrite off (fixed)
+0x0028    Light depending motion 2 reaction time = 0 sec (fixed)    0x0029   Light depending motion 2 timer mode = restartable timer
+                                                                             (fixed)
+0x002A    Light depending motion 2 timeout (default 2 min)          0x002B   Light depending motion 2 flags:
+                                                                             Bit 0: cycling protect
+                                                                             Bit 1: external overwrite (default off)
+0x002C    Absence timeout                                           0x002D   Absence output mode
+0x002E    Not used                                                  0x002F   Not used
+0x0030    Not used                                                  0x0031   Not used
+0x0032    Not used                                                  0x0033   Alarm clock configuration
+0x0034    Wake up 1 hour (0…23)                                     0x0035   Wake up 1 minutes (0…59)
+0x0036    Go to bed 1 hour (0…23)                                   0x0037   Go to bed 1 minutes (0…59)
+0x0038    Wake up 2 hour (0…23)                                     0x0039   Wake up 2 minutes (0…59)
+0x003A    Go to bed 2 hour (0…23)                                   0x003B   Go to bed 2 minutes (0…59)
+0x003C    Sunrise hour at 21 December (0…23)                        0x003D   Sunrise minutes at 21 December (0…59)
+0x003E    Sunrise 21 January – sunrise 5 January (-128’..127’)      0x003F   Sunrise 5 February – sunrise 21 January (-128’..127’)
+0x0040    Sunrise 21 February – sunrise 5 February (-128’..127’)    0x0041   Sunrise 5 March – sunrise 21 February (-128’..127’)
+0x0042    Sunrise 21 March – sunrise 5 March (-128’..127’)          0x0043   Sunrise 5 April – sunrise 21 March (-128’..127’)
+0x0044    Sunrise 21 April – sunrise 5 April (-128’..127’)          0x0045   Sunrise 5 May – sunrise 21 April (-128’..127’)
+0x0046    Sunrise 21 May – sunrise 5 May (-128’..127’)              0x0047   Sunrise 5 June – sunrise 21 May (-128’..127’)
+0x0048    Sunrise 21 June – sunrise 5 June (-128’..127’)            0x0049   Sunrise 5 July – sunrise 21 June (-128’..127’)
+0x004A    Sunrise 21 July – sunrise 5 July (-128’..127’)            0x004B   Sunrise 5 August – sunrise 21 July (-128’..127’)
+0x004C    Sunrise 21 August – sunrise 5 August (-128’..127’)        0x004D   Sunrise 5 September – sunrise 21 August (-128’..127’)
+0x004E    Sunrise 21 September – sunrise 5 September (-128..127’)   0x004F   Sunrise 5 October – sunrise 21 September (-128’..127’)
+0x0050    Sunrise 21 October – sunrise 5 October (-128’..127’)      0x0051   Sunrise 5 November – sunrise 21 October (-128’..127’)
+0x0052    Sunrise 21 November – sunrise 5 November (-128’..127’)    0x0053   Sunrise 5 December – sunrise 21 November (-128’..127’)
+0x0054    Sunrise 21 December – sunrise 5 December (-128’..127’)    0x0055   Sunrise 5 January – sunrise 21 December (-128’..127’)
+0x0056    Not used                                                  0x0057   Not used
+0x0058    Sunset hour at 21 December (0…23)                         0x0059   Sunset minutes at 21 December (0…59)
+
+
+
+
+                                   VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024                                        19
+0x005A    Sunset 21 January – sunrise 5 January (-128’..127’)       0x005B   Sunset 5 February – sunrise 21 January (-128’..127’)
+0x005C    Sunset 21 February – sunrise 5 February (-128’..127’)     0x005D   Sunset 5 March – sunrise 21 February (-128’..127’)
+0x005E    Sunset 21 March – sunrise 5 March (-128’..127’)           0x005F   Sunset 5 April – sunrise 21 March (-128’..127’)
+0x0060    Sunset 21 April – sunrise 5 April (-128’..127’)           0x0061   Sunset 5 May – sunrise 21 April (-128’..127’)
+0x0062    Sunset 21 May – sunrise 5 May (-128’..127’)               0x0063   Sunset 5 June – sunrise 21 May (-128’..127’)
+0x0064    Sunset 21 June – sunrise 5 June (-128’..127’)             0x0065   Sunset 5 July – sunrise 21 June (-128’..127’)
+0x0066    Sunset 21 July – sunrise 5 July (-128’..127’)             0x0067   Sunset 5 August – sunrise 21 July (-128’..127’)
+0x0068    Sunset 21 August – sunrise 5 August (-128’..127’)         0x0069   Sunset 5 September – sunrise 21 August (-128’..127’)
+0x006A    Sunset 21 September – sunrise 5 September (-128’..127’)   0x006B   Sunset 5 October – sunrise 21 September (-128’..127’)
+0x006C    Sunset 21 October – sunrise 5 October (-128’..127’)       0x006D   Sunset 5 November – sunrise 21 October (-128’..127’)
+0x006E    Sunset 21 November – sunrise 5 November (-128’..127’)     0x006F   Sunset 5 December – sunrise 21 November (-128’..127’)
+0x0070    Sunset 21 December – sunrise 5 December (-128’..127’)     0x0071   Sunset 5 January – sunrise 21 December (-128’..127’)
+0x0072    Not used                                                  0x0073   Not used
+
+     Remark:
+     Unused locations contain 0xFF
+
+                Reaction time (light to dark, dark to light, motion & light depending motion)
+                        Contents               Reaction time
+                             0                 0s (factory default for motion & light depending motion)
+                             1                 1s
+                             2                 2s
+                            ...
+                            59                 59s
+                            60                 1min (factory default for light to dark & dark to light)
+                            61                 1min1s
+                            ...
+                            …
+                           119                 1min59s
+                           120                 2min
+                           121                 2min15s
+                            ...
+                           131                 4min45s
+                           132                 5min
+                           133                 5min30s
+                            ...
+                           181                 29min30s
+                           182                 30min
+                           183                 31min
+                            ...
+                           211                 59min
+                           212                 1h
+
+                Timer mode (dark, light, motion & light depending motion)
+                       Contents              Timer mode
+                         0x00                non restartable timer (for dark & light)
+                         0xFF                restartable timer (for motion & light depending motion)
+
+
+
+
+                                  VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024                                    20
+Timeout (light to dark, dark to light, motion & light depending motion)
+       Contents                Timeout
+             0            0 = momentary (factory default for dark, light & motion)
+             1            1s
+             2            2s
+            ...
+           119            1min59s
+           120            2min (factory default for light depending motion)
+           121            2min15s
+            ...
+           131            4min45s
+           132            5min
+           133            5min30s
+            ...
+           181            29min30s
+           182            30min
+           183            31min
+            ...
+           211            59min
+           212            1h
+           213            1h15min
+            ...
+           227            4h45min
+           228            5h
+           229            5h30min
+            ...
+           237            9h30min
+           238            10h
+
+Absence timeout
+   Time parameter        Timeout
+           60            1min
+           61            1min1s
+           62            1min2s
+           ...
+          119            1min59s
+          120            2min
+          121            2min15s
+           ...
+          131            4min45s
+          132            5min
+          133            5min30s
+           ...
+          152            15min (default)
+           ...
+          181            29min30s
+          182            30min
+          183            31min
+           ...
+          211            59min
+          212            1h
+          213            1h15min
+           ...
+          227            4h45min
+          228            5h
+          229            5h30min
+           ...
+          237            9h30min
+          238            10h
+          239            11h
+           ...
+          251            23h
+          252            1d
+
+
+
+                VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024             21
+Absence output mode
+       Contents           Absence output mode
+         0x00             Momentary (default)
+         0xFF             1 second pulse
+
+
+Dark flags
+         Contents              Timer mode
+       B’xxxxxxx0’             Cycling protection disabled (default)
+       B’xxxxxxx1’             Cycling protection enabled
+       B’xxxxxx0x’             External overwrite disabled (default)
+       B’xxxxxx1x’             External overwrite enabled
+
+Light flags
+         Contents              Timer mode
+       B’xxxxxxx0’             Cycling protection disabled (default)
+       B’xxxxxxx1’             Cycling protection enabled
+       B’xxxxxx0x’             External overwrite disabled (default)
+       B’xxxxxx1x’             External overwrite enabled
+
+Motion flags
+         Contents              Timer mode
+       B’xxxxxxx0’             Cycling protection disabled -> time-out interruptable
+       B’xxxxxxx1’             Cycling protection enabled -> time-out not interruptable
+       B’xxxxxx0x’             External overwrite disabled (default)
+       B’xxxxxx1x’             External overwrite enabled
+
+Light depending motion flags
+         Contents              Timer mode
+       B’xxxxxxx0’             Cycling protection disabled -> time-out interruptable
+       B’xxxxxxx1’             Cycling protection enabled -> time-out not interruptable
+       B’xxxxxx0x’             External overwrite disabled (default)
+       B’xxxxxx1x’             External overwrite enabled
+
+Alarm clock configuration
+        Contents        Channel locked/unlocked
+      B’xxxxxxx0’          Alarm 1 disabled
+      B’xxxxxxx1’          Alarm 1 enabled
+      B’0xxxxx0x’          Local alarm 1
+      B’1xxxxx1x’          Global alarm 1
+      B’xxxxx0xx’          Alarm 2 disabled
+      B’xxxxx1xx’          Alarm 2 enabled
+      B’xxxx0xxx’          Local alarm 2
+      B’xxxx1xxx’          Global alarm 2
+      B’xxx0xxxx’          Sunrise disabled
+      B’xxx1xxxx’          Sunrise enabled
+      B’xx0xxxxx’          Sunset disabled
+      B’xx1xxxxx’          Sunset enabled
+      B’x0xxxxxx’          Daylight savings disabled
+      B’x1xxxxxx’          Daylight savings enabled
+
+Program selection
+       Contents            Selected program
+           0                   None
+           1                   Group 1 (eg. Summer programs)
+           2                   Group 2 (eg. Winter programs)
+           3                   Group 3 (eg. Holiday programs)
+
+Channel program disabled
+       Contents        Channel program enabled/disabled
+     B’xxxxxxx0’          Dark program enabled
+     B’xxxxxxx1’          Dark program disabled
+
+
+
+                 VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024                 22
+     B’xxxxxx0x’         Light program enabled
+     B’xxxxxx1x’         Light program disabled
+     B’xxxxx0xx’         Motion 1 program enabled
+     B’xxxxx1xx’         Motion 1 program disabled
+     B’xxxx0xxx’         Light depending motion 1 program enabled
+     B’xxxx1xxx’         Light depending motion 1 program disabled
+     B’xxx0xxxx’         Motion 2 program enabled
+     B’xxx1xxxx’         Motion 2 program disabled
+     B’xx0xxxxx’         Light depending motion 2 program enabled
+     B’xx1xxxxx’         Light depending motion 2 program disabled
+
+Channel locked
+       Contents      Channel locked/unlocked
+     B’xxxxxxx0’        Dark output unlocked
+     B’xxxxxxx1’        Dark output locked
+     B’xxxxxx0x’        Light output unlocked
+     B’xxxxxx1x’        Light output locked
+     B’xxxxx0xx’        Motion 1 output unlocked
+     B’xxxxx1xx’        Motion 1 output locked
+     B’xxxx0xxx’        Light depending motion 1 output unlocked
+     B’xxxx1xxx’        Light depending motion 1 output locked
+     B’xxx0xxxx’        Motion 2 output unlocked
+     B’xxx1xxxx’        Motion 2 output locked
+     B’xx0xxxxx’        Light depending motion 2 output unlocked
+     B’xx1xxxxx’        Light depending motion 2 output locked
+
+
+
+
+             VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024   23
+Address     Contents                                     Address      Contents
+0x0074      Links in use byte 0 (LSB)                    0x0075       Links in use high byte1
+0x0076      Links in use low byte 2                      0x0077       Links in use low byte 3 (MSB)
+0x0078      Linked Push button 1 module address          0x0079       Linked Push button 1 bit number
+0x007A      Linked Push button 1 action                  0x007B       Linked Push button 1 time parameter
+0x007C      Linked Push button 1 channel parameter       ...          …
+...         ...                                          ...          ...
+0x01DA      …                                            0x01DB       Linked Push button 72 module address
+0x01DC      Linked Push button 72 bit number             0x01DD       Linked Push button 72 action
+0x01DE      Linked Push button 72 time parameter         0x01DF       Linked Push button 72 channel parameter
+
+          Action
+            Action       Action                                                     Time             Bit number
+            number                                                                  parameter
+            1            Lock channel at closed switch                              -                Channel 1…7
+            2            Lock channel at opened switch                              -                Channel 1…7
+            3            Lock channel                                               Timeout          Channel 1…7
+            4            Lock/unlock channel                                        Timeout          Channel 1…7
+            5            Unlock channel                                             -                Channel 1…7
+            6            Disable channel program at closed switch                   -                Channel 1…7
+            7            Disable channel program at opened switch                   -                Channel 1…7
+            8            Disable channel program channel                            Timeout          Channel 1…7
+            9            Disable/enable channel program                             Timeout          Channel 1…7
+            10           Enable channel program                                     -                Channel 1…7
+            11           Select no programs                                         -                -
+            12           Select program group 1 (e.g. summer programs)              -                -
+            13           Select/deselect program group 1 (e.g. summer programs)     -                -
+            14           Select program group 2 (e.g. winter programs)              -                -
+            15           Select/deselect program group 2 (e.g. winter programs)     -                -
+            16           Select program group 3 (e.g. holiday programs)             -                -
+            17           Select/deselect program group 3 (e.g. holiday programs)    -                -
+            18           Enable Alarm 1 at closed switch                            -                -
+            19           Enable Alarm 1 at open switch                              -                -
+            20           Disable Alarm 1 at closed switch                           -                -
+            21           Disable Alarm 1 at open switch                             -                -
+            22           Enable Alarm 1                                             -                -
+            23           Enable/Disable Alarm 1                                     -                -
+            24           Disable Alarm 1                                            -                -
+            25           Enable Alarm 2 at closed switch                            -                -
+            26           Enable Alarm 2 at open switch                              -                -
+            27           Disable Alarm 2 at closed switch                           -                -
+            28           Disable Alarm 2 at open switch                             -                -
+            29           Enable Alarm 2                                             -                -
+            30           Enable/Disable Alarm 2                                     -                -
+            31           Disable Alarm 2                                            -                -
+            32           Enable Sunrise at closed switch                            -                -
+            33           Enable Sunrise at open switch                              -                -
+            34           Disable Sunrise at closed switch                           -                -
+            35           Disable Sunrise at open switch                             -                -
+            36           Enable Sunrise                                             -                -
+            37           Enable/Disable Sunrise                                     -                -
+            38           Disable Sunrise                                            -                -
+            39           Enable Sunset at closed switch                             -                -
+            40           Enable Sunset at open switch                               -                -
+            41           Disable Sunset at closed switch                            -                -
+            42           Disable Sunset at open switch                              -                -
+            43           Enable Sunset                                              -                -
+            44           Enable/Disable Sunset                                      -                -
+            45           Disable Sunset                                             -                -
+            46           Reset Absence timer at closed switch                       -                -
+
+
+
+
+                           VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024                                24
+Channel Number
+        Contents                   Bit number
+           1               Dark output
+           2               Light output
+           3               Motion 1 output
+           4               Light depending motion 1 output
+           5               Motion 2 output
+           6               Light depending motion 2 output
+           7               Absence output
+
+Time parameter
+   Time parameter      Timeout
+            0          0s (No timer)
+            1          1s
+            2          2s
+           ...
+          119          1min59s
+          120          2min
+          121          2min15s
+           ...
+          131          4min45s
+          132          5min
+          133          5min30s
+           ...
+          181          29min30s
+          182          30min
+          183          31min
+           ...
+          211          59min
+          212          1h
+          213          1h15min
+           ...
+          227          4h45min
+          228          5h
+          229          5h30min
+           ...
+          237          9h30min
+          238          10h
+          239          11h
+           ...
+          251          23h
+          252          1d
+          253          2d
+          254          3d
+          255          Infinite
+
+
+
+
+               VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024   25
+Address    Contents                                     Address      Contents
+0x01E0     Program steps used byte 0 (LSB)              0x01E1       Program steps used byte 1
+0x01E2     Program steps used byte 2                    0x01E3       Program steps used byte 3 (MSB)
+0x01E4     Program step 1 byte1                         0x01E5       Program step 1 byte2
+0x01E6     Program step 1 byte3                         0x01E7       Program step 1 byte4
+0x01E8     Program step 1 byte5                         0x01E9       Program step 1 byte6
+…          …                                            …            …
+0x03B2     Program step 78 byte 1                       0x03B3       Program step 78 byte2
+0x03B4     Program step 78 byte3                        0x03B5       Program step 78 byte4
+0x03B6     Program step 78 byte5                        0x03B7       Program step 78 byte6
+
+
+            Contents program byte1             Description
+                 B’000xxxxx’                   Disable program step
+                 B’001xxxxx’                   Absolute time
+                 B’010xxxxx’                   Wake up time 1 + relative time
+                 B’011xxxxx’                   Go to bed time 1 + relative time
+                 B’100xxxxx’                   Wake up time 2 + relative time
+                 B’101xxxxx’                   Go to bed time 2 + relative time
+                 B’110xxxxx’                   Sunrise + relative time
+                 B’111xxxxx’                   Sunset + relative time
+                 B’xxx01111’                   Rel. time = 3h45min
+                      …
+                 B’xxx00001’                   Rel. time = 15min
+                 B’xxx00000’                   Rel. time = 0
+                 B’xxx11111’                   Rel. time = -15min
+                      …
+                 B’xxx10000’                   Rel. time = -4h
+  Remark: Wake up, Go to bed, sunrise & sunset time are only allowed for weekly programs
+
+            Contents program byte2             Description
+                 B’xxxx0000’                   Weekly program
+                 B’xxxx0001’                   January
+                 B’xxxx0010’                   February
+                 B’xxxx0011’                   March
+                 B’xxxx0100’                   April
+                 B’xxxx0101’                   May
+                 B’xxxx0110’                   June
+                 B’xxxx0111’                   July
+                 B’xxxx1000’                   August
+                 B’xxxx1001’                   September
+                 B’xxxx1010’                   October
+                 B’xxxx1011’                   November
+                 B’xxxx1100’                   December
+                 B’xxxx1101’                   Monthly program
+                 B’xxxx1110’                   Monthly program
+                 B’xxxx1111’                   Monthly program
+
+            Contents program byte3             Description
+                 B’xxx00000’                   0h
+                 B’xxx00001’                   1h
+                      …                        …
+                 B’xxx10111’                   23h
+                 B’xx1xxxxx’                   Summer program
+                 B’x1xxxxxx’                   Winter program
+                 B’1xxxxxxx’                   Holiday program
+
+            Contents program byte4             Description
+                 B’xx000000’                   0min
+                 B’xx000001’                   1min
+                      …                        …
+
+
+
+                           VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024                    26
+B’xx111011’             59min
+
+
+
+
+      VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024   27
+Contents program byte4              Contents program byte2         Description
+     B’00xxxxxx’                         B’0000xxxx’               Never
+     B’00xxxxxx’                         B’0001xxxx’               Day 1of the month
+     B’00xxxxxx’                         B’0010xxxx’               Day 2of the month
+          …                                   …                    …
+     B’01xxxxxx’                         B’1111xxxx’               Day 31of the month
+     B’10xxxxxx’                         B’0000xxxx’               Never
+     B’10xxxxxx’                         B’0001xxxx’               Every Monday
+     B’10xxxxxx’                         B’0010xxxx’               Every Tuesday
+          …                                   …                    …
+     B’10xxxxxx’                         B’0111xxxx’               Every Sunday
+     B’10xxxxxx’                         B’1000xxxx’               Every weekend (sa & su)
+     B’10xxxxxx’                         B’1001xxxx’               Every working day (mo…fr)
+     B’10xxxxxx’                         B’1010xxxx’               Every day except Sunday
+     B’10xxxxxx’                         B’1011xxxx’               Every day
+     B’10xxxxxx’                         B’1100xxxx’               Never
+          …                                   …                    …
+     B’11xxxxxx’                         B’1111xxxx’               Never
+
+Contents program byte5        Action
+           0                  Unlock
+           1                  Lock
+
+Contents program byte6        Channel
+           1                  Dark output
+           2                  Light output
+           3                  Motion 1 output
+           4                  Light depending motion 1 output
+           5                  Motion 2 output
+           6                  Light depending motion 2 output
+           7                  Absence output
+
+
+
+
+            VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024                           28
+Address   Contents                               Address    Contents
+0x03B8    Location id low byte                   0x03B9     Location id high byte
+0x03BA    Group id low byte                      0x03BB     Group id high byte
+0x03BC    Module name character 1                0x03BD     Module name character 2
+…         ..                                     ..         ..
+0x03FA    Module name character 63               0x03FB     Module name character 64
+0x03FC    Not used                               0x03FD     Not used
+0x03FE    Not used                               0x03FF     Used for flash writing
+
+
+
+
+                       VMBPIR-20 PROTOCOL – edition 1 – last update: 18/01/2024        29
+
