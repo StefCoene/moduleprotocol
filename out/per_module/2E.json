@@ -1,4 +1,7 @@
 {
+   "ChannelPerName" : {
+      "Blind" : "01"
+   },
    "Channels" : {
       "01" : {
          "Editable" : "yes",

@@ -8,6 +8,26 @@
          }
       }
    },
+   "ChannelPerName" : {
+      "Absence output" : "08",
+      "Alarm 1" : "15",
+      "Alarm 2" : "16",
+      "Alarm 3" : "17",
+      "Alarm 4" : "18",
+      "Boost" : "12",
+      "Cooler" : "14",
+      "Dark/Light output" : "05",
+      "Heater" : "11",
+      "Light Depending motion" : "07",
+      "Light value" : "99",
+      "Motion output" : "06",
+      "Pump" : "13",
+      "Push button 1" : "01",
+      "Push button 2" : "02",
+      "Push button 3" : "03",
+      "Push button 4" : "04",
+      "Temperature" : "10"
+   },
    "Channels" : {
       "01" : {
          "Editable" : "yes",

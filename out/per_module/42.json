@@ -1,4 +1,14 @@
 {
+   "ChannelPerName" : {
+      "Tamper alarm" : "03",
+      "User group 1" : "01",
+      "User group 2" : "02",
+      "Virtual button 1" : "04",
+      "Virtual button 2" : "05",
+      "Virtual button 3" : "06",
+      "Virtual button 4" : "07",
+      "Virtual button 5" : "08"
+   },
    "Channels" : {
       "01" : {
          "Editable" : "yes",

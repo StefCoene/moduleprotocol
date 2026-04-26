@@ -9,6 +9,20 @@
          }
       }
    },
+   "ChannelPerName" : {
+      "Dawn alarm" : "04",
+      "Dusk alarm" : "05",
+      "Frost alarm" : "01",
+      "Heat alarm" : "02",
+      "Illuminance" : "12",
+      "Rain alarm" : "03",
+      "Rainfall" : "11",
+      "Storm alarm" : "08",
+      "Sun alarm" : "06",
+      "Temperature" : "10",
+      "Wind alarm" : "07",
+      "Wind speed" : "13"
+   },
    "Channels" : {
       "01" : {
          "Name" : "Frost alarm",

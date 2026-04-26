@@ -1,4 +1,14 @@
 {
+   "ChannelPerName" : {
+      "Absence output" : "07",
+      "Dark output" : "01",
+      "Light output" : "02",
+      "Light value" : "99",
+      "Motion output 1" : "03",
+      "Motion output 1 (LD)" : "04",
+      "Motion output 2" : "05",
+      "Motion output 2 (LD)" : "06"
+   },
    "Channels" : {
       "01" : {
          "Name" : "Dark output",

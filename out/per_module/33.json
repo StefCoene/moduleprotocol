@@ -1,4 +1,14 @@
 {
+   "ChannelPerName" : {
+      "Bell 1" : "03",
+      "Bell 2" : "04",
+      "Door 1" : "05",
+      "Door 2" : "06",
+      "Motion 1" : "01",
+      "Motion 2" : "02",
+      "Virtual button 1" : "07",
+      "Virtual button 2" : "08"
+   },
    "Channels" : {
       "01" : {
          "Name" : "Motion 1",

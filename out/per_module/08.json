@@ -1,4 +1,10 @@
 {
+   "ChannelPerName" : {
+      "Relay 1" : "01",
+      "Relay 2" : "02",
+      "Relay 3" : "03",
+      "Relay 4" : "04"
+   },
    "Channels" : {
       "01" : {
          "Editable" : "yes",

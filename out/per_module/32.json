@@ -11,6 +11,20 @@
          "Convert" : "hex"
       }
    },
+   "ChannelPerName" : {
+      "Alarm 1" : "01",
+      "Alarm 2" : "02",
+      "Alarm 3" : "03",
+      "Alarm 4" : "04",
+      "Alarm 5" : "05",
+      "Alarm 6" : "06",
+      "Alarm 7" : "07",
+      "Alarm 8" : "08",
+      "Sensor 1" : "09",
+      "Sensor 2" : "10",
+      "Sensor 3" : "11",
+      "Sensor 4" : "12"
+   },
    "Channels" : {
       "01" : {
          "Name" : "Alarm 1",

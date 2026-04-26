@@ -177,7 +177,7 @@ $json{ModuleTypes}{'3D'}{General} = "TouchO TouchOTemperature" ;
 
 # VMBGP4PIR-2 (3E): Four touch buttons with PIR detector module (ed2)
 $json{ModuleTypes}{'3E'}{General} = "Touch4 Touch124Temperature TouchPIR" ; # TouchPIR AFTER Touch4!
- 
+
 ################### Input: Channel names
 # 8-channel Push button interface module: VMB8PB
 $json{ModuleTypes}{'01'}{Channels}{"01"}{Name} = "Push button 1" ;
@@ -748,6 +748,8 @@ foreach my $ModuleType (sort keys %{$json{ModuleTypes}}) {
    if ( $json{ModuleTypes}{$ModuleType}{Channels} ) {
       foreach my $Channel (sort keys %{$json{ModuleTypes}{$ModuleType}{Channels}}) {
          if ( defined $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Type} ) {
+            $json{ModuleTypes}{$ModuleType}{ChannelPerName}{$json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Name}} = $Channel if $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Name} ;
+
             my $ChannelType = $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Type} ;
 
             $json{ChannelTypes}{$ChannelType}{ModulesList}{$ModuleType} = "yes" ;  # Remember the channel types per module
@@ -780,7 +782,7 @@ foreach my $ModuleType (sort keys %{$json{ModuleTypes}}) {
             } else {
                print "TODO: mark channel type $ChannelType as Editable or not\n" ;
             }
-         
+
          } else {
             print "ERROR: no channel type for ModuleType=$ModuleType=$json{ModuleTypes}{$ModuleType}{Type} ($json{ModuleTypes}{$ModuleType}{Info}), Channel=$Channel\n" ;
          }

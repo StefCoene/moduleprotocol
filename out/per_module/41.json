@@ -1,4 +1,12 @@
 {
+   "ChannelPerName" : {
+      "Input button" : "06",
+      "Relay" : "01",
+      "Virtual relay 1" : "02",
+      "Virtual relay 2" : "03",
+      "Virtual relay 3" : "04",
+      "Virtual relay 4" : "05"
+   },
    "Channels" : {
       "01" : {
          "Editable" : "yes",

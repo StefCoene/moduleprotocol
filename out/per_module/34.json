@@ -5,6 +5,27 @@
          "Convert" : "hex"
       }
    },
+   "ChannelPerName" : {
+      "Alarm 1" : "14",
+      "Alarm 2" : "15",
+      "Alarm 3" : "16",
+      "Alarm 4" : "17",
+      "Boost" : "11",
+      "Cooler" : "13",
+      "Edge Lit" : "97",
+      "Heater" : "10",
+      "Output" : "18",
+      "Pump" : "12",
+      "Push button 1" : "01",
+      "Temperature" : "09",
+      "Virtual button 2" : "02",
+      "Virtual button 3" : "03",
+      "Virtual button 4" : "04",
+      "Virtual button 5" : "05",
+      "Virtual button 6" : "06",
+      "Virtual button 7" : "07",
+      "Virtual button 8" : "08"
+   },
    "Channels" : {
       "01" : {
          "Editable" : "yes",

@@ -7,6 +7,18 @@
          }
       }
    },
+   "ChannelPerName" : {
+      "Dark output" : "01",
+      "High alarm" : "08",
+      "Light output" : "02",
+      "Light value" : "99",
+      "Low alarm" : "07",
+      "Motion output 1" : "03",
+      "Motion output 1 (LD)" : "04",
+      "Motion output 2" : "05",
+      "Motion output 2 (LD)" : "06",
+      "Temperature" : "09"
+   },
    "Channels" : {
       "01" : {
          "Name" : "Dark output",

@@ -5,6 +5,28 @@
          "Convert" : "hex"
       }
    },
+   "ChannelPerName" : {
+      "Absence output" : "08",
+      "Alarm 1" : "14",
+      "Alarm 2" : "15",
+      "Alarm 3" : "16",
+      "Alarm 4" : "17",
+      "Boost" : "11",
+      "Cooler" : "13",
+      "Dark output" : "03",
+      "Edge Lit" : "97",
+      "Heater" : "10",
+      "Light output" : "04",
+      "Light value" : "99",
+      "Motion output" : "05",
+      "Motion output 1 (LD)" : "06",
+      "Motion output 2 (LD)" : "07",
+      "Output" : "18",
+      "Pump" : "12",
+      "Push button" : "01",
+      "Temperature" : "09",
+      "Virtual button" : "02"
+   },
    "Channels" : {
       "01" : {
          "Editable" : "yes",

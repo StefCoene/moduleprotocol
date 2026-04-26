@@ -1878,6 +1878,16 @@
    },
    "ModuleTypes" : {
       "01" : {
+         "ChannelPerName" : {
+            "Push button 1" : "01",
+            "Push button 2" : "02",
+            "Push button 3" : "03",
+            "Push button 4" : "04",
+            "Push button 5" : "05",
+            "Push button 6" : "06",
+            "Push button 7" : "07",
+            "Push button 8" : "08"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -1955,6 +1965,9 @@
          "Version" : "edition 2"
       },
       "02" : {
+         "ChannelPerName" : {
+            "Relay" : "01"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -1996,6 +2009,9 @@
                   "03" : "01"
                }
             }
+         },
+         "ChannelPerName" : {
+            "Blind" : "01"
          },
          "Channels" : {
             "01" : {
@@ -2054,6 +2070,14 @@
          "Version" : "edition 1"
       },
       "05" : {
+         "ChannelPerName" : {
+            "Push button 1" : "01",
+            "Push button 2" : "02",
+            "Push button 3" : "03",
+            "Push button 4" : "04",
+            "Push button 5" : "05",
+            "Push button 6" : "06"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -2150,6 +2174,9 @@
          "Version" : "edition 2"
       },
       "07" : {
+         "ChannelPerName" : {
+            "Dimmer" : "01"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -2186,6 +2213,12 @@
          "Version" : "edition 1"
       },
       "08" : {
+         "ChannelPerName" : {
+            "Relay 1" : "01",
+            "Relay 2" : "02",
+            "Relay 3" : "03",
+            "Relay 4" : "04"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -2311,6 +2344,10 @@
                   "0C" : "02"
                }
             }
+         },
+         "ChannelPerName" : {
+            "Blind 1" : "01",
+            "Blind 2" : "02"
          },
          "Channels" : {
             "01" : {
@@ -2463,6 +2500,16 @@
          "Version" : "edition 4"
       },
       "0B" : {
+         "ChannelPerName" : {
+            "Push button 1" : "01",
+            "Push button 2" : "02",
+            "Push button 3" : "03",
+            "Push button 4" : "04",
+            "Push button 5" : "05",
+            "Push button 6" : "06",
+            "Push button 7" : "07",
+            "Push button 8" : "08"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -2540,6 +2587,9 @@
          "Version" : "edition 2"
       },
       "0C" : {
+         "ChannelPerName" : {
+            "Temperature" : "01"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -2694,6 +2744,9 @@
          "Version" : "edition 1 _ rev4"
       },
       "0F" : {
+         "ChannelPerName" : {
+            "Dimmer" : "01"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -2728,6 +2781,13 @@
          "Version" : "edition 3"
       },
       "10" : {
+         "ChannelPerName" : {
+            "Relay 1" : "01",
+            "Relay 2" : "02",
+            "Relay 3" : "03",
+            "Relay 4" : "04",
+            "Virtual relay" : "05"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -2788,6 +2848,13 @@
          "Version" : "edition 5"
       },
       "11" : {
+         "ChannelPerName" : {
+            "Relay 1" : "01",
+            "Relay 2" : "02",
+            "Relay 3" : "03",
+            "Relay 4" : "04",
+            "Virtual relay" : "05"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -2848,6 +2915,12 @@
          "Version" : "edition 5"
       },
       "12" : {
+         "ChannelPerName" : {
+            "Dimmer 1" : "01",
+            "Dimmer 2" : "02",
+            "Dimmer 3" : "03",
+            "Dimmer 4" : "04"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -2966,6 +3039,9 @@
          "Version" : "edition 1"
       },
       "14" : {
+         "ChannelPerName" : {
+            "Dimmer" : "01"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -3000,6 +3076,9 @@
          "Version" : "edition 1"
       },
       "15" : {
+         "ChannelPerName" : {
+            "Dimmer" : "01"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -3024,6 +3103,16 @@
          "Version" : "edition 2"
       },
       "16" : {
+         "ChannelPerName" : {
+            "Push button 1" : "01",
+            "Push button 2" : "02",
+            "Push button 3" : "03",
+            "Push button 4" : "04",
+            "Push button 5" : "05",
+            "Push button 6" : "06",
+            "Push button 7" : "07",
+            "Push button 8" : "08"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -3104,6 +3193,16 @@
          "Version" : "edition 8"
       },
       "17" : {
+         "ChannelPerName" : {
+            "Push button 1" : "01",
+            "Push button 2" : "02",
+            "Push button 3" : "03",
+            "Push button 4" : "04",
+            "Push button 5" : "05",
+            "Push button 6" : "06",
+            "Virtual button 1" : "07",
+            "Virtual button 2" : "08"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -3184,6 +3283,16 @@
          "Version" : "edition 8"
       },
       "18" : {
+         "ChannelPerName" : {
+            "Push button 1" : "01",
+            "Push button 2" : "02",
+            "Virtual button 1" : "03",
+            "Virtual button 2" : "04",
+            "Virtual button 3" : "05",
+            "Virtual button 4" : "06",
+            "Virtual button 5" : "07",
+            "Virtual button 6" : "08"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -3349,6 +3458,13 @@
          "Version" : "edition 5"
       },
       "1B" : {
+         "ChannelPerName" : {
+            "Relay" : "01",
+            "Virtual relay 1" : "02",
+            "Virtual relay 2" : "03",
+            "Virtual relay 3" : "04",
+            "Virtual relay 4" : "05"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -3406,6 +3522,10 @@
          "Version" : "edition 5"
       },
       "1D" : {
+         "ChannelPerName" : {
+            "Blind 1" : "01",
+            "Blind 2" : "02"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -3448,6 +3568,25 @@
                   "09" : "10"
                }
             }
+         },
+         "ChannelPerName" : {
+            "Alarm 1" : "15",
+            "Alarm 2" : "16",
+            "Alarm 3" : "17",
+            "Alarm 4" : "18",
+            "Boost" : "12",
+            "Cooler" : "14",
+            "Heater" : "11",
+            "Pump" : "13",
+            "Push button 1" : "01",
+            "Temperature" : "10",
+            "Virtual button 2" : "02",
+            "Virtual button 3" : "03",
+            "Virtual button 4" : "04",
+            "Virtual button 5" : "05",
+            "Virtual button 6" : "06",
+            "Virtual button 7" : "07",
+            "Virtual button 8" : "08"
          },
          "Channels" : {
             "01" : {
@@ -3597,6 +3736,25 @@
                }
             }
          },
+         "ChannelPerName" : {
+            "Alarm 1" : "15",
+            "Alarm 2" : "16",
+            "Alarm 3" : "17",
+            "Alarm 4" : "18",
+            "Boost" : "12",
+            "Cooler" : "14",
+            "Heater" : "11",
+            "Pump" : "13",
+            "Push button 1" : "01",
+            "Push button 2" : "02",
+            "Temperature" : "10",
+            "Virtual button 3" : "03",
+            "Virtual button 4" : "04",
+            "Virtual button 5" : "05",
+            "Virtual button 6" : "06",
+            "Virtual button 7" : "07",
+            "Virtual button 8" : "08"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -3745,6 +3903,25 @@
                }
             }
          },
+         "ChannelPerName" : {
+            "Alarm 1" : "15",
+            "Alarm 2" : "16",
+            "Alarm 3" : "17",
+            "Alarm 4" : "18",
+            "Boost" : "12",
+            "Cooler" : "14",
+            "Heater" : "11",
+            "Pump" : "13",
+            "Push button 1" : "01",
+            "Push button 2" : "02",
+            "Push button 3" : "03",
+            "Push button 4" : "04",
+            "Temperature" : "10",
+            "Virtual button 5" : "05",
+            "Virtual button 6" : "06",
+            "Virtual button 7" : "07",
+            "Virtual button 8" : "08"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -3892,6 +4069,49 @@
                   "21" : "34"
                }
             }
+         },
+         "ChannelPerName" : {
+            "Alarm 1" : "39",
+            "Alarm 2" : "40",
+            "Alarm 3" : "41",
+            "Alarm 4" : "42",
+            "Boost" : "36",
+            "Cooler" : "38",
+            "Heater" : "35",
+            "Memo Text" : "98",
+            "Pump" : "37",
+            "Push button 1" : "01",
+            "Push button 10" : "20",
+            "Push button 11" : "11",
+            "Push button 12" : "12",
+            "Push button 13" : "13",
+            "Push button 14" : "14",
+            "Push button 15" : "15",
+            "Push button 16" : "16",
+            "Push button 17" : "17",
+            "Push button 18" : "18",
+            "Push button 19" : "19",
+            "Push button 2" : "02",
+            "Push button 21" : "21",
+            "Push button 22" : "22",
+            "Push button 23" : "23",
+            "Push button 24" : "24",
+            "Push button 25" : "25",
+            "Push button 26" : "26",
+            "Push button 27" : "27",
+            "Push button 28" : "28",
+            "Push button 29" : "29",
+            "Push button 3" : "03",
+            "Push button 30" : "30",
+            "Push button 31" : "31",
+            "Push button 32" : "32",
+            "Push button 4" : "04",
+            "Push button 5" : "05",
+            "Push button 6" : "06",
+            "Push button 7" : "07",
+            "Push button 8" : "08",
+            "Push button 9" : "09",
+            "Temperature" : "34"
          },
          "Channels" : {
             "01" : {
@@ -4242,6 +4462,16 @@
          "Version" : "edition 3"
       },
       "22" : {
+         "ChannelPerName" : {
+            "Push button 1" : "01",
+            "Push button 2" : "02",
+            "Push button 3" : "03",
+            "Push button 4" : "04",
+            "Push button 5" : "05",
+            "Push button 6" : "06",
+            "Push button 7" : "07",
+            "Virtual button" : "08"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -4469,6 +4699,49 @@
                   "21" : "34"
                }
             }
+         },
+         "ChannelPerName" : {
+            "Alarm 1" : "39",
+            "Alarm 2" : "40",
+            "Alarm 3" : "41",
+            "Alarm 4" : "42",
+            "Boost" : "36",
+            "Cooler" : "38",
+            "Heater" : "35",
+            "Memo Text" : "98",
+            "Pump" : "37",
+            "Push button 1" : "01",
+            "Push button 10" : "20",
+            "Push button 11" : "11",
+            "Push button 12" : "12",
+            "Push button 13" : "13",
+            "Push button 14" : "14",
+            "Push button 15" : "15",
+            "Push button 16" : "16",
+            "Push button 17" : "17",
+            "Push button 18" : "18",
+            "Push button 19" : "19",
+            "Push button 2" : "02",
+            "Push button 21" : "21",
+            "Push button 22" : "22",
+            "Push button 23" : "23",
+            "Push button 24" : "24",
+            "Push button 25" : "25",
+            "Push button 26" : "26",
+            "Push button 27" : "27",
+            "Push button 28" : "28",
+            "Push button 29" : "29",
+            "Push button 3" : "03",
+            "Push button 30" : "30",
+            "Push button 31" : "31",
+            "Push button 32" : "32",
+            "Push button 4" : "04",
+            "Push button 5" : "05",
+            "Push button 6" : "06",
+            "Push button 7" : "07",
+            "Push button 8" : "08",
+            "Push button 9" : "09",
+            "Temperature" : "34"
          },
          "Channels" : {
             "01" : {
@@ -4799,6 +5072,13 @@
          "Version" : "edition 6"
       },
       "29" : {
+         "ChannelPerName" : {
+            "Relay" : "01",
+            "Virtual relay 1" : "02",
+            "Virtual relay 2" : "03",
+            "Virtual relay 3" : "04",
+            "Virtual relay 4" : "05"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -4856,6 +5136,16 @@
          "Version" : "edition 1"
       },
       "2A" : {
+         "ChannelPerName" : {
+            "Absence output" : "07",
+            "Dark output" : "01",
+            "Light output" : "02",
+            "Light value" : "99",
+            "Motion output 1" : "03",
+            "Motion output 1 (LD)" : "04",
+            "Motion output 2" : "05",
+            "Motion output 2 (LD)" : "06"
+         },
          "Channels" : {
             "01" : {
                "Name" : "Dark output",
@@ -4903,6 +5193,16 @@
          "Version" : "edition 2"
       },
       "2B" : {
+         "ChannelPerName" : {
+            "Absence output" : "07",
+            "Dark output" : "01",
+            "Light output" : "02",
+            "Light value" : "99",
+            "Motion output 1" : "03",
+            "Motion output 1 (LD)" : "04",
+            "Motion output 2" : "05",
+            "Motion output 2 (LD)" : "06"
+         },
          "Channels" : {
             "01" : {
                "Name" : "Dark output",
@@ -4957,6 +5257,18 @@
                   "01" : "09"
                }
             }
+         },
+         "ChannelPerName" : {
+            "Dark output" : "01",
+            "High alarm" : "08",
+            "Light output" : "02",
+            "Light value" : "99",
+            "Low alarm" : "07",
+            "Motion output 1" : "03",
+            "Motion output 1 (LD)" : "04",
+            "Motion output 2" : "05",
+            "Motion output 2 (LD)" : "06",
+            "Temperature" : "09"
          },
          "Channels" : {
             "01" : {
@@ -5027,6 +5339,26 @@
                   "09" : "10"
                }
             }
+         },
+         "ChannelPerName" : {
+            "Absence output" : "08",
+            "Alarm 1" : "15",
+            "Alarm 2" : "16",
+            "Alarm 3" : "17",
+            "Alarm 4" : "18",
+            "Boost" : "12",
+            "Cooler" : "14",
+            "Dark/Light output" : "05",
+            "Heater" : "11",
+            "Light Depending motion" : "07",
+            "Light value" : "99",
+            "Motion output" : "06",
+            "Pump" : "13",
+            "Push button 1" : "01",
+            "Push button 2" : "02",
+            "Push button 3" : "03",
+            "Push button 4" : "04",
+            "Temperature" : "10"
          },
          "Channels" : {
             "01" : {
@@ -5138,6 +5470,9 @@
          "Version" : "edition 4"
       },
       "2E" : {
+         "ChannelPerName" : {
+            "Blind" : "01"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -5163,6 +5498,9 @@
          "Version" : "edition 3"
       },
       "2F" : {
+         "ChannelPerName" : {
+            "Dimmer" : "01"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -5188,6 +5526,16 @@
          "Version" : "edition 4"
       },
       "30" : {
+         "ChannelPerName" : {
+            "Push button 1" : "01",
+            "Push button 2" : "02",
+            "Push button 3" : "03",
+            "Push button 4" : "04",
+            "Push button 5" : "05",
+            "Push button 6" : "06",
+            "Push button 7" : "07",
+            "Push button 8" : "08"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -5276,6 +5624,20 @@
                   "08" : "13"
                }
             }
+         },
+         "ChannelPerName" : {
+            "Dawn alarm" : "04",
+            "Dusk alarm" : "05",
+            "Frost alarm" : "01",
+            "Heat alarm" : "02",
+            "Illuminance" : "12",
+            "Rain alarm" : "03",
+            "Rainfall" : "11",
+            "Storm alarm" : "08",
+            "Sun alarm" : "06",
+            "Temperature" : "10",
+            "Wind alarm" : "07",
+            "Wind speed" : "13"
          },
          "Channels" : {
             "01" : {
@@ -5396,6 +5758,20 @@
             "Name" : {
                "Convert" : "hex"
             }
+         },
+         "ChannelPerName" : {
+            "Alarm 1" : "01",
+            "Alarm 2" : "02",
+            "Alarm 3" : "03",
+            "Alarm 4" : "04",
+            "Alarm 5" : "05",
+            "Alarm 6" : "06",
+            "Alarm 7" : "07",
+            "Alarm 8" : "08",
+            "Sensor 1" : "09",
+            "Sensor 2" : "10",
+            "Sensor 3" : "11",
+            "Sensor 4" : "12"
          },
          "Channels" : {
             "01" : {
@@ -5600,6 +5976,16 @@
          "Version" : "edition 3"
       },
       "33" : {
+         "ChannelPerName" : {
+            "Bell 1" : "03",
+            "Bell 2" : "04",
+            "Door 1" : "05",
+            "Door 2" : "06",
+            "Motion 1" : "01",
+            "Motion 2" : "02",
+            "Virtual button 1" : "07",
+            "Virtual button 2" : "08"
+         },
          "Channels" : {
             "01" : {
                "Name" : "Motion 1",
@@ -5659,6 +6045,27 @@
             "Name" : {
                "Convert" : "hex"
             }
+         },
+         "ChannelPerName" : {
+            "Alarm 1" : "14",
+            "Alarm 2" : "15",
+            "Alarm 3" : "16",
+            "Alarm 4" : "17",
+            "Boost" : "11",
+            "Cooler" : "13",
+            "Edge Lit" : "97",
+            "Heater" : "10",
+            "Output" : "18",
+            "Pump" : "12",
+            "Push button 1" : "01",
+            "Temperature" : "09",
+            "Virtual button 2" : "02",
+            "Virtual button 3" : "03",
+            "Virtual button 4" : "04",
+            "Virtual button 5" : "05",
+            "Virtual button 6" : "06",
+            "Virtual button 7" : "07",
+            "Virtual button 8" : "08"
          },
          "Channels" : {
             "01" : {
@@ -5833,6 +6240,27 @@
                "Convert" : "hex"
             }
          },
+         "ChannelPerName" : {
+            "Alarm 1" : "14",
+            "Alarm 2" : "15",
+            "Alarm 3" : "16",
+            "Alarm 4" : "17",
+            "Boost" : "11",
+            "Cooler" : "13",
+            "Edge Lit" : "97",
+            "Heater" : "10",
+            "Output" : "18",
+            "Pump" : "12",
+            "Push button 1" : "01",
+            "Push button 2" : "02",
+            "Temperature" : "09",
+            "Virtual button 3" : "03",
+            "Virtual button 4" : "04",
+            "Virtual button 5" : "05",
+            "Virtual button 6" : "06",
+            "Virtual button 7" : "07",
+            "Virtual button 8" : "08"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -6005,6 +6433,27 @@
             "Name" : {
                "Convert" : "hex"
             }
+         },
+         "ChannelPerName" : {
+            "Alarm 1" : "14",
+            "Alarm 2" : "15",
+            "Alarm 3" : "16",
+            "Alarm 4" : "17",
+            "Boost" : "11",
+            "Cooler" : "13",
+            "Edge Lit" : "97",
+            "Heater" : "10",
+            "Output" : "18",
+            "Pump" : "12",
+            "Push button 1" : "01",
+            "Push button 2" : "02",
+            "Push button 3" : "03",
+            "Push button 4" : "04",
+            "Temperature" : "09",
+            "Virtual button 5" : "05",
+            "Virtual button 6" : "06",
+            "Virtual button 7" : "07",
+            "Virtual button 8" : "08"
          },
          "Channels" : {
             "01" : {
@@ -6193,6 +6642,51 @@
             "Name" : {
                "Convert" : "hex"
             }
+         },
+         "ChannelPerName" : {
+            "Alarm 1" : "38",
+            "Alarm 2" : "39",
+            "Alarm 3" : "40",
+            "Alarm 4" : "41",
+            "Boost" : "35",
+            "Cooler" : "37",
+            "Edge Lit" : "97",
+            "Heater" : "34",
+            "Memo Text" : "98",
+            "Output" : "42",
+            "Pump" : "36",
+            "Push button 1" : "01",
+            "Push button 10" : "20",
+            "Push button 11" : "11",
+            "Push button 12" : "12",
+            "Push button 13" : "13",
+            "Push button 14" : "14",
+            "Push button 15" : "15",
+            "Push button 16" : "16",
+            "Push button 17" : "17",
+            "Push button 18" : "18",
+            "Push button 19" : "19",
+            "Push button 2" : "02",
+            "Push button 21" : "21",
+            "Push button 22" : "22",
+            "Push button 23" : "23",
+            "Push button 24" : "24",
+            "Push button 25" : "25",
+            "Push button 26" : "26",
+            "Push button 27" : "27",
+            "Push button 28" : "28",
+            "Push button 29" : "29",
+            "Push button 3" : "03",
+            "Push button 30" : "30",
+            "Push button 31" : "31",
+            "Push button 32" : "32",
+            "Push button 4" : "04",
+            "Push button 5" : "05",
+            "Push button 6" : "06",
+            "Push button 7" : "07",
+            "Push button 8" : "08",
+            "Push button 9" : "09",
+            "Temperature" : "33"
          },
          "Channels" : {
             "01" : {
@@ -6572,6 +7066,28 @@
                "Convert" : "hex"
             }
          },
+         "ChannelPerName" : {
+            "Absence output" : "08",
+            "Alarm 1" : "14",
+            "Alarm 2" : "15",
+            "Alarm 3" : "16",
+            "Alarm 4" : "17",
+            "Boost" : "11",
+            "Cooler" : "13",
+            "Dark output" : "03",
+            "Edge Lit" : "97",
+            "Heater" : "10",
+            "Light output" : "04",
+            "Light value" : "99",
+            "Motion output" : "05",
+            "Motion output 1 (LD)" : "06",
+            "Motion output 2 (LD)" : "07",
+            "Output" : "18",
+            "Pump" : "12",
+            "Push button" : "01",
+            "Temperature" : "09",
+            "Virtual button" : "02"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -6747,6 +7263,25 @@
                }
             }
          },
+         "ChannelPerName" : {
+            "Alarm 1" : "15",
+            "Alarm 2" : "16",
+            "Alarm 3" : "17",
+            "Alarm 4" : "18",
+            "Boost" : "12",
+            "Cooler" : "14",
+            "Heater" : "11",
+            "Pump" : "13",
+            "Push button 1" : "01",
+            "Temperature" : "10",
+            "Virtual button 2" : "02",
+            "Virtual button 3" : "03",
+            "Virtual button 4" : "04",
+            "Virtual button 5" : "05",
+            "Virtual button 6" : "06",
+            "Virtual button 7" : "07",
+            "Virtual button 8" : "08"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -6879,6 +7414,25 @@
                   "09" : "10"
                }
             }
+         },
+         "ChannelPerName" : {
+            "Alarm 1" : "15",
+            "Alarm 2" : "16",
+            "Alarm 3" : "17",
+            "Alarm 4" : "18",
+            "Boost" : "12",
+            "Cooler" : "14",
+            "Heater" : "11",
+            "Pump" : "13",
+            "Push button 1" : "01",
+            "Push button 2" : "02",
+            "Temperature" : "10",
+            "Virtual button 3" : "03",
+            "Virtual button 4" : "04",
+            "Virtual button 5" : "05",
+            "Virtual button 6" : "06",
+            "Virtual button 7" : "07",
+            "Virtual button 8" : "08"
          },
          "Channels" : {
             "01" : {
@@ -7013,6 +7567,25 @@
                }
             }
          },
+         "ChannelPerName" : {
+            "Alarm 1" : "15",
+            "Alarm 2" : "16",
+            "Alarm 3" : "17",
+            "Alarm 4" : "18",
+            "Boost" : "12",
+            "Cooler" : "14",
+            "Heater" : "11",
+            "Pump" : "13",
+            "Push button 1" : "01",
+            "Push button 2" : "02",
+            "Push button 3" : "03",
+            "Push button 4" : "04",
+            "Temperature" : "10",
+            "Virtual button 5" : "05",
+            "Virtual button 6" : "06",
+            "Virtual button 7" : "07",
+            "Virtual button 8" : "08"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -7145,6 +7718,49 @@
                   "21" : "34"
                }
             }
+         },
+         "ChannelPerName" : {
+            "Alarm 1" : "39",
+            "Alarm 2" : "40",
+            "Alarm 3" : "41",
+            "Alarm 4" : "42",
+            "Boost" : "36",
+            "Cooler" : "38",
+            "Heater" : "35",
+            "Memo Text" : "98",
+            "Pump" : "37",
+            "Push button 1" : "01",
+            "Push button 10" : "20",
+            "Push button 11" : "11",
+            "Push button 12" : "12",
+            "Push button 13" : "13",
+            "Push button 14" : "14",
+            "Push button 15" : "15",
+            "Push button 16" : "16",
+            "Push button 17" : "17",
+            "Push button 18" : "18",
+            "Push button 19" : "19",
+            "Push button 2" : "02",
+            "Push button 21" : "21",
+            "Push button 22" : "22",
+            "Push button 23" : "23",
+            "Push button 24" : "24",
+            "Push button 25" : "25",
+            "Push button 26" : "26",
+            "Push button 27" : "27",
+            "Push button 28" : "28",
+            "Push button 29" : "29",
+            "Push button 3" : "03",
+            "Push button 30" : "30",
+            "Push button 31" : "31",
+            "Push button 32" : "32",
+            "Push button 4" : "04",
+            "Push button 5" : "05",
+            "Push button 6" : "06",
+            "Push button 7" : "07",
+            "Push button 8" : "08",
+            "Push button 9" : "09",
+            "Temperature" : "34"
          },
          "Channels" : {
             "01" : {
@@ -7461,6 +8077,26 @@
                }
             }
          },
+         "ChannelPerName" : {
+            "Absence output" : "08",
+            "Alarm 1" : "15",
+            "Alarm 2" : "16",
+            "Alarm 3" : "17",
+            "Alarm 4" : "18",
+            "Boost" : "12",
+            "Cooler" : "14",
+            "Dark/Light output" : "05",
+            "Heater" : "11",
+            "Light Depending motion" : "07",
+            "Light value" : "99",
+            "Motion output" : "06",
+            "Pump" : "13",
+            "Push button 1" : "01",
+            "Push button 2" : "02",
+            "Push button 3" : "03",
+            "Push button 4" : "04",
+            "Temperature" : "10"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -7606,6 +8242,14 @@
          "Version" : "edition 3"
       },
       "41" : {
+         "ChannelPerName" : {
+            "Input button" : "06",
+            "Relay" : "01",
+            "Virtual relay 1" : "02",
+            "Virtual relay 2" : "03",
+            "Virtual relay 3" : "04",
+            "Virtual relay 4" : "05"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -7671,6 +8315,16 @@
          "Version" : "edition 1"
       },
       "42" : {
+         "ChannelPerName" : {
+            "Tamper alarm" : "03",
+            "User group 1" : "01",
+            "User group 2" : "02",
+            "Virtual button 1" : "04",
+            "Virtual button 2" : "05",
+            "Virtual button 3" : "06",
+            "Virtual button 4" : "07",
+            "Virtual button 5" : "08"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -7759,6 +8413,16 @@
          "Version" : "edition 2"
       },
       "43" : {
+         "ChannelPerName" : {
+            "Input" : "01",
+            "Virtual button 1" : "02",
+            "Virtual button 2" : "03",
+            "Virtual button 3" : "04",
+            "Virtual button 4" : "05",
+            "Virtual button 5" : "06",
+            "Virtual button 6" : "07",
+            "Virtual button 7" : "08"
+         },
          "Channels" : {
             "01" : {
                "Editable" : "yes",
@@ -9154,5 +9818,5 @@
          "Version" : "edition 1"
       }
    },
-   "Version" : "20260415"
+   "Version" : "20260426"
 }

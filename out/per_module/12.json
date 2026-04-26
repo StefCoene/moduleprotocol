@@ -1,4 +1,10 @@
 {
+   "ChannelPerName" : {
+      "Dimmer 1" : "01",
+      "Dimmer 2" : "02",
+      "Dimmer 3" : "03",
+      "Dimmer 4" : "04"
+   },
    "Channels" : {
       "01" : {
          "Editable" : "yes",

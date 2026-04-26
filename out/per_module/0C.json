@@ -1,4 +1,7 @@
 {
+   "ChannelPerName" : {
+      "Temperature" : "01"
+   },
    "Channels" : {
       "01" : {
          "Editable" : "yes",

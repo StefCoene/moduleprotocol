@@ -1,4 +1,14 @@
 {
+   "ChannelPerName" : {
+      "Input" : "01",
+      "Virtual button 1" : "02",
+      "Virtual button 2" : "03",
+      "Virtual button 3" : "04",
+      "Virtual button 4" : "05",
+      "Virtual button 5" : "06",
+      "Virtual button 6" : "07",
+      "Virtual button 7" : "08"
+   },
    "Channels" : {
       "01" : {
          "Editable" : "yes",

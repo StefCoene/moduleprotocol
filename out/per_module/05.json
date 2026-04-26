@@ -1,4 +1,12 @@
 {
+   "ChannelPerName" : {
+      "Push button 1" : "01",
+      "Push button 2" : "02",
+      "Push button 3" : "03",
+      "Push button 4" : "04",
+      "Push button 5" : "05",
+      "Push button 6" : "06"
+   },
    "Channels" : {
       "01" : {
          "Editable" : "yes",

@@ -1,4 +1,7 @@
 {
+   "ChannelPerName" : {
+      "Relay" : "01"
+   },
    "Channels" : {
       "01" : {
          "Editable" : "yes",
