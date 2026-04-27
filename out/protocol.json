@@ -3673,7 +3673,6 @@
             "StatusAddress" : "03C0;03C1;03C2;03C3;03C4;03C5;03C6;03C7;03C8;03C9;03CA;03CB;03CC;03CD;03CE;03CF;03D0;03D1;03D2;03D3;03D4;03D5;03D6;03D7;03D8;03D9;03DA;03DB;03DC;03DD;03DE;03DF;03E0;03E1;03E2;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;03F0;03F1;03F2;03F3;03F4;03F5;03F6;03F7;03F8;03F9;03FA;03FB;03FC;03FD;03FE;03FF"
          },
          "MemoryMap" : {
-            "Channel" : {},
             "ChannelTemp" : {
                "Channel 1" : {
                   "Memory" : "0000:000F",
@@ -3840,7 +3839,6 @@
             "StatusAddress" : "03C0;03C1;03C2;03C3;03C4;03C5;03C6;03C7;03C8;03C9;03CA;03CB;03CC;03CD;03CE;03CF;03D0;03D1;03D2;03D3;03D4;03D5;03D6;03D7;03D8;03D9;03DA;03DB;03DC;03DD;03DE;03DF;03E0;03E1;03E2;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;03F0;03F1;03F2;03F3;03F4;03F5;03F6;03F7;03F8;03F9;03FA;03FB;03FC;03FD;03FE;03FF"
          },
          "MemoryMap" : {
-            "Channel" : {},
             "ChannelTemp" : {
                "Channel 1" : {
                   "Memory" : "0000:000F",
@@ -4007,7 +4005,6 @@
             "StatusAddress" : "03C0;03C1;03C2;03C3;03C4;03C5;03C6;03C7;03C8;03C9;03CA;03CB;03CC;03CD;03CE;03CF;03D0;03D1;03D2;03D3;03D4;03D5;03D6;03D7;03D8;03D9;03DA;03DB;03DC;03DD;03DE;03DF;03E0;03E1;03E2;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;03F0;03F1;03F2;03F3;03F4;03F5;03F6;03F7;03F8;03F9;03FA;03FB;03FC;03FD;03FE;03FF"
          },
          "MemoryMap" : {
-            "Channel" : {},
             "ChannelTemp" : {
                "Channel 1" : {
                   "Memory" : "0000:000F",
@@ -4322,7 +4319,6 @@
             "StatusAddress" : "09BE;09BF;09C0;09C1;09C2;09C3;09C4;09C5;09C6;09C7;09C8;09C9;09CA;09CB;09CC;09CD;09CE;09CF;09D0;09D1;09D2;09D3;09D4;09D5;09D6;09D7;09D8;09D9;09DA;09DB;09DC;09DD;09DE;09DF;09E0;09E1;09E2;09E3;09E4;09E5;09E6;09E7;09E8;09E9;09EA;09EB;09EC;09ED;09EE;09EF;09F0;09F1;09F2;09F3;09F4;09F5;09F6;09F7;09F8;09F9;09FA;09FB;09FC;09FD"
          },
          "MemoryMap" : {
-            "Channel" : {},
             "ChannelTemp" : {
                "Channel 1" : {
                   "Memory" : "0000:000F",
@@ -4952,7 +4948,6 @@
             "StatusAddress" : "09BE;09BF;09C0;09C1;09C2;09C3;09C4;09C5;09C6;09C7;09C8;09C9;09CA;09CB;09CC;09CD;09CE;09CF;09D0;09D1;09D2;09D3;09D4;09D5;09D6;09D7;09D8;09D9;09DA;09DB;09DC;09DD;09DE;09DF;09E0;09E1;09E2;09E3;09E4;09E5;09E6;09E7;09E8;09E9;09EA;09EB;09EC;09ED;09EE;09EF;09F0;09F1;09F2;09F3;09F4;09F5;09F6;09F7;09F8;09F9;09FA;09FB;09FC;09FD"
          },
          "MemoryMap" : {
-            "Channel" : {},
             "ChannelTemp" : {
                "Channel 1" : {
                   "Memory" : "0000:000F",
@@ -5186,7 +5181,6 @@
             "StatusAddress" : "00B0;00B1;00B2;00B3;00B4;00B5;00B6;00B7;00B8;00B9;00BA;00BB;00BC;00BD;00BE;00BF;00C0;00C1;00C2;00C3;00C4;00C5;00C6;00C7;00C8;00C9;00CA;00CB;00CC;00CD;00CE;00CF;00D0;00D1;00D2;00D3;00D4;00D5;00D6;00D7;00D8;00D9;00DA;00DB;00DC;00DD;00DE;00DF;00E0;00E1;00E2;00E3;00E4;00E5;00E6;00E7;00E8;00E9;00EA;00EB;00EC;00ED;00EE;00EF"
          },
          "MemoryMap" : {
-            "Channel" : {},
             "ChannelTemp" : {}
          },
          "Type" : "VMBPIRM",
@@ -5243,7 +5237,6 @@
             "StatusAddress" : "00B0;00B1;00B2;00B3;00B4;00B5;00B6;00B7;00B8;00B9;00BA;00BB;00BC;00BD;00BE;00BF;00C0;00C1;00C2;00C3;00C4;00C5;00C6;00C7;00C8;00C9;00CA;00CB;00CC;00CD;00CE;00CF;00D0;00D1;00D2;00D3;00D4;00D5;00D6;00D7;00D8;00D9;00DA;00DB;00DC;00DD;00DE;00DF;00E0;00E1;00E2;00E3;00E4;00E5;00E6;00E7;00E8;00E9;00EA;00EB;00EC;00ED;00EE;00EF"
          },
          "MemoryMap" : {
-            "Channel" : {},
             "ChannelTemp" : {}
          },
          "Type" : "VMBPIRC",
@@ -6550,7 +6543,6 @@
             "StatusAddress" : "06C0;06C1;06C2;06C3;06C4;06C5;06C6;06C7;06C8;06C9;06CA;06CB;06CC;06CD;06CE;06CF"
          },
          "MemoryMap" : {
-            "Channel" : {},
             "ChannelTemp" : {
                "Channel 1" : {
                   "Memory" : "001C:002B",
@@ -6907,7 +6899,6 @@
             "StatusAddress" : "0F44;0F45;0F46;0F47;0F48;0F49;0F4A;0F4B;0F4C;0F4D;0F4E;0F4F;0F50;0F51;0F52;0F53;0F54;0F55;0F56;0F57;0F58;0F59;0F5A;0F5B;0F5C;0F5D;0F5E;0F5F;0F60;0F61;0F62;0F63;0F64;0F65;0F66;0F67;0F68;0F69;0F6A;0F6B;0F6C;0F6D;0F6E;0F6F;0F70;0F71;0F72;0F73;0F74;0F75;0F76;0F77;0F78;0F79;0F7A;0F7B;0F7C;0F7D;0F7E;0F7F;0F80;0F81;0F82;0F83"
          },
          "MemoryMap" : {
-            "Channel" : {},
             "ChannelTemp" : {
                "Channel 1" : {
                   "Memory" : "001C:002B",
@@ -8372,7 +8363,6 @@
             "ModuleName" : "03BC:03FB"
          },
          "MemoryMap" : {
-            "Channel" : {},
             "ChannelTemp" : {
                "Channel 1" : {
                   "Memory" : "0000:000F",
@@ -8470,7 +8460,6 @@
             "ModuleName" : "03BC:03FB"
          },
          "MemoryMap" : {
-            "Channel" : {},
             "ChannelTemp" : {
                "Channel 1" : {
                   "Memory" : "0000:000F",
@@ -8584,9 +8573,6 @@
          "Memory" : {
             "ModuleName" : "17AC-17EB",
             "StatusAddress" : "17AC;17AD;17AE;17AF;17B0;17B1;17B2;17B3;17B4;17B5;17B6;17B7;17B8;17B9;17BA;17BB;17BC;17BD;17BE;17BF;17C0;17C1;17C2;17C3;17C4;17C5;17C6;17C7;17C8;17C9;17CA;17CB;17CC;17CD;17CE;17CF;17D0;17D1;17D2;17D3;17D4;17D5;17D6;17D7;17D8;17D9;17DA;17DB;17DC;17DD;17DE;17DF;17E0;17E1;17E2;17E3;17E4;17E5;17E6;17E7;17E8;17E9;17EA;17EB"
-         },
-         "MemoryMap" : {
-            "ChannelTemp" : {}
          },
          "Type" : "VMBDALI",
          "Version" : "edition 2"
@@ -9592,9 +9578,6 @@
          "Channels" : {},
          "Info" : "VMBDALI-20 DALI gateway module",
          "Memory" : {},
-         "MemoryMap" : {
-            "ChannelTemp" : {}
-         },
          "Type" : "VMBDALI-20",
          "Version" : "edition 2"
       },
@@ -9602,9 +9585,6 @@
          "Channels" : {},
          "Info" : "Home automatization over internet",
          "Memory" : {},
-         "MemoryMap" : {
-            "ChannelTemp" : {}
-         },
          "Type" : "VMBSIG-20",
          "Version" : "edition 1"
       },
@@ -9770,9 +9750,6 @@
          "Channels" : {},
          "Info" : "Motion detector with four touch buttons module",
          "Memory" : {},
-         "MemoryMap" : {
-            "ChannelTemp" : {}
-         },
          "Type" : "VMBGP4PIR-20",
          "Version" : "edition 3"
       },
@@ -9780,9 +9757,6 @@
          "Channels" : {},
          "Info" : "Home automatization over internet",
          "Memory" : {},
-         "MemoryMap" : {
-            "ChannelTemp" : {}
-         },
          "Type" : "VMBSIG-21",
          "Version" : "edition 1"
       },
@@ -9818,5 +9792,5 @@
          "Version" : "edition 1"
       }
    },
-   "Version" : "20260426"
+   "Version" : "20260427"
 }

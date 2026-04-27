@@ -2,9 +2,6 @@
    "Channels" : {},
    "Info" : "Home automatization over internet",
    "Memory" : {},
-   "MemoryMap" : {
-      "ChannelTemp" : {}
-   },
    "Type" : "VMBSIG-20",
    "Version" : "edition 1"
 }

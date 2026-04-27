@@ -56,7 +56,6 @@
       "ModuleName" : "03BC:03FB"
    },
    "MemoryMap" : {
-      "Channel" : {},
       "ChannelTemp" : {
          "Channel 1" : {
             "Memory" : "0000:000F",

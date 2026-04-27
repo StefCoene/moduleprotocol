@@ -16706,7 +16706,6 @@
          },
          "File" : "protocol_vmbdali_vmbdali_20.txt",
          "Info" : "VMBDALI-20 DALI gateway module",
-         "MemoryMap" : null,
          "Messages" : {
             "00" : {
                "Info" : "Transmits the channel A0…7 switch status",
@@ -21714,7 +21713,6 @@
          },
          "File" : "protocol_vmbdali_vmbdali_20.txt",
          "Info" : "VMBDALI-20 DALI gateway module",
-         "MemoryMap" : null,
          "Messages" : {
             "00" : {
                "Info" : "Transmits the channel A0…7 switch status",
@@ -21958,7 +21956,6 @@
       "5B" : {
          "File" : "protocol_vmbsig_20.txt",
          "Info" : "Home automatization over internet",
-         "MemoryMap" : null,
          "Messages" : {
             "" : {
                "Info" : "Module type request command received",
@@ -22797,7 +22794,6 @@
          },
          "File" : "protocol_vmbgp4pir_20.txt",
          "Info" : "Motion detector with four touch buttons module",
-         "MemoryMap" : null,
          "Messages" : {
             "00" : {
                "Info" : "Transmits the channel switch status",
@@ -23088,7 +23084,6 @@
       "60" : {
          "File" : "protocol_vmbsig_21.txt",
          "Info" : "Home automatization over internet",
-         "MemoryMap" : null,
          "Messages" : {
             "" : {
                "Info" : "Module type request command received",

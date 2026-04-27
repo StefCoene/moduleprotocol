@@ -121,7 +121,6 @@
       "StatusAddress" : "06C0;06C1;06C2;06C3;06C4;06C5;06C6;06C7;06C8;06C9;06CA;06CB;06CC;06CD;06CE;06CF"
    },
    "MemoryMap" : {
-      "Channel" : {},
       "ChannelTemp" : {
          "Channel 1" : {
             "Memory" : "001C:002B",
