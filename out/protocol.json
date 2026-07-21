@@ -1931,35 +1931,18 @@
             }
          },
          "Info" : "8 channel Push Button Interface module",
-         "Memory" : {},
+         "Memory" : {
+            "01" : "0000:000E",
+            "02" : "0010:001E",
+            "03" : "0020:002E",
+            "04" : "0030:003E",
+            "05" : "0040:004E",
+            "06" : "0050:005E",
+            "07" : "0060:006E",
+            "08" : "0070:007E"
+         },
          "MemoryMap" : {
-            "Channel" : {
-               "Push button 1" : {
-                  "Memory" : "0000:000E"
-               },
-               "Push button 2" : {
-                  "Memory" : "0010:001E"
-               },
-               "Push button 3" : {
-                  "Memory" : "0020:002E"
-               },
-               "Push button 4" : {
-                  "Memory" : "0030:003E"
-               },
-               "Push button 5" : {
-                  "Memory" : "0040:004E"
-               },
-               "Push button 6" : {
-                  "Memory" : "0050:005E"
-               },
-               "Push button 7" : {
-                  "Memory" : "0060:006E"
-               },
-               "Push button 8" : {
-                  "Memory" : "0070:007E"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "Type" : "VMB8PB",
          "Version" : "edition 2"
@@ -1978,25 +1961,12 @@
          },
          "Info" : "Relay Module",
          "Memory" : {
+            "01" : "0070:007F",
             "ModuleName" : "0070:007F"
          },
          "MemoryMap" : {
             "Channel" : {
-               "Relay" : {
-                  "Memory" : "0070:007F"
-               }
-            },
-            "ChannelTemp" : {
-               "Push button" : {
-                  "Memory" : "0060:006E",
-                  "max" : "15",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0060",
-                     "15" : "006E",
-                     "2" : "0061"
-                  }
-               }
+               "Push button" : "0060:006E"
             }
          },
          "Type" : "VMB1RY",
@@ -2023,35 +1993,13 @@
          },
          "Info" : "Blind Control Module",
          "Memory" : {
+            "01" : "0071:007F",
             "ModuleName" : "0070:007F"
          },
          "MemoryMap" : {
             "Channel" : {
-               "Blind" : {
-                  "Memory" : "0071:007F"
-               }
-            },
-            "ChannelTemp" : {
-               "Local Down Push button" : {
-                  "Memory" : "0060:006E",
-                  "max" : "15",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0060",
-                     "15" : "006E",
-                     "2" : "0061"
-                  }
-               },
-               "Local Up Push button" : {
-                  "Memory" : "0050:005E",
-                  "max" : "15",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0050",
-                     "15" : "005E",
-                     "2" : "0061"
-                  }
-               }
+               "Local Down Push button" : "0060:006E",
+               "Local Up Push button" : "0050:005E"
             }
          },
          "Type" : "VMB1BL",
@@ -2063,9 +2011,7 @@
          "Memory" : {
             "ModuleName" : "07BC:07FB"
          },
-         "MemoryMap" : {
-            "ChannelTemp" : {}
-         },
+         "MemoryMap" : {},
          "Type" : "VMBPSUMNGR-20",
          "Version" : "edition 1"
       },
@@ -2111,63 +2057,31 @@
             }
          },
          "Info" : "6 Channel input module",
-         "Memory" : {},
+         "Memory" : {
+            "01" : "0000:000E",
+            "02" : "0010:001E",
+            "03" : "0020:002E",
+            "04" : "0030:003E",
+            "05" : "0040:004E",
+            "06" : "0050:005E"
+         },
          "MemoryMap" : {
-            "Channel" : {
-               "Push button 1" : {
-                  "Memory" : "0000:000E"
-               },
-               "Push button 2" : {
-                  "Memory" : "0010:001E"
-               },
-               "Push button 3" : {
-                  "Memory" : "0020:002E"
-               },
-               "Push button 4" : {
-                  "Memory" : "0030:003E"
-               },
-               "Push button 5" : {
-                  "Memory" : "0040:004E"
-               },
-               "Push button 6" : {
-                  "Memory" : "0050:005E"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "Type" : "VMB6IN",
          "Version" : "edition 2"
       },
       "06" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "4 channel led PWM dimmer module",
          "Memory" : {
             "ModuleName" : "062C:066B"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "0000:000F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0000",
-                     "15" : "000E",
-                     "16" : "000F",
-                     "2" : "0001"
-                  }
-               },
-               "Channel 4" : {
-                  "Memory" : "0030:003F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0030",
-                     "15" : "003F",
-                     "16" : "003F",
-                     "2" : "0031"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "0000:000F",
+               "Channel 4" : "0030:003F"
             }
          },
          "Type" : "VMB4LEDPWM-20",
@@ -2187,26 +2101,12 @@
          },
          "Info" : "Dimmer module",
          "Memory" : {
+            "01" : "00F0:00FF",
             "ModuleName" : "00F0:00FF"
          },
          "MemoryMap" : {
             "Channel" : {
-               "Dimmer" : {
-                  "Memory" : "00F0:00FF"
-               }
-            },
-            "ChannelTemp" : {
-               "Local Dim push button" : {
-                  "Memory" : "00E0:00EF",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00E0",
-                     "15" : "00EE",
-                     "16" : "00EF",
-                     "2" : "00E1"
-                  }
-               }
+               "Local Dim Push button" : "00E0:00EF"
             }
          },
          "Type" : "VMB1DM",
@@ -2246,91 +2146,22 @@
             }
          },
          "Info" : "4 channel relay module",
-         "Memory" : {},
+         "Memory" : {
+            "01" : "00F0:00FF",
+            "02" : "01F0:01FF",
+            "03" : "02F0:02FF",
+            "04" : "03F0:03FF"
+         },
          "MemoryMap" : {
             "Channel" : {
-               "Relay 1" : {
-                  "Memory" : "00F0:00FF"
-               },
-               "Relay 2" : {
-                  "Memory" : "01F0:01FF"
-               },
-               "Relay 3" : {
-                  "Memory" : "02F0:02FF"
-               },
-               "Relay 4" : {
-                  "Memory" : "03F0:03FF"
-               }
-            },
-            "ChannelTemp" : {
-               "Local Push button channel 1" : {
-                  "Memory" : "00E0:00EE",
-                  "max" : "15",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00E0",
-                     "15" : "00EE"
-                  }
-               },
-               "Local Push button channel 2" : {
-                  "Memory" : "01E0:01EE",
-                  "max" : "15",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "01E0",
-                     "15" : "01EE"
-                  }
-               },
-               "Local Push button channel 3" : {
-                  "Memory" : "02E0:02EE",
-                  "max" : "15",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "02E0",
-                     "15" : "02EE"
-                  }
-               },
-               "Local Push button channel 4" : {
-                  "Memory" : "03E0:03EE",
-                  "max" : "15",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "03E0",
-                     "15" : "03EE"
-                  }
-               },
-               "Push button channel 1" : {
-                  "Memory" : "00E1:00E1",
-                  "max" : "2",
-                  "min" : "2",
-                  "tmp" : {
-                     "2" : "00E1"
-                  }
-               },
-               "Push button channel 2" : {
-                  "Memory" : "01E1:01E1",
-                  "max" : "2",
-                  "min" : "2",
-                  "tmp" : {
-                     "2" : "01E1"
-                  }
-               },
-               "Push button channel 3" : {
-                  "Memory" : "02E1:02E1",
-                  "max" : "2",
-                  "min" : "2",
-                  "tmp" : {
-                     "2" : "02E1"
-                  }
-               },
-               "Push button channel 4" : {
-                  "Memory" : "03E1:03E1",
-                  "max" : "2",
-                  "min" : "2",
-                  "tmp" : {
-                     "2" : "03E1"
-                  }
-               }
+               "Local Push button 1" : "00E0:00EE",
+               "Local Push button 2" : "01E0:01EE",
+               "Local Push button 3" : "02E0:02EE",
+               "Local Push button 4" : "03E0:03EE",
+               "Push button 1" : "00E1:00E1",
+               "Push button 2" : "01E1:01E1",
+               "Push button 3" : "02E1:02E1",
+               "Push button 4" : "03E1:03E1"
             }
          },
          "Type" : "VMB4RY",
@@ -2364,136 +2195,34 @@
             }
          },
          "Info" : "2-channel Blind Control Module",
-         "Memory" : {},
+         "Memory" : {
+            "01" : "00F1:00FF",
+            "02" : "01F1:01FF"
+         },
          "MemoryMap" : {
             "Channel" : {
-               "Blind 1" : {
-                  "Memory" : "00F1:00FF"
-               },
-               "Blind 2" : {
-                  "Memory" : "01F1:01FF"
-               }
-            },
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "00E0:00EE",
-                  "max" : "15",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00E0",
-                     "15" : "00EE",
-                     "2" : "00E1"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "01E0:01EE",
-                  "max" : "15",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "01E0",
-                     "15" : "01EE",
-                     "2" : "01E1"
-                  }
-               }
+               "Channel 1" : "00E0:00EE",
+               "Channel 2" : "01E0:01EE"
             }
          },
          "Type" : "VMB2BL",
          "Version" : "edition 1 _ rev4"
       },
       "0A" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "Infrared remote control receiver module",
          "Memory" : {},
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "0000:000F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0000",
-                     "15" : "000E",
-                     "16" : "000F",
-                     "2" : "0001"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0010:001F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0010",
-                     "15" : "001E",
-                     "16" : "001F",
-                     "2" : "0011"
-                  }
-               },
-               "Channel 3" : {
-                  "Memory" : "0020:002F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0020",
-                     "15" : "002E",
-                     "16" : "002F",
-                     "2" : "0021"
-                  }
-               },
-               "Channel 4" : {
-                  "Memory" : "0030:003F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0030",
-                     "15" : "003E",
-                     "16" : "003F",
-                     "2" : "0031"
-                  }
-               },
-               "Channel 5" : {
-                  "Memory" : "0040:004F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0040",
-                     "15" : "004E",
-                     "16" : "004F",
-                     "2" : "0041"
-                  }
-               },
-               "Channel 6" : {
-                  "Memory" : "0050:005F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0050",
-                     "15" : "005E",
-                     "16" : "005F",
-                     "2" : "0051"
-                  }
-               },
-               "Channel 7" : {
-                  "Memory" : "0060:006F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0060",
-                     "15" : "006E",
-                     "16" : "006F",
-                     "2" : "0061"
-                  }
-               },
-               "Channel 8" : {
-                  "Memory" : "0070:007F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0070",
-                     "15" : "007E",
-                     "16" : "007F",
-                     "2" : "0071"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "0000:000F",
+               "Channel 2" : "0010:001F",
+               "Channel 3" : "0020:002F",
+               "Channel 4" : "0030:003F",
+               "Channel 5" : "0040:004F",
+               "Channel 6" : "0050:005F",
+               "Channel 7" : "0060:006F",
+               "Channel 8" : "0070:007F"
             }
          },
          "Type" : "VMB8IR",
@@ -2553,35 +2282,18 @@
             }
          },
          "Info" : "LCD module",
-         "Memory" : {},
+         "Memory" : {
+            "01" : "0000:000E",
+            "02" : "0010:001E",
+            "03" : "0020:002E",
+            "04" : "0030:003E",
+            "05" : "0040:004E",
+            "06" : "0050:005E",
+            "07" : "0060:006E",
+            "08" : "0070:007E"
+         },
          "MemoryMap" : {
-            "Channel" : {
-               "Push button 1" : {
-                  "Memory" : "0000:000E"
-               },
-               "Push button 2" : {
-                  "Memory" : "0010:001E"
-               },
-               "Push button 3" : {
-                  "Memory" : "0020:002E"
-               },
-               "Push button 4" : {
-                  "Memory" : "0030:003E"
-               },
-               "Push button 5" : {
-                  "Memory" : "0040:004E"
-               },
-               "Push button 6" : {
-                  "Memory" : "0050:005E"
-               },
-               "Push button 7" : {
-                  "Memory" : "0060:006E"
-               },
-               "Push button 8" : {
-                  "Memory" : "0070:007E"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "Type" : "VMB4PD",
          "Version" : "edition 2"
@@ -2598,14 +2310,11 @@
             }
          },
          "Info" : "Temperature Sensor Module",
-         "Memory" : {},
+         "Memory" : {
+            "01" : "00F0:00FF"
+         },
          "MemoryMap" : {
-            "Channel" : {
-               "Temperature" : {
-                  "Memory" : "00F0:00FF"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "TemperatureChannel" : "01",
          "Thermostat" : "yes",
@@ -2613,46 +2322,24 @@
          "Version" : ""
       },
       "0D" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "VMB4RYNO-20 VMB1RYS-20",
          "Memory" : {
             "ModuleName" : "07BC:07FB"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "0000:000F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0000",
-                     "16" : "000F"
-                  }
-               },
-               "Channel 7" : {
-                  "Memory" : "0078:0087",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0078",
-                     "16" : "0087"
-                  }
-               },
-               "Channel 8" : {
-                  "Memory" : "008C:009B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "008C",
-                     "16" : "009B"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "0000:000F",
+               "Channel 7" : "0078:0087",
+               "Channel 8" : "008C:009B"
             }
          },
          "Type" : "VMB4RYLD-20",
          "Version" : "edition 3"
       },
       "0E" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "TemperatureController Module",
          "Memory" : {
@@ -2660,84 +2347,14 @@
             "StatusAddress" : "00F0;00F1;00F2;00F3;00F4;00F5;00F6;00F7;00F8;00F9;00FA;00FB;00FC;00FD;00FE;00FF"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Zone 1" : {
-                  "Memory" : "0000:000F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0000",
-                     "15" : "000E",
-                     "16" : "000F",
-                     "2" : "0001"
-                  }
-               },
-               "Zone 2" : {
-                  "Memory" : "0010:001F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0010",
-                     "15" : "001E",
-                     "16" : "001F",
-                     "2" : "0011"
-                  }
-               },
-               "Zone 3" : {
-                  "Memory" : "0020:002F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0020",
-                     "15" : "002E",
-                     "16" : "002F",
-                     "2" : "0021"
-                  }
-               },
-               "Zone 4" : {
-                  "Memory" : "0030:003F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0030",
-                     "15" : "003E",
-                     "16" : "003F",
-                     "2" : "0031"
-                  }
-               },
-               "Zone 5" : {
-                  "Memory" : "0040:004F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0040",
-                     "15" : "004E",
-                     "16" : "004F",
-                     "2" : "0041"
-                  }
-               },
-               "Zone 6" : {
-                  "Memory" : "0050:005F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0050",
-                     "15" : "005E",
-                     "16" : "005F",
-                     "2" : "0051"
-                  }
-               },
-               "Zone 7" : {
-                  "Memory" : "0060:006F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0060",
-                     "15" : "006E",
-                     "16" : "006F",
-                     "2" : "0061"
-                  }
-               }
+            "Channel" : {
+               "Zone 1" : "0000:000F",
+               "Zone 2" : "0010:001F",
+               "Zone 3" : "0020:002F",
+               "Zone 4" : "0030:003F",
+               "Zone 5" : "0040:004F",
+               "Zone 6" : "0050:005F",
+               "Zone 7" : "0060:006F"
             }
          },
          "Type" : "VMB1TC",
@@ -2756,25 +2373,12 @@
             }
          },
          "Info" : "PWM LED strip dimmer module",
-         "Memory" : {},
+         "Memory" : {
+            "01" : "00F0:00FF"
+         },
          "MemoryMap" : {
             "Channel" : {
-               "Dimmer" : {
-                  "Memory" : "00F0:00FF"
-               }
-            },
-            "ChannelTemp" : {
-               "Local Dim push button" : {
-                  "Memory" : "00E0:00EF",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00E0",
-                     "15" : "00EE",
-                     "16" : "00EF",
-                     "2" : "00E1"
-                  }
-               }
+               "Local Dim Push button" : "00E0:00EF"
             }
          },
          "Type" : "VMB1LED",
@@ -2821,28 +2425,16 @@
          },
          "Info" : "4 channel relay module with direct load connections",
          "Memory" : {
+            "01" : "00F0:00FF",
+            "02" : "01F0:01FF",
+            "03" : "02F0:02FF",
+            "04" : "03F0:03FF",
+            "05" : "04F0:04FF",
             "ModuleName" : "00E3:04EE",
             "StatusAddress" : "00E3;00E4;00E5;00E6;00E7;00E8;00E9;00EA;00EB;00EC;00ED;00EE;00EF;01E3;01E4;01E5;01E6;01E7;01E8;01E9;01EA;01EB;01EC;01ED;01EE;01EF;02E3;02E4;02E5;02E6;02E7;02E8;02E9;02EA;02EB;02EC;02ED;02EE;02EF;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;04E3;04E4;04E5;04E6;04E7;04E8;04E9;04EA;04EB;04EC;04ED;04EE"
          },
          "MemoryMap" : {
-            "Channel" : {
-               "Relay 1" : {
-                  "Memory" : "00F0:00FF"
-               },
-               "Relay 2" : {
-                  "Memory" : "01F0:01FF"
-               },
-               "Relay 3" : {
-                  "Memory" : "02F0:02FF"
-               },
-               "Relay 4" : {
-                  "Memory" : "03F0:03FF"
-               },
-               "Virtual relay" : {
-                  "Memory" : "04F0:04FF"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "Type" : "VMB4RYLD",
          "Version" : "edition 5"
@@ -2888,28 +2480,16 @@
          },
          "Info" : "4 channel relay module with normal open contacts",
          "Memory" : {
+            "01" : "00F0:00FF",
+            "02" : "01F0:01FF",
+            "03" : "02F0:02FF",
+            "04" : "03F0:03FF",
+            "05" : "04F0:04FF",
             "ModuleName" : "00E3:04EE",
             "StatusAddress" : "00E3;00E4;00E5;00E6;00E7;00E8;00E9;00EA;00EB;00EC;00ED;00EE;00EF;01E3;01E4;01E5;01E6;01E7;01E8;01E9;01EA;01EB;01EC;01ED;01EE;01EF;02E3;02E4;02E5;02E6;02E7;02E8;02E9;02EA;02EB;02EC;02ED;02EE;02EF;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;04E3;04E4;04E5;04E6;04E7;04E8;04E9;04EA;04EB;04EC;04ED;04EE"
          },
          "MemoryMap" : {
-            "Channel" : {
-               "Relay 1" : {
-                  "Memory" : "00F0:00FF"
-               },
-               "Relay 2" : {
-                  "Memory" : "01F0:01FF"
-               },
-               "Relay 3" : {
-                  "Memory" : "02F0:02FF"
-               },
-               "Relay 4" : {
-                  "Memory" : "03F0:03FF"
-               },
-               "Virtual relay" : {
-                  "Memory" : "04F0:04FF"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "Type" : "VMB4RYNO",
          "Version" : "edition 5"
@@ -2949,90 +2529,31 @@
          },
          "Info" : "0/1 to 10V dimmer controller module",
          "Memory" : {
+            "01" : "00F0:00FF",
+            "02" : "01F0:01FF",
+            "03" : "02F0:02FF",
+            "04" : "03F0:03FF",
             "ModuleName" : "00E0:03EF",
             "StatusAddress" : "00E0;00E1;00E2;00E3;00E4;00E5;00E6;00E7;00E8;00E9;00EA;00EB;00EC;00ED;00EE;00EF;01E0;01E1;01E2;01E3;01E4;01E5;01E6;01E7;01E8;01E9;01EA;01EB;01EC;01ED;01EE;01EF"
          },
          "MemoryMap" : {
-            "Channel" : {
-               "Dimmer 1" : {
-                  "Memory" : "00F0:00FF"
-               },
-               "Dimmer 2" : {
-                  "Memory" : "01F0:01FF"
-               },
-               "Dimmer 3" : {
-                  "Memory" : "02F0:02FF"
-               },
-               "Dimmer 4" : {
-                  "Memory" : "03F0:03FF"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "Type" : "VMB4DC",
          "Version" : "edition 9"
       },
       "13" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "Multi page push button module",
          "Memory" : {},
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "0000:000F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0000",
-                     "15" : "000E",
-                     "16" : "000F",
-                     "2" : "0001"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0014:0023",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0014",
-                     "15" : "0022",
-                     "16" : "0023",
-                     "2" : "0015"
-                  }
-               },
-               "Channel 32" : {
-                  "Memory" : "026C:027B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "026C",
-                     "15" : "027A",
-                     "16" : "027B",
-                     "2" : "026D"
-                  }
-               },
-               "kWh Counter 1" : {
-                  "Memory" : "02CA:02D9",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "02CA",
-                     "15" : "02D8",
-                     "16" : "02D9",
-                     "2" : "02CB"
-                  }
-               },
-               "kWh Counter 4" : {
-                  "Memory" : "0300:030F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0300",
-                     "15" : "030E",
-                     "16" : "030F",
-                     "2" : "0301"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "0000:000F",
+               "Channel 2" : "0014:0023",
+               "Channel 32" : "026C:027B",
+               "kWh Counter 1" : "02CA:02D9",
+               "kWh Counter 4" : "0300:030F"
             }
          },
          "Type" : "VMBLCDWB",
@@ -3051,25 +2572,12 @@
             }
          },
          "Info" : "Dimmer module",
-         "Memory" : {},
+         "Memory" : {
+            "01" : "00F0:00FF"
+         },
          "MemoryMap" : {
             "Channel" : {
-               "Dimmer" : {
-                  "Memory" : "00F0:00FF"
-               }
-            },
-            "ChannelTemp" : {
-               "Local Dim push button" : {
-                  "Memory" : "00E0:00EF",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00E0",
-                     "15" : "00EE",
-                     "16" : "00EF",
-                     "2" : "00E1"
-                  }
-               }
+               "Local Dim Push button" : "00E0:00EF"
             }
          },
          "Type" : "VMBDME",
@@ -3089,15 +2597,11 @@
          },
          "Info" : "Velbus dimmer for resistive or inductive load",
          "Memory" : {
+            "01" : "00F0:00FF",
             "ModuleName" : "00B0:00EF"
          },
          "MemoryMap" : {
-            "Channel" : {
-               "Dimmer" : {
-                  "Memory" : "00F0:00FF"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "Type" : "VMBDMI",
          "Version" : "edition 2"
@@ -3157,37 +2661,19 @@
          },
          "Info" : "Push button interface module",
          "Memory" : {
+            "01" : "0000:000F",
+            "02" : "0010:001F",
+            "03" : "0020:002F",
+            "04" : "0030:003F",
+            "05" : "0040:004F",
+            "06" : "0050:005F",
+            "07" : "0060:006F",
+            "08" : "0070:007F",
             "ModuleName" : "03C0:03FF",
             "StatusAddress" : "03C0;03C1;03C2;03C3;03C4;03C5;03C6;03C7;03C8;03C9;03CA;03CB;03CC;03CD;03CE;03CF;03D0;03D1;03D2;03D3;03D4;03D5;03D6;03D7;03D8;03D9;03DA;03DB;03DC;03DD;03DE;03DF;03E0;03E1;03E2;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;03F0;03F1;03F2;03F3;03F4;03F5;03F6;03F7;03F8;03F9;03FA;03FB;03FC;03FD;03FE;03FF"
          },
          "MemoryMap" : {
-            "Channel" : {
-               "Push button 1" : {
-                  "Memory" : "0000:000F"
-               },
-               "Push button 2" : {
-                  "Memory" : "0010:001F"
-               },
-               "Push button 3" : {
-                  "Memory" : "0020:002F"
-               },
-               "Push button 4" : {
-                  "Memory" : "0030:003F"
-               },
-               "Push button 5" : {
-                  "Memory" : "0040:004F"
-               },
-               "Push button 6" : {
-                  "Memory" : "0050:005F"
-               },
-               "Push button 7" : {
-                  "Memory" : "0060:006F"
-               },
-               "Push button 8" : {
-                  "Memory" : "0070:007F"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "Type" : "VMB8PBU",
          "Version" : "edition 8"
@@ -3247,37 +2733,19 @@
          },
          "Info" : "Push button interface module for 4 or 6 NIKO push buttons",
          "Memory" : {
+            "01" : "0000:000F",
+            "02" : "0010:001F",
+            "03" : "0020:002F",
+            "04" : "0030:003F",
+            "05" : "0040:004F",
+            "06" : "0050:005F",
+            "07" : "0060:006F",
+            "08" : "0070:007F",
             "ModuleName" : "03C0:03FF",
             "StatusAddress" : "03C0;03C1;03C2;03C3;03C4;03C5;03C6;03C7;03C8;03C9;03CA;03CB;03CC;03CD;03CE;03CF;03D0;03D1;03D2;03D3;03D4;03D5;03D6;03D7;03D8;03D9;03DA;03DB;03DC;03DD;03DE;03DF;03E0;03E1;03E2;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;03F0;03F1;03F2;03F3;03F4;03F5;03F6;03F7;03F8;03F9;03FA;03FB;03FC;03FD;03FE;03FF"
          },
          "MemoryMap" : {
-            "Channel" : {
-               "Push button 1" : {
-                  "Memory" : "0000:000F"
-               },
-               "Push button 2" : {
-                  "Memory" : "0010:001F"
-               },
-               "Push button 3" : {
-                  "Memory" : "0020:002F"
-               },
-               "Push button 4" : {
-                  "Memory" : "0030:003F"
-               },
-               "Push button 5" : {
-                  "Memory" : "0040:004F"
-               },
-               "Push button 6" : {
-                  "Memory" : "0050:005F"
-               },
-               "Virtual button 1" : {
-                  "Memory" : "0060:006F"
-               },
-               "Virtual button 2" : {
-                  "Memory" : "0070:007F"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "Type" : "VMB6PBN",
          "Version" : "edition 8"
@@ -3337,42 +2805,25 @@
          },
          "Info" : "Push button module for 1 or 2 NIKO push buttons",
          "Memory" : {
+            "01" : "0000:000F",
+            "02" : "0010:001F",
+            "03" : "0020:002F",
+            "04" : "0030:003F",
+            "05" : "0040:004F",
+            "06" : "0050:005F",
+            "07" : "0060:006F",
+            "08" : "0070:007F",
             "ModuleName" : "03C0:03FF",
             "StatusAddress" : "03C0;03C1;03C2;03C3;03C4;03C5;03C6;03C7;03C8;03C9;03CA;03CB;03CC;03CD;03CE;03CF;03D0;03D1;03D2;03D3;03D4;03D5;03D6;03D7;03D8;03D9;03DA;03DB;03DC;03DD;03DE;03DF;03E0;03E1;03E2;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;03F0;03F1;03F2;03F3;03F4;03F5;03F6;03F7;03F8;03F9;03FA;03FB;03FC;03FD;03FE;03FF"
          },
          "MemoryMap" : {
-            "Channel" : {
-               "Push button 1" : {
-                  "Memory" : "0000:000F"
-               },
-               "Push button 2" : {
-                  "Memory" : "0010:001F"
-               },
-               "Virtual button 1" : {
-                  "Memory" : "0020:002F"
-               },
-               "Virtual button 2" : {
-                  "Memory" : "0030:003F"
-               },
-               "Virtual button 3" : {
-                  "Memory" : "0040:004F"
-               },
-               "Virtual button 4" : {
-                  "Memory" : "0050:005F"
-               },
-               "Virtual button 5" : {
-                  "Memory" : "0060:006F"
-               },
-               "Virtual button 6" : {
-                  "Memory" : "0070:007F"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "Type" : "VMB2PBN",
          "Version" : "edition 8"
       },
       "1A" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "Wireless remote control receiver module",
          "Memory" : {
@@ -3380,78 +2831,14 @@
             "StatusAddress" : "02C0;02C1;02C2;02C3;02C4;02C5;02C6;02C7;02C8;02C9;02CA;02CB;02CC;02CD;02CE;02CF;02D0;02D1;02D2;02D3;02D4;02D5;02D6;02D7;02D8;02D9;02DA;02DB;02DC;02DD;02DE;02DF;02E0;02E1;02E2;02E3;02E4;02E5;02E6;02E7;02E8;02E9;02EA;02EB;02EC;02ED;02EE;02EF;02F0;02F1;02F2;02F3;02F4;02F5;02F6;02F7;02F8;02F9;02FA;02FB;02FC;02FD;02FE;02FF"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "0000:000F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0000",
-                     "15" : "000E",
-                     "16" : "000F",
-                     "2" : "0001"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0010:001F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0010",
-                     "15" : "001E",
-                     "16" : "001F",
-                     "2" : "0011"
-                  }
-               },
-               "Channel 3" : {
-                  "Memory" : "0020:002F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0020",
-                     "15" : "002E",
-                     "16" : "002F",
-                     "2" : "0021"
-                  }
-               },
-               "Channel 4" : {
-                  "Memory" : "0030:003F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0030",
-                     "15" : "003E",
-                     "16" : "003F",
-                     "2" : "0031"
-                  }
-               },
-               "Code 1" : {
-                  "Memory" : "0055:005F",
-                  "max" : "11",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0055",
-                     "11" : "005F"
-                  }
-               },
-               "Code 10" : {
-                  "Memory" : "00E5:00EF",
-                  "max" : "11",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00E5",
-                     "11" : "00EF"
-                  }
-               },
-               "Code 2" : {
-                  "Memory" : "0065:006F",
-                  "max" : "11",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0065",
-                     "11" : "006F"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "0000:000F",
+               "Channel 2" : "0010:001F",
+               "Channel 3" : "0020:002F",
+               "Channel 4" : "0030:003F",
+               "Code 1" : "0055:005F",
+               "Code 10" : "00E5:00EF",
+               "Code 2" : "0065:006F"
             }
          },
          "Type" : "VMB4RF",
@@ -3495,28 +2882,16 @@
          },
          "Info" : "Single channel relay module with potential-free changeover contact for",
          "Memory" : {
+            "01" : "00F0:00FF",
+            "02" : "01F0:01FF",
+            "03" : "02F0:02FF",
+            "04" : "03F0:03FF",
+            "05" : "04F0:04FF",
             "ModuleName" : "00E3:04EE",
             "StatusAddress" : "00E3;00E4;00E5;00E6;00E7;00E8;00E9;00EA;00EB;00EC;00ED;00EE;00EF;01E3;01E4;01E5;01E6;01E7;01E8;01E9;01EA;01EB;01EC;01ED;01EE;01EF;02E3;02E4;02E5;02E6;02E7;02E8;02E9;02EA;02EB;02EC;02ED;02EE;02EF;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;04E3;04E4;04E5;04E6;04E7;04E8;04E9;04EA;04EB;04EC;04ED;04EE"
          },
          "MemoryMap" : {
-            "Channel" : {
-               "Relay" : {
-                  "Memory" : "00F0:00FF"
-               },
-               "Virtual relay 1" : {
-                  "Memory" : "01F0:01FF"
-               },
-               "Virtual relay 2" : {
-                  "Memory" : "02F0:02FF"
-               },
-               "Virtual relay 3" : {
-                  "Memory" : "03F0:03FF"
-               },
-               "Virtual relay 4" : {
-                  "Memory" : "04F0:04FF"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "Type" : "VMB1RYNO",
          "Version" : "edition 5"
@@ -3542,19 +2917,13 @@
          },
          "Info" : "2 channel blind module",
          "Memory" : {
+            "01" : "0000:000F",
+            "02" : "0010:001F",
             "ModuleName" : "004C:008B",
             "StatusAddress" : "004C;004D;004E;004F;0050;0051;0052;0053;0054;0055;0056;0057;0058;0059;005A;005B;005C;005D;005E;005F;0060;0061;0062;0063;0064;0065;0066;0067;0068;0069;006A;006B;006C;006D;006E;006F;0070;0071;0072;0073;0074;0075;0076;0077;0078;0079;007A;007B;007C;007D;007E;007F;0080;0081;0082;0083;0084;0085;0086;0087;0088;0089;008A;008B"
          },
          "MemoryMap" : {
-            "Channel" : {
-               "Blind 1" : {
-                  "Memory" : "0000:000F"
-               },
-               "Blind 2" : {
-                  "Memory" : "0010:001F"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "Type" : "VMB2BLE",
          "Version" : "edition 7"
@@ -3673,51 +3042,11 @@
             "StatusAddress" : "03C0;03C1;03C2;03C3;03C4;03C5;03C6;03C7;03C8;03C9;03CA;03CB;03CC;03CD;03CE;03CF;03D0;03D1;03D2;03D3;03D4;03D5;03D6;03D7;03D8;03D9;03DA;03DB;03DC;03DD;03DE;03DF;03E0;03E1;03E2;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;03F0;03F1;03F2;03F3;03F4;03F5;03F6;03F7;03F8;03F9;03FA;03FB;03FC;03FD;03FE;03FF"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "0000:000F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0000",
-                     "15" : "000E",
-                     "16" : "000F",
-                     "2" : "0001"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0014:0023",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0014",
-                     "15" : "0022",
-                     "16" : "0023",
-                     "2" : "0015"
-                  }
-               },
-               "Channel 8" : {
-                  "Memory" : "008C:009B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "008C",
-                     "15" : "009A",
-                     "16" : "009B",
-                     "2" : "0089"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "00E1:00F0",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00E1",
-                     "16" : "00F0",
-                     "2" : "00E2",
-                     "3" : "00E3"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "0000:000F",
+               "Channel 2" : "0014:0023",
+               "Channel 8" : "008C:009B",
+               "Sensor" : "00E1:00F0"
             }
          },
          "TemperatureChannel" : "10",
@@ -3839,51 +3168,11 @@
             "StatusAddress" : "03C0;03C1;03C2;03C3;03C4;03C5;03C6;03C7;03C8;03C9;03CA;03CB;03CC;03CD;03CE;03CF;03D0;03D1;03D2;03D3;03D4;03D5;03D6;03D7;03D8;03D9;03DA;03DB;03DC;03DD;03DE;03DF;03E0;03E1;03E2;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;03F0;03F1;03F2;03F3;03F4;03F5;03F6;03F7;03F8;03F9;03FA;03FB;03FC;03FD;03FE;03FF"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "0000:000F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0000",
-                     "15" : "000E",
-                     "16" : "000F",
-                     "2" : "0001"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0014:0023",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0014",
-                     "15" : "0022",
-                     "16" : "0023",
-                     "2" : "0015"
-                  }
-               },
-               "Channel 8" : {
-                  "Memory" : "008C:009B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "008C",
-                     "15" : "009A",
-                     "16" : "009B",
-                     "2" : "0089"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "00E1:00F0",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00E1",
-                     "16" : "00F0",
-                     "2" : "00E2",
-                     "3" : "00E3"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "0000:000F",
+               "Channel 2" : "0014:0023",
+               "Channel 8" : "008C:009B",
+               "Sensor" : "00E1:00F0"
             }
          },
          "TemperatureChannel" : "10",
@@ -4005,51 +3294,11 @@
             "StatusAddress" : "03C0;03C1;03C2;03C3;03C4;03C5;03C6;03C7;03C8;03C9;03CA;03CB;03CC;03CD;03CE;03CF;03D0;03D1;03D2;03D3;03D4;03D5;03D6;03D7;03D8;03D9;03DA;03DB;03DC;03DD;03DE;03DF;03E0;03E1;03E2;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;03F0;03F1;03F2;03F3;03F4;03F5;03F6;03F7;03F8;03F9;03FA;03FB;03FC;03FD;03FE;03FF"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "0000:000F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0000",
-                     "15" : "000E",
-                     "16" : "000F",
-                     "2" : "0001"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0014:0023",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0014",
-                     "15" : "0022",
-                     "16" : "0023",
-                     "2" : "0015"
-                  }
-               },
-               "Channel 8" : {
-                  "Memory" : "008C:009B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "008C",
-                     "15" : "009A",
-                     "16" : "009B",
-                     "2" : "0089"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "00E1:00F0",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00E1",
-                     "16" : "00F0",
-                     "2" : "00E2",
-                     "3" : "00E3"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "0000:000F",
+               "Channel 2" : "0014:0023",
+               "Channel 8" : "008C:009B",
+               "Sensor" : "00E1:00F0"
             }
          },
          "TemperatureChannel" : "10",
@@ -4319,137 +3568,19 @@
             "StatusAddress" : "09BE;09BF;09C0;09C1;09C2;09C3;09C4;09C5;09C6;09C7;09C8;09C9;09CA;09CB;09CC;09CD;09CE;09CF;09D0;09D1;09D2;09D3;09D4;09D5;09D6;09D7;09D8;09D9;09DA;09DB;09DC;09DD;09DE;09DF;09E0;09E1;09E2;09E3;09E4;09E5;09E6;09E7;09E8;09E9;09EA;09EB;09EC;09ED;09EE;09EF;09F0;09F1;09F2;09F3;09F4;09F5;09F6;09F7;09F8;09F9;09FA;09FB;09FC;09FD"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "0000:000F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0000",
-                     "15" : "000E",
-                     "16" : "000F",
-                     "2" : "0001"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0014:0023",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0014",
-                     "15" : "0022",
-                     "16" : "0023",
-                     "2" : "0015"
-                  }
-               },
-               "Channel 32" : {
-                  "Memory" : "026C:027B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "026C",
-                     "15" : "027A",
-                     "16" : "027B",
-                     "2" : "026D"
-                  }
-               },
-               "Counter 1" : {
-                  "Memory" : "02F8:0307",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "02F8",
-                     "15" : "0306",
-                     "16" : "0307",
-                     "2" : "02F9"
-                  }
-               },
-               "Counter 4" : {
-                  "Memory" : "032E:033D",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "032E",
-                     "15" : "033C",
-                     "16" : "033D",
-                     "2" : "032F"
-                  }
-               },
-               "Remote Analog sensor 1" : {
-                  "Memory" : "041A:0429",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "041A",
-                     "15" : "0428",
-                     "16" : "0429",
-                     "2" : "041B"
-                  }
-               },
-               "Remote Analog sensor 4" : {
-                  "Memory" : "0450:0451",
-                  "max" : "2",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0450",
-                     "2" : "0451"
-                  }
-               },
-               "Remote Temperature sensor 1" : {
-                  "Memory" : "0342:0351",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0342",
-                     "15" : "0350",
-                     "16" : "0351",
-                     "2" : "0343"
-                  }
-               },
-               "Remote Temperature sensor 12" : {
-                  "Memory" : "0408:0417",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0408",
-                     "15" : "0416",
-                     "16" : "0417",
-                     "2" : "0409"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "02C1:02D0",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "02C1",
-                     "16" : "02D0",
-                     "2" : "02C2",
-                     "3" : "02C3"
-                  }
-               },
-               "kWh Counter 1" : {
-                  "Memory" : "02F8:0307",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "02F8",
-                     "15" : "0306",
-                     "16" : "0307",
-                     "2" : "02F9"
-                  }
-               },
-               "kWh Counter 4" : {
-                  "Memory" : "032E:033D",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "032E",
-                     "15" : "033C",
-                     "16" : "033D",
-                     "2" : "032F"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "0000:000F",
+               "Channel 2" : "0014:0023",
+               "Channel 32" : "026C:027B",
+               "Counter 1" : "02F8:0307",
+               "Counter 4" : "032E:033D",
+               "Remote Analog sensor 1" : "041A:0429",
+               "Remote Analog sensor 4" : "0450:0451",
+               "Remote Temperature sensor 1" : "0342:0351",
+               "Remote Temperature sensor 12" : "0408:0417",
+               "Sensor" : "02C1:02D0",
+               "kWh Counter 1" : "02F8:0307",
+               "kWh Counter 4" : "032E:033D"
             }
          },
          "TemperatureChannel" : "34",
@@ -4512,175 +3643,83 @@
          },
          "Info" : "7 channel input module",
          "Memory" : {
+            "01" : "0000:000F",
+            "02" : "0010:001F",
+            "03" : "0020:002F",
+            "04" : "0030:003F",
+            "05" : "0040:004F",
+            "06" : "0050:005F",
+            "07" : "0060:006F",
+            "08" : "0070:007F",
             "ModuleName" : "03AC:03EB",
             "StatusAddress" : "03AC;03AD;03AE;03AF;03B0;03B1;03B2;03B3;03B4;03B5;03B6;03B7;03B8;03B9;03BA;03BB;03BC;03BD;03BE;03BF;03C0;03C1;03C2;03C3;03C4;03C5;03C6;03C7;03C8;03C9;03CA;03CB;03CC;03CD;03CE;03CF;03D0;03D1;03D2;03D3;03D4;03D5;03D6;03D7;03D8;03D9;03DA;03DB;03DC;03DD;03DE;03DF;03E0;03E1;03E2;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB"
          },
          "MemoryMap" : {
-            "Channel" : {
-               "Push button 1" : {
-                  "Memory" : "0000:000F"
-               },
-               "Push button 2" : {
-                  "Memory" : "0010:001F"
-               },
-               "Push button 3" : {
-                  "Memory" : "0020:002F"
-               },
-               "Push button 4" : {
-                  "Memory" : "0030:003F"
-               },
-               "Push button 5" : {
-                  "Memory" : "0040:004F"
-               },
-               "Push button 6" : {
-                  "Memory" : "0050:005F"
-               },
-               "Push button 7" : {
-                  "Memory" : "0060:006F"
-               },
-               "Virtual button" : {
-                  "Memory" : "0070:007F"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "Type" : "VMB7IN",
          "Version" : "edition 6"
       },
       "23" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "Outdoor PIR detector module",
          "Memory" : {
             "ModuleName" : "00B0:00EF"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Temperature sensor" : {
-                  "Memory" : "0080:008F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0080",
-                     "15" : "008E",
-                     "16" : "008F",
-                     "2" : "0081"
-                  }
-               }
+            "Channel" : {
+               "Temperature sensor" : "0080:008F"
             }
          },
          "Type" : "VMBPIRO-10",
          "Version" : "edition 1"
       },
       "24" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "2 channel 0 to 10 V dimmer control module",
          "Memory" : {
             "ModuleName" : "06F4:0733"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "0000:000F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0000",
-                     "15" : "000E",
-                     "16" : "000F",
-                     "2" : "0001"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0010:001F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0010",
-                     "15" : "001F",
-                     "16" : "001F",
-                     "2" : "0011"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "0000:000F",
+               "Channel 2" : "0010:001F"
             }
          },
          "Type" : "VMB2DC-20",
          "Version" : "edition 1"
       },
       "26" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "VMB4RYNO-20 VMB1RYS-20",
          "Memory" : {
             "ModuleName" : "07BC:07FB"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "0000:000F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0000",
-                     "16" : "000F"
-                  }
-               },
-               "Channel 7" : {
-                  "Memory" : "0078:0087",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0078",
-                     "16" : "0087"
-                  }
-               },
-               "Channel 8" : {
-                  "Memory" : "008C:009B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "008C",
-                     "16" : "009B"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "0000:000F",
+               "Channel 7" : "0078:0087",
+               "Channel 8" : "008C:009B"
             }
          },
          "Type" : "VMB4RYLD-20",
          "Version" : "edition 3"
       },
       "27" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "VMB4RYNO-20 VMB1RYS-20",
          "Memory" : {
             "ModuleName" : "07BC:07FB"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "0000:000F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0000",
-                     "16" : "000F"
-                  }
-               },
-               "Channel 7" : {
-                  "Memory" : "0078:0087",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0078",
-                     "16" : "0087"
-                  }
-               },
-               "Channel 8" : {
-                  "Memory" : "008C:009B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "008C",
-                     "16" : "009B"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "0000:000F",
+               "Channel 7" : "0078:0087",
+               "Channel 8" : "008C:009B"
             }
          },
          "Type" : "VMB4RYNO-20",
@@ -4948,117 +3987,17 @@
             "StatusAddress" : "09BE;09BF;09C0;09C1;09C2;09C3;09C4;09C5;09C6;09C7;09C8;09C9;09CA;09CB;09CC;09CD;09CE;09CF;09D0;09D1;09D2;09D3;09D4;09D5;09D6;09D7;09D8;09D9;09DA;09DB;09DC;09DD;09DE;09DF;09E0;09E1;09E2;09E3;09E4;09E5;09E6;09E7;09E8;09E9;09EA;09EB;09EC;09ED;09EE;09EF;09F0;09F1;09F2;09F3;09F4;09F5;09F6;09F7;09F8;09F9;09FA;09FB;09FC;09FD"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "0000:000F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0000",
-                     "15" : "000E",
-                     "16" : "000F",
-                     "2" : "0001"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0014:0023",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0014",
-                     "15" : "0022",
-                     "16" : "0023",
-                     "2" : "0015"
-                  }
-               },
-               "Channel 32" : {
-                  "Memory" : "026C:027B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "026C",
-                     "15" : "027A",
-                     "16" : "027B",
-                     "2" : "026D"
-                  }
-               },
-               "Counter 1" : {
-                  "Memory" : "02F8:0307",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "02F8",
-                     "15" : "0306",
-                     "16" : "0307",
-                     "2" : "02F9"
-                  }
-               },
-               "Counter 4" : {
-                  "Memory" : "032E:033D",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "032E",
-                     "15" : "033C",
-                     "16" : "033D",
-                     "2" : "032F"
-                  }
-               },
-               "Remote Analog sensor 1" : {
-                  "Memory" : "041A:0429",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "041A",
-                     "15" : "0428",
-                     "16" : "0429",
-                     "2" : "041B"
-                  }
-               },
-               "Remote Analog sensor 4" : {
-                  "Memory" : "0450:045F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0450",
-                     "15" : "045E",
-                     "16" : "045F",
-                     "2" : "0451"
-                  }
-               },
-               "Remote Temperature sensor 1" : {
-                  "Memory" : "0342:0351",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0342",
-                     "15" : "0350",
-                     "16" : "0351",
-                     "2" : "0343"
-                  }
-               },
-               "Remote Temperature sensor 12" : {
-                  "Memory" : "0408:0417",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0408",
-                     "15" : "0416",
-                     "16" : "0417",
-                     "2" : "0409"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "02C1:02D0",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "02C1",
-                     "16" : "02D0",
-                     "2" : "02C2",
-                     "3" : "02C3"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "0000:000F",
+               "Channel 2" : "0014:0023",
+               "Channel 32" : "026C:027B",
+               "Counter 1" : "02F8:0307",
+               "Counter 4" : "032E:033D",
+               "Remote Analog sensor 1" : "041A:0429",
+               "Remote Analog sensor 4" : "0450:045F",
+               "Remote Temperature sensor 1" : "0342:0351",
+               "Remote Temperature sensor 12" : "0408:0417",
+               "Sensor" : "02C1:02D0"
             }
          },
          "TemperatureChannel" : "34",
@@ -5104,28 +4043,16 @@
          },
          "Info" : "1 channel relay module",
          "Memory" : {
+            "01" : "00F0:00FF",
+            "02" : "01F0:01FF",
+            "03" : "02F0:02FF",
+            "04" : "03F0:03FF",
+            "05" : "04F0:04FF",
             "ModuleName" : "00E3:04EE",
             "StatusAddress" : "00E3;00E4;00E5;00E6;00E7;00E8;00E9;00EA;00EB;00EC;00ED;00EE;00EF;01E3;01E4;01E5;01E6;01E7;01E8;01E9;01EA;01EB;01EC;01ED;01EE;01EF;02E3;02E4;02E5;02E6;02E7;02E8;02E9;02EA;02EB;02EC;02ED;02EE;02EF;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;04E3;04E4;04E5;04E6;04E7;04E8;04E9;04EA;04EB;04EC;04ED;04EE"
          },
          "MemoryMap" : {
-            "Channel" : {
-               "Relay" : {
-                  "Memory" : "00F0:00FF"
-               },
-               "Virtual relay 1" : {
-                  "Memory" : "01F0:01FF"
-               },
-               "Virtual relay 2" : {
-                  "Memory" : "02F0:02FF"
-               },
-               "Virtual relay 3" : {
-                  "Memory" : "03F0:03FF"
-               },
-               "Virtual relay 4" : {
-                  "Memory" : "04F0:04FF"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "Type" : "VMB1RYNOS",
          "Version" : "edition 1"
@@ -5181,7 +4108,7 @@
             "StatusAddress" : "00B0;00B1;00B2;00B3;00B4;00B5;00B6;00B7;00B8;00B9;00BA;00BB;00BC;00BD;00BE;00BF;00C0;00C1;00C2;00C3;00C4;00C5;00C6;00C7;00C8;00C9;00CA;00CB;00CC;00CD;00CE;00CF;00D0;00D1;00D2;00D3;00D4;00D5;00D6;00D7;00D8;00D9;00DA;00DB;00DC;00DD;00DE;00DF;00E0;00E1;00E2;00E3;00E4;00E5;00E6;00E7;00E8;00E9;00EA;00EB;00EC;00ED;00EE;00EF"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "Type" : "VMBPIRM",
          "Version" : "edition 2"
@@ -5237,7 +4164,7 @@
             "StatusAddress" : "00B0;00B1;00B2;00B3;00B4;00B5;00B6;00B7;00B8;00B9;00BA;00BB;00BC;00BD;00BE;00BF;00C0;00C1;00C2;00C3;00C4;00C5;00C6;00C7;00C8;00C9;00CA;00CB;00CC;00CD;00CE;00CF;00D0;00D1;00D2;00D3;00D4;00D5;00D6;00D7;00D8;00D9;00DA;00DB;00DC;00DD;00DE;00DF;00E0;00E1;00E2;00E3;00E4;00E5;00E6;00E7;00E8;00E9;00EA;00EB;00EC;00ED;00EE;00EF"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "Type" : "VMBPIRC",
          "Version" : "edition 3"
@@ -5308,16 +4235,12 @@
          },
          "Info" : "Outdoor PIR detector module",
          "Memory" : {
+            "09" : "0080:008F",
             "ModuleName" : "00B0:00EF",
             "StatusAddress" : "00B0;00B1;00B2;00B3;00B4;00B5;00B6;00B7;00B8;00B9;00BA;00BB;00BC;00BD;00BE;00BF;00C0;00C1;00C2;00C3;00C4;00C5;00C6;00C7;00C8;00C9;00CA;00CB;00CC;00CD;00CE;00CF;00D0;00D1;00D2;00D3;00D4;00D5;00D6;00D7;00D8;00D9;00DA;00DB;00DC;00DD;00DE;00DF;00E0;00E1;00E2;00E3;00E4;00E5;00E6;00E7;00E8;00E9;00EA;00EB;00EC;00ED;00EE;00EF"
          },
          "MemoryMap" : {
-            "Channel" : {
-               "Temperature" : {
-                  "Memory" : "0080:008F"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "TemperatureChannel" : "09",
          "Type" : "VMBPIRO",
@@ -5434,28 +4357,16 @@
          },
          "Info" : "Four touch buttons with PIR detector module",
          "Memory" : {
+            "01" : "0000:000F",
+            "02" : "0014:0023",
+            "03" : "0028:0037",
+            "04" : "003C:004B",
+            "10" : "00E1:00F0",
             "ModuleName" : "03C0:03FF",
             "StatusAddress" : "03C0;03C1;03C2;03C3;03C4;03C5;03C6;03C7;03C8;03C9;03CA;03CB;03CC;03CD;03CE;03CF;03D0;03D1;03D2;03D3;03D4;03D5;03D6;03D7;03D8;03D9;03DA;03DB;03DC;03DD;03DE;03DF;03E0;03E1;03E2;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;03F0;03F1;03F2;03F3;03F4;03F5;03F6;03F7;03F8;03F9;03FA;03FB;03FC;03FD;03FE;03FF"
          },
          "MemoryMap" : {
-            "Channel" : {
-               "Push button 1" : {
-                  "Memory" : "0000:000F"
-               },
-               "Push button 2" : {
-                  "Memory" : "0014:0023"
-               },
-               "Push button 3" : {
-                  "Memory" : "0028:0037"
-               },
-               "Push button 4" : {
-                  "Memory" : "003C:004B"
-               },
-               "Temperature" : {
-                  "Memory" : "00E1:00F0"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "TemperatureChannel" : "10",
          "ThermostatAddr" : "0",
@@ -5476,16 +4387,12 @@
          },
          "Info" : "1 channel blind module",
          "Memory" : {
+            "01" : "0000:000F",
             "ModuleName" : "004C:008B",
             "StatusAddress" : "004C;004D;004E;004F;0050;0051;0052;0053;0054;0055;0056;0057;0058;0059;005A;005B;005C;005D;005E;005F;0060;0061;0062;0063;0064;0065;0066;0067;0068;0069;006A;006B;006C;006D;006E;006F;0070;0071;0072;0073;0074;0075;0076;0077;0078;0079;007A;007B;007C;007D;007E;007F;0080;0081;0082;0083;0084;0085;0086;0087;0088;0089;008A;008B"
          },
          "MemoryMap" : {
-            "Channel" : {
-               "Blind" : {
-                  "Memory" : "0000:000F"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "Type" : "VMB1BLS",
          "Version" : "edition 3"
@@ -5504,16 +4411,12 @@
          },
          "Info" : "Velbus dimmer for resistive or inductive load",
          "Memory" : {
+            "01" : "00F0:00FF",
             "ModuleName" : "00B0:00EF",
             "StatusAddress" : "00B0;00B1;00B2;00B3;00B4;00B5;00B6;00B7;00B8;00B9;00BA;00BB;00BC;00BD;00BE;00BF;00C0;00C1;00C2;00C3;00C4;00C5;00C6;00C7;00C8;00C9;00CA;00CB;00CC;00CD;00CE;00CF;00D0;00D1;00D2;00D3;00D4;00D5;00D6;00D7;00D8;00D9;00DA;00DB;00DC;00DD;00DE;00DF;00E0;00E1;00E2;00E3;00E4;00E5;00E6;00E7;00E8;00E9;00EA;00EB;00EC;00ED;00EE;00EF"
          },
          "MemoryMap" : {
-            "Channel" : {
-               "Dimmer" : {
-                  "Memory" : "00F0:00FF"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "Type" : "VMBDMIR",
          "Version" : "edition 4"
@@ -5573,36 +4476,18 @@
          },
          "Info" : "8 channel RF receiver module",
          "Memory" : {
+            "01" : "0000:000F",
+            "02" : "0010:001F",
+            "03" : "0020:002F",
+            "04" : "0030:003F",
+            "05" : "0040:004F",
+            "06" : "0050:005F",
+            "07" : "0060:006F",
+            "08" : "0070:007F",
             "ModuleName" : "03C0:03FF"
          },
          "MemoryMap" : {
-            "Channel" : {
-               "Push button 1" : {
-                  "Memory" : "0000:000F"
-               },
-               "Push button 2" : {
-                  "Memory" : "0010:001F"
-               },
-               "Push button 3" : {
-                  "Memory" : "0020:002F"
-               },
-               "Push button 4" : {
-                  "Memory" : "0030:003F"
-               },
-               "Push button 5" : {
-                  "Memory" : "0040:004F"
-               },
-               "Push button 6" : {
-                  "Memory" : "0050:005F"
-               },
-               "Push button 7" : {
-                  "Memory" : "0060:006F"
-               },
-               "Push button 8" : {
-                  "Memory" : "0070:007F"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "Type" : "VMBRFR8S",
          "Version" : "edition 2"
@@ -5685,6 +4570,18 @@
          },
          "Info" : "Meteo station",
          "Memory" : {
+            "01" : "0000:000F",
+            "02" : "0010:001F",
+            "03" : "0020:002F",
+            "04" : "0030:003F",
+            "05" : "0040:004F",
+            "06" : "0050:005F",
+            "07" : "0060:006F",
+            "08" : "0070:007F",
+            "10" : "03B0:03BF",
+            "11" : "00C0:00CF",
+            "12" : "00D0:00DF",
+            "13" : "00E0:00EF",
             "ModuleName" : "03C0:03FF",
             "SensorName" : {
                "10" : "03B0-03BF",
@@ -5695,45 +4592,7 @@
             "StatusAddress" : "03C0;03C1;03C2;03C3;03C4;03C5;03C6;03C7;03C8;03C9;03CA;03CB;03CC;03CD;03CE;03CF;03D0;03D1;03D2;03D3;03D4;03D5;03D6;03D7;03D8;03D9;03DA;03DB;03DC;03DD;03DE;03DF;03E0;03E1;03E2;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;03F0;03F1;03F2;03F3;03F4;03F5;03F6;03F7;03F8;03F9;03FA;03FB;03FC;03FD;03FE;03FF;03B0;03B1;03B2;03B3;03B4;03B5;03B6;03B7;03B8;03B9;03BA;03BB;03BC;03BD;03BE;03BF;00C0;00C1;00C2;00C3;00C4;00C5;00C6;00C7;00C8;00C9;00CA;00CB;00CC;00CD;00CE;00CF;00D0;00D1;00D2;00D3;00D4;00D5;00D6;00D7;00D8;00D9;00DA;00DB;00DC;00DD;00DE;00DF;00E0;00E1;00E2;00E3;00E4;00E5;00E6;00E7;00E8;00E9;00EA;00EB;00EC;00ED;00EE;00EF"
          },
          "MemoryMap" : {
-            "Channel" : {
-               "Dawn alarm" : {
-                  "Memory" : "0030:003F"
-               },
-               "Dusk alarm" : {
-                  "Memory" : "0040:004F"
-               },
-               "Frost alarm" : {
-                  "Memory" : "0000:000F"
-               },
-               "Heat alarm" : {
-                  "Memory" : "0010:001F"
-               },
-               "Illuminance" : {
-                  "Memory" : "00D0:00DF"
-               },
-               "Rain alarm" : {
-                  "Memory" : "0020:002F"
-               },
-               "Rainfall" : {
-                  "Memory" : "00C0:00CF"
-               },
-               "Storm alarm" : {
-                  "Memory" : "0070:007F"
-               },
-               "Sun alarm" : {
-                  "Memory" : "0050:005F"
-               },
-               "Temperature" : {
-                  "Memory" : "03B0:03BF"
-               },
-               "Wind alarm" : {
-                  "Memory" : "0060:006F"
-               },
-               "Wind speed" : {
-                  "Memory" : "00E0:00EF"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "TemperatureChannel" : "10",
          "Type" : "VMBMETEO",
@@ -5818,6 +4677,10 @@
          },
          "Info" : "Analog I/O module",
          "Memory" : {
+            "09" : "027E:028D",
+            "10" : "03B0:03BF",
+            "11" : "04E2:04F1",
+            "12" : "0614:0623",
             "ModuleName" : "0000:003F",
             "StatusAddress" : "0000;0001;0002;0003;0004;0005;0006;0007;0008;0009;000A;000B;000C;000D;000E;000F;0010;0011;0012;0013;0014;0015;0016;0017;0018;0019;001A;001B;001C;001D;001E;001F;0020;0021;0022;0023;0024;0025;0026;0027;0028;0029;002A;002B;002C;002D;002E;002F;0030;0031;0032;0033;0034;0035;0036;0037;0038;0039;003A;003B;003C;003D;003E;003F;02E0;02E1;02E2;02E3;02E4;02E5;02E6;0412;0413;0414;0415;0416;0417;0418;0544;0545;0546;0547;0548;0549;054A;0676;0677;0678;0679;067A;067B;067C",
             "Unit" : {
@@ -5829,140 +4692,18 @@
          },
          "MemoryMap" : {
             "Channel" : {
-               "Sensor 1" : {
-                  "Memory" : "027E:028D"
-               },
-               "Sensor 2" : {
-                  "Memory" : "03B0:03BF"
-               },
-               "Sensor 3" : {
-                  "Memory" : "04E2:04F1"
-               },
-               "Sensor 4" : {
-                  "Memory" : "0614:0623"
-               }
-            },
-            "ChannelTemp" : {
-               "Alarm output 1" : {
-                  "Memory" : "0083:0091",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0083",
-                     "15" : "0090",
-                     "16" : "0091"
-                  }
-               },
-               "Alarm output 2" : {
-                  "Memory" : "0093:00A1",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0093",
-                     "15" : "00A0",
-                     "16" : "00A1"
-                  }
-               },
-               "Alarm output 3" : {
-                  "Memory" : "00A3:00B1",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00A3",
-                     "15" : "00B0",
-                     "16" : "00B1"
-                  }
-               },
-               "Alarm output 4" : {
-                  "Memory" : "00B3:00C1",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00B3",
-                     "15" : "00C0",
-                     "16" : "00C1"
-                  }
-               },
-               "Alarm output 5" : {
-                  "Memory" : "00C3:00D1",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00C3",
-                     "15" : "00D0",
-                     "16" : "00D1"
-                  }
-               },
-               "Alarm output 6" : {
-                  "Memory" : "00D3:00E1",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00D3",
-                     "15" : "00E0",
-                     "16" : "00E1"
-                  }
-               },
-               "Alarm output 7" : {
-                  "Memory" : "00E3:00F1",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00E3",
-                     "15" : "00F0",
-                     "16" : "00F1"
-                  }
-               },
-               "Alarm output 8" : {
-                  "Memory" : "00F3:0101",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00F3",
-                     "15" : "0100",
-                     "16" : "0101"
-                  }
-               },
-               "Analog output 1" : {
-                  "Memory" : "0747:0755",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0747",
-                     "15" : "0754",
-                     "16" : "0755"
-                  }
-               },
-               "Analog output 2" : {
-                  "Memory" : "0757:0765",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0757",
-                     "15" : "0764",
-                     "16" : "0765"
-                  }
-               },
-               "Analog output 3" : {
-                  "Memory" : "0767:0775",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0767",
-                     "15" : "0774",
-                     "16" : "0775"
-                  }
-               },
-               "Analog output 4" : {
-                  "Memory" : "0777:0785",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0777",
-                     "15" : "0784",
-                     "16" : "0785"
-                  }
-               }
+               "Alarm output 1" : "0083:0091",
+               "Alarm output 2" : "0093:00A1",
+               "Alarm output 3" : "00A3:00B1",
+               "Alarm output 4" : "00B3:00C1",
+               "Alarm output 5" : "00C3:00D1",
+               "Alarm output 6" : "00D3:00E1",
+               "Alarm output 7" : "00E3:00F1",
+               "Alarm output 8" : "00F3:0101",
+               "Analog output 1" : "0747:0755",
+               "Analog output 2" : "0757:0765",
+               "Analog output 3" : "0767:0775",
+               "Analog output 4" : "0777:0785"
             }
          },
          "Type" : "VMB4AN",
@@ -6015,19 +4756,13 @@
          },
          "Info" : "Doorbird interface module",
          "Memory" : {
+            "07" : "0000:000F",
+            "08" : "0010:001F",
             "ModuleName" : "00B0:00EF",
             "StatusAddress" : "00B0;00B1;00B2;00B3;00B4;00B5;00B6;00B7;00B8;00B9;00BA;00BB;00BC;00BD;00BE;00BF;00C0;00C1;00C2;00C3;00C4;00C5;00C6;00C7;00C8;00C9;00CA;00CB;00CC;00CD;00CE;00CF;00D0;00D1;00D2;00D3;00D4;00D5;00D6;00D7;00D8;00D9;00DA;00DB;00DC;00DD;00DE;00DF;00E0;00E1;00E2;00E3;00E4;00E5;00E6;00E7;00E8;00E9;00EA;00EB;00EC;00ED;00EE;00EF"
          },
          "MemoryMap" : {
-            "Channel" : {
-               "Virtual button 1" : {
-                  "Memory" : "0000:000F"
-               },
-               "Virtual button 2" : {
-                  "Memory" : "0010:001F"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "Type" : "VMBVP1",
          "Version" : "edition 1"
@@ -6151,74 +4886,18 @@
          },
          "Info" : "VMBEL2-20 VMBEL4",
          "Memory" : {
+            "01" : "001C:002B",
+            "02" : "0030:003F",
             "ModuleName" : "06C0:06FF",
             "StatusAddress" : "06C0;06C1;06C2;06C3;06C4;06C5;06C6;06C7;06C8;06C9;06CA;06CB;06CC;06CD;06CE;06CF"
          },
          "MemoryMap" : {
             "Channel" : {
-               "Push button 1" : {
-                  "Memory" : "001C:002B"
-               },
-               "Virtual button 2" : {
-                  "Memory" : "0030:003F"
-               }
-            },
-            "ChannelTemp" : {
-               "Channel 8" : {
-                  "Memory" : "00A8:00B7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00A8",
-                     "15" : "00B6",
-                     "16" : "00B7",
-                     "2" : "00A9"
-                  }
-               },
-               "Color palette 0" : {
-                  "Memory" : "00C8:00D7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00C8",
-                     "15" : "00D6",
-                     "16" : "00D7",
-                     "2" : "00C9"
-                  }
-               },
-               "Color palette 31" : {
-                  "Memory" : "0334:0343",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0334",
-                     "15" : "0342",
-                     "16" : "0343",
-                     "2" : "0335"
-                  }
-               },
-               "Open collector output" : {
-                  "Memory" : "03CC:03DB",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "03CC",
-                     "15" : "03DA",
-                     "16" : "03DB",
-                     "2" : "03CD"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "0398:03A7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0398",
-                     "15" : "03A6",
-                     "16" : "03A7",
-                     "2" : "0399"
-                  }
-               }
+               "Color palette 0" : "00C8:00D7",
+               "Color palette 31" : "0334:0343",
+               "Open collector output" : "03CC:03DB",
+               "Push button 8" : "00A8:00B7",
+               "Sensor" : "0398:03A7"
             }
          },
          "TemperatureChannel" : "09",
@@ -6345,74 +5024,18 @@
          },
          "Info" : "VMBEL2-20 VMBEL4",
          "Memory" : {
+            "01" : "001C:002B",
+            "02" : "0030:003F",
             "ModuleName" : "06C0:06FF",
             "StatusAddress" : "06C0;06C1;06C2;06C3;06C4;06C5;06C6;06C7;06C8;06C9;06CA;06CB;06CC;06CD;06CE;06CF"
          },
          "MemoryMap" : {
             "Channel" : {
-               "Push button 1" : {
-                  "Memory" : "001C:002B"
-               },
-               "Push button 2" : {
-                  "Memory" : "0030:003F"
-               }
-            },
-            "ChannelTemp" : {
-               "Channel 8" : {
-                  "Memory" : "00A8:00B7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00A8",
-                     "15" : "00B6",
-                     "16" : "00B7",
-                     "2" : "00A9"
-                  }
-               },
-               "Color palette 0" : {
-                  "Memory" : "00C8:00D7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00C8",
-                     "15" : "00D6",
-                     "16" : "00D7",
-                     "2" : "00C9"
-                  }
-               },
-               "Color palette 31" : {
-                  "Memory" : "0334:0343",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0334",
-                     "15" : "0342",
-                     "16" : "0343",
-                     "2" : "0335"
-                  }
-               },
-               "Open collector output" : {
-                  "Memory" : "03CC:03DB",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "03CC",
-                     "15" : "03DA",
-                     "16" : "03DB",
-                     "2" : "03CD"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "0398:03A7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0398",
-                     "15" : "03A6",
-                     "16" : "03A7",
-                     "2" : "0399"
-                  }
-               }
+               "Color palette 0" : "00C8:00D7",
+               "Color palette 31" : "0334:0343",
+               "Open collector output" : "03CC:03DB",
+               "Push button 8" : "00A8:00B7",
+               "Sensor" : "0398:03A7"
             }
          },
          "TemperatureChannel" : "09",
@@ -6543,84 +5166,14 @@
             "StatusAddress" : "06C0;06C1;06C2;06C3;06C4;06C5;06C6;06C7;06C8;06C9;06CA;06CB;06CC;06CD;06CE;06CF"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "001C:002B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "001C",
-                     "15" : "002A",
-                     "16" : "002B",
-                     "2" : "001D"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0030:003F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0030",
-                     "15" : "003E",
-                     "16" : "003F",
-                     "2" : "0031"
-                  }
-               },
-               "Channel 8" : {
-                  "Memory" : "00A8:00B7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00A8",
-                     "15" : "00B6",
-                     "16" : "00B7",
-                     "2" : "00A9"
-                  }
-               },
-               "Color palette 0" : {
-                  "Memory" : "00C8:00D7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00C8",
-                     "15" : "00D6",
-                     "16" : "00D7",
-                     "2" : "00C9"
-                  }
-               },
-               "Color palette 31" : {
-                  "Memory" : "0334:0343",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0334",
-                     "15" : "0342",
-                     "16" : "0343",
-                     "2" : "0335"
-                  }
-               },
-               "Open collector output" : {
-                  "Memory" : "03CC:03DB",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "03CC",
-                     "15" : "03DA",
-                     "16" : "03DB",
-                     "2" : "03CD"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "0398:03A7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0398",
-                     "15" : "03A6",
-                     "16" : "03A7",
-                     "2" : "0399"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "001C:002B",
+               "Channel 2" : "0030:003F",
+               "Channel 8" : "00A8:00B7",
+               "Color palette 0" : "00C8:00D7",
+               "Color palette 31" : "0334:0343",
+               "Open collector output" : "03CC:03DB",
+               "Sensor" : "0398:03A7"
             }
          },
          "TemperatureChannel" : "09",
@@ -6899,150 +5452,20 @@
             "StatusAddress" : "0F44;0F45;0F46;0F47;0F48;0F49;0F4A;0F4B;0F4C;0F4D;0F4E;0F4F;0F50;0F51;0F52;0F53;0F54;0F55;0F56;0F57;0F58;0F59;0F5A;0F5B;0F5C;0F5D;0F5E;0F5F;0F60;0F61;0F62;0F63;0F64;0F65;0F66;0F67;0F68;0F69;0F6A;0F6B;0F6C;0F6D;0F6E;0F6F;0F70;0F71;0F72;0F73;0F74;0F75;0F76;0F77;0F78;0F79;0F7A;0F7B;0F7C;0F7D;0F7E;0F7F;0F80;0F81;0F82;0F83"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "001C:002B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "001C",
-                     "15" : "002A",
-                     "16" : "002B",
-                     "2" : "001D"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0030:003F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0030",
-                     "15" : "003E",
-                     "16" : "003F",
-                     "2" : "0031"
-                  }
-               },
-               "Channel 32" : {
-                  "Memory" : "00A8:0297",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00A8",
-                     "15" : "0296",
-                     "16" : "0297",
-                     "2" : "00A9"
-                  }
-               },
-               "Color palette 0" : {
-                  "Memory" : "02C0:02CF",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "02C0",
-                     "15" : "02CE",
-                     "16" : "02CF",
-                     "2" : "02C1"
-                  }
-               },
-               "Color palette 31" : {
-                  "Memory" : "052C:053B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "052C",
-                     "15" : "053A",
-                     "16" : "053B",
-                     "2" : "0529"
-                  }
-               },
-               "Counter 1" : {
-                  "Memory" : "062C:063B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "062C",
-                     "15" : "063A",
-                     "16" : "063B",
-                     "2" : "062D"
-                  }
-               },
-               "Counter 8" : {
-                  "Memory" : "06B8:06C7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "06B8",
-                     "15" : "06C6",
-                     "16" : "06C7",
-                     "2" : "06B9"
-                  }
-               },
-               "Open collector output" : {
-                  "Memory" : "0618:0627",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0618",
-                     "15" : "0626",
-                     "16" : "0627",
-                     "2" : "0619"
-                  }
-               },
-               "Remote Analog sensor 1" : {
-                  "Memory" : "07BC:07CB",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "07BC",
-                     "15" : "07CA",
-                     "16" : "07CB",
-                     "2" : "07BD"
-                  }
-               },
-               "Remote Analog sensor 4" : {
-                  "Memory" : "07F8:0807",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "07F8",
-                     "15" : "0806",
-                     "16" : "0807",
-                     "2" : "07F9"
-                  }
-               },
-               "Remote Temperature sensor 1" : {
-                  "Memory" : "06CC:06DB",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "06CC",
-                     "15" : "06DA",
-                     "16" : "06DB",
-                     "2" : "06CD"
-                  }
-               },
-               "Remote Temperature sensor 12" : {
-                  "Memory" : "07A8:07B7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "07A8",
-                     "15" : "07B6",
-                     "16" : "07B7",
-                     "2" : "07A9"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "05E4:05F3",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "05E4",
-                     "15" : "05F2",
-                     "16" : "05F3",
-                     "2" : "05E5"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "001C:002B",
+               "Channel 2" : "0030:003F",
+               "Channel 32" : "00A8:0297",
+               "Color palette 0" : "02C0:02CF",
+               "Color palette 31" : "052C:053B",
+               "Counter 1" : "062C:063B",
+               "Counter 8" : "06B8:06C7",
+               "Open collector output" : "0618:0627",
+               "Remote Analog sensor 1" : "07BC:07CB",
+               "Remote Analog sensor 4" : "07F8:0807",
+               "Remote Temperature sensor 1" : "06CC:06DB",
+               "Remote Temperature sensor 12" : "07A8:07B7",
+               "Sensor" : "05E4:05F3"
             }
          },
          "TemperatureChannel" : "33",
@@ -7168,62 +5591,16 @@
          },
          "Info" : "VMBEL1PIR-20 VMBEL2PIR",
          "Memory" : {
+            "01" : "001C:002B",
+            "02" : "0030:003F",
             "ModuleName" : "0678:06B7"
          },
          "MemoryMap" : {
             "Channel" : {
-               "Push button" : {
-                  "Memory" : "001C:002B"
-               },
-               "Virtual button" : {
-                  "Memory" : "0030:003F"
-               }
-            },
-            "ChannelTemp" : {
-               "Color palette 0" : {
-                  "Memory" : "007C:008B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "007C",
-                     "15" : "008A",
-                     "16" : "008B",
-                     "2" : "007D"
-                  }
-               },
-               "Color palette 31" : {
-                  "Memory" : "02E8:02F7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "02E8",
-                     "15" : "02F6",
-                     "16" : "02F7",
-                     "2" : "02E9"
-                  }
-               },
-               "Open collector output" : {
-                  "Memory" : "0384:0393",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0384",
-                     "15" : "0392",
-                     "16" : "0393",
-                     "2" : "0385"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "0350:035F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0350",
-                     "15" : "035E",
-                     "16" : "035F",
-                     "2" : "0351"
-                  }
-               }
+               "Color palette 0" : "007C:008B",
+               "Color palette 31" : "02E8:02F7",
+               "Open collector output" : "0384:0393",
+               "Sensor" : "0350:035F"
             }
          },
          "TemperatureChannel" : "09",
@@ -7238,9 +5615,7 @@
             "ModuleName" : "0000:003F",
             "StatusAddress" : "0000"
          },
-         "MemoryMap" : {
-            "ChannelTemp" : {}
-         },
+         "MemoryMap" : {},
          "Type" : "VMBSIG",
          "Version" : "edition 3"
       },
@@ -7354,41 +5729,15 @@
          },
          "Info" : "One, two or four touch buttons module  (ed2)",
          "Memory" : {
+            "01" : "0000:000F",
+            "02" : "0014:0023",
             "ModuleName" : "03C0:03FF",
             "StatusAddress" : "03C0;03C1;03C2;03C3;03C4;03C5;03C6;03C7;03C8;03C9;03CA;03CB;03CC;03CD;03CE;03CF;03D0;03D1;03D2;03D3;03D4;03D5;03D6;03D7;03D8;03D9;03DA;03DB;03DC;03DD;03DE;03DF;03E0;03E1;03E2;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;03F0;03F1;03F2;03F3;03F4;03F5;03F6;03F7;03F8;03F9;03FA;03FB;03FC;03FD;03FE;03FF"
          },
          "MemoryMap" : {
             "Channel" : {
-               "Push button 1" : {
-                  "Memory" : "0000:000F"
-               },
-               "Virtual button 2" : {
-                  "Memory" : "0014:0023"
-               }
-            },
-            "ChannelTemp" : {
-               "Channel 8" : {
-                  "Memory" : "008C:009B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "008C",
-                     "15" : "009A",
-                     "16" : "009B",
-                     "2" : "0089"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "00E1:00F0",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00E1",
-                     "16" : "00F0",
-                     "2" : "00E2",
-                     "3" : "00E3"
-                  }
-               }
+               "Push button 8" : "008C:009B",
+               "Sensor" : "00E1:00F0"
             }
          },
          "TemperatureChannel" : "10",
@@ -7506,41 +5855,15 @@
          },
          "Info" : "One, two or four touch buttons module  (ed2)",
          "Memory" : {
+            "01" : "0000:000F",
+            "02" : "0014:0023",
             "ModuleName" : "03C0:03FF",
             "StatusAddress" : "03C0;03C1;03C2;03C3;03C4;03C5;03C6;03C7;03C8;03C9;03CA;03CB;03CC;03CD;03CE;03CF;03D0;03D1;03D2;03D3;03D4;03D5;03D6;03D7;03D8;03D9;03DA;03DB;03DC;03DD;03DE;03DF;03E0;03E1;03E2;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;03F0;03F1;03F2;03F3;03F4;03F5;03F6;03F7;03F8;03F9;03FA;03FB;03FC;03FD;03FE;03FF"
          },
          "MemoryMap" : {
             "Channel" : {
-               "Push button 1" : {
-                  "Memory" : "0000:000F"
-               },
-               "Push button 2" : {
-                  "Memory" : "0014:0023"
-               }
-            },
-            "ChannelTemp" : {
-               "Channel 8" : {
-                  "Memory" : "008C:009B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "008C",
-                     "15" : "009A",
-                     "16" : "009B",
-                     "2" : "0089"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "00E1:00F0",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00E1",
-                     "16" : "00F0",
-                     "2" : "00E2",
-                     "3" : "00E3"
-                  }
-               }
+               "Push button 8" : "008C:009B",
+               "Sensor" : "00E1:00F0"
             }
          },
          "TemperatureChannel" : "10",
@@ -7658,41 +5981,15 @@
          },
          "Info" : "One, two or four touch buttons module  (ed2)",
          "Memory" : {
+            "01" : "0000:000F",
+            "02" : "0014:0023",
             "ModuleName" : "03C0:03FF",
             "StatusAddress" : "03C0;03C1;03C2;03C3;03C4;03C5;03C6;03C7;03C8;03C9;03CA;03CB;03CC;03CD;03CE;03CF;03D0;03D1;03D2;03D3;03D4;03D5;03D6;03D7;03D8;03D9;03DA;03DB;03DC;03DD;03DE;03DF;03E0;03E1;03E2;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;03F0;03F1;03F2;03F3;03F4;03F5;03F6;03F7;03F8;03F9;03FA;03FB;03FC;03FD;03FE;03FF"
          },
          "MemoryMap" : {
             "Channel" : {
-               "Push button 1" : {
-                  "Memory" : "0000:000F"
-               },
-               "Push button 2" : {
-                  "Memory" : "0014:0023"
-               }
-            },
-            "ChannelTemp" : {
-               "Channel 8" : {
-                  "Memory" : "008C:009B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "008C",
-                     "15" : "009A",
-                     "16" : "009B",
-                     "2" : "0089"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "00E1:00F0",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00E1",
-                     "16" : "00F0",
-                     "2" : "00E2",
-                     "3" : "00E3"
-                  }
-               }
+               "Push button 8" : "008C:009B",
+               "Sensor" : "00E1:00F0"
             }
          },
          "TemperatureChannel" : "10",
@@ -7958,99 +6255,21 @@
          },
          "Info" : "Touch panel with Oled display  (ed2)",
          "Memory" : {
+            "01" : "0000:000F",
+            "02" : "0014:0023",
+            "32" : "026C:027B",
             "ModuleName" : "09BE:09FD",
             "StatusAddress" : "09BE;09BF;09C0;09C1;09C2;09C3;09C4;09C5;09C6;09C7;09C8;09C9;09CA;09CB;09CC;09CD;09CE;09CF;09D0;09D1;09D2;09D3;09D4;09D5;09D6;09D7;09D8;09D9;09DA;09DB;09DC;09DD;09DE;09DF;09E0;09E1;09E2;09E3;09E4;09E5;09E6;09E7;09E8;09E9;09EA;09EB;09EC;09ED;09EE;09EF;09F0;09F1;09F2;09F3;09F4;09F5;09F6;09F7;09F8;09F9;09FA;09FB;09FC;09FD"
          },
          "MemoryMap" : {
             "Channel" : {
-               "Push button 1" : {
-                  "Memory" : "0000:000F"
-               },
-               "Push button 2" : {
-                  "Memory" : "0014:0023"
-               },
-               "Push button 32" : {
-                  "Memory" : "026C:027B"
-               }
-            },
-            "ChannelTemp" : {
-               "Counter 1" : {
-                  "Memory" : "02F8:0307",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "02F8",
-                     "15" : "0306",
-                     "16" : "0307",
-                     "2" : "02F9"
-                  }
-               },
-               "Counter 4" : {
-                  "Memory" : "032E:033D",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "032E",
-                     "15" : "033C",
-                     "16" : "033D",
-                     "2" : "032F"
-                  }
-               },
-               "Remote Analog sensor 1" : {
-                  "Memory" : "041A:0429",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "041A",
-                     "15" : "0428",
-                     "16" : "0429",
-                     "2" : "041B"
-                  }
-               },
-               "Remote Analog sensor 4" : {
-                  "Memory" : "0450:045F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0450",
-                     "15" : "045E",
-                     "16" : "045F",
-                     "2" : "0451"
-                  }
-               },
-               "Remote Temperature sensor 1" : {
-                  "Memory" : "0342:0351",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0342",
-                     "15" : "0350",
-                     "16" : "0351",
-                     "2" : "0343"
-                  }
-               },
-               "Remote Temperature sensor 12" : {
-                  "Memory" : "0408:0417",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0408",
-                     "15" : "0416",
-                     "16" : "0417",
-                     "2" : "0409"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "02C1:02D0",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "02C1",
-                     "16" : "02D0",
-                     "2" : "02C2",
-                     "3" : "02C3"
-                  }
-               }
+               "Counter 1" : "02F8:0307",
+               "Counter 4" : "032E:033D",
+               "Remote Analog sensor 1" : "041A:0429",
+               "Remote Analog sensor 4" : "0450:045F",
+               "Remote Temperature sensor 1" : "0342:0351",
+               "Remote Temperature sensor 12" : "0408:0417",
+               "Sensor" : "02C1:02D0"
             }
          },
          "TemperatureChannel" : "34",
@@ -8169,36 +6388,16 @@
          },
          "Info" : "Four touch buttons with PIR detector module  (ed2)",
          "Memory" : {
+            "01" : "0000:000F",
+            "02" : "0014:0023",
+            "03" : "0028:0037",
+            "04" : "003C:004B",
             "ModuleName" : "03C0:03FF",
             "StatusAddress" : "03C0;03C1;03C2;03C3;03C4;03C5;03C6;03C7;03C8;03C9;03CA;03CB;03CC;03CD;03CE;03CF;03D0;03D1;03D2;03D3;03D4;03D5;03D6;03D7;03D8;03D9;03DA;03DB;03DC;03DD;03DE;03DF;03E0;03E1;03E2;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;03F0;03F1;03F2;03F3;03F4;03F5;03F6;03F7;03F8;03F9;03FA;03FB;03FC;03FD;03FE;03FF"
          },
          "MemoryMap" : {
             "Channel" : {
-               "Push button 1" : {
-                  "Memory" : "0000:000F"
-               },
-               "Push button 2" : {
-                  "Memory" : "0014:0023"
-               },
-               "Push button 3" : {
-                  "Memory" : "0028:0037"
-               },
-               "Push button 4" : {
-                  "Memory" : "003C:004B"
-               }
-            },
-            "ChannelTemp" : {
-               "Sensor" : {
-                  "Memory" : "00E1:00F0",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00E1",
-                     "16" : "00F0",
-                     "2" : "00E2",
-                     "3" : "00E3"
-                  }
-               }
+               "Sensor" : "00E1:00F0"
             }
          },
          "TemperatureChannel" : "10",
@@ -8213,9 +6412,7 @@
             "ModuleName" : "0000:003F",
             "StatusAddress" : "0000"
          },
-         "MemoryMap" : {
-            "ChannelTemp" : {}
-         },
+         "MemoryMap" : {},
          "Type" : "VMCM3",
          "Version" : "edition 3"
       },
@@ -8226,9 +6423,7 @@
             "ModuleName" : "0000:003F",
             "StatusAddress" : "0000"
          },
-         "MemoryMap" : {
-            "ChannelTemp" : {}
-         },
+         "MemoryMap" : {},
          "Type" : "VMBUSBIP",
          "Version" : "edition 3"
       },
@@ -8276,31 +6471,17 @@
          },
          "Info" : "1 channel relay module",
          "Memory" : {
+            "01" : "00F0:00FF",
+            "02" : "01F0:01FF",
+            "03" : "02F0:02FF",
+            "04" : "03F0:03FF",
+            "05" : "04F0:04FF",
+            "06" : "00EA:02ED",
             "ModuleName" : "00DD:04E8",
             "StatusAddress" : "00DD;00DE;00DF;00E0;00E1;00E2;00E3;00E4;00E5;00E6;00E7;00E8;00E9;01DD;01DE;01DF;01E0;01E1;01E2;01E3;01E4;01E5;01E6;01E7;01E8;01E9;02DD;02DE;02DF;02E0;02E1;02E2;02E3;02E4;02E5;02E6;02E7;02E8;02E9;03DD;03DE;03DF;03E0;03E1;03E2;03E3;03E4;03E5;03E6;03E7;03E8;03E9;04DD;04DE;04DF;04E0;04E1;04E2;04E3;04E4;04E5;04E6;04E7;04E8"
          },
          "MemoryMap" : {
-            "Channel" : {
-               "Input button" : {
-                  "Memory" : "00EA:02ED"
-               },
-               "Relay" : {
-                  "Memory" : "00F0:00FF"
-               },
-               "Virtual relay 1" : {
-                  "Memory" : "01F0:01FF"
-               },
-               "Virtual relay 2" : {
-                  "Memory" : "02F0:02FF"
-               },
-               "Virtual relay 3" : {
-                  "Memory" : "03F0:03FF"
-               },
-               "Virtual relay 4" : {
-                  "Memory" : "04F0:04FF"
-               }
-            },
-            "ChannelTemp" : {}
+            "Channel" : {}
          },
          "Type" : "VMB1RYS",
          "Version" : "edition 1"
@@ -8363,40 +6544,10 @@
             "ModuleName" : "03BC:03FB"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "0000:000F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0000",
-                     "15" : "000E",
-                     "16" : "000F",
-                     "2" : "0001"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0014:0023",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0014",
-                     "15" : "0022",
-                     "16" : "0023",
-                     "2" : "0015"
-                  }
-               },
-               "Channel 8" : {
-                  "Memory" : "008C:009B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "008C",
-                     "15" : "009A",
-                     "16" : "009B",
-                     "2" : "008D"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "0000:000F",
+               "Channel 2" : "0014:0023",
+               "Channel 8" : "008C:009B"
             }
          },
          "Type" : "VMBKP",
@@ -8460,108 +6611,29 @@
             "ModuleName" : "03BC:03FB"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "0000:000F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0000",
-                     "15" : "000E",
-                     "16" : "000F",
-                     "2" : "0001"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0014:0023",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0014",
-                     "15" : "0022",
-                     "16" : "0023",
-                     "2" : "0015"
-                  }
-               },
-               "Channel 8" : {
-                  "Memory" : "008C:009B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "008C",
-                     "15" : "009A",
-                     "16" : "009B",
-                     "2" : "008D"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "0000:000F",
+               "Channel 2" : "0014:0023",
+               "Channel 8" : "008C:009B"
             }
          },
          "Type" : "VMBIN",
          "Version" : "edition 2"
       },
       "44" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "4 button interface module",
          "Memory" : {
             "ModuleName" : "03BC:03FB"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "0000:000F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0000",
-                     "15" : "000E",
-                     "16" : "000F",
-                     "2" : "0001"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0014:0023",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0014",
-                     "15" : "0022",
-                     "16" : "0023",
-                     "2" : "0015"
-                  }
-               },
-               "Channel 8" : {
-                  "Memory" : "008C:009B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "008C",
-                     "15" : "009A",
-                     "16" : "009B",
-                     "2" : "008D"
-                  }
-               },
-               "Open collector output 1" : {
-                  "Memory" : "00E8:00F7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00E8",
-                     "15" : "00F6",
-                     "16" : "00F7",
-                     "2" : "00E9"
-                  }
-               },
-               "Open collector output 4" : {
-                  "Memory" : "0118:0127",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0118",
-                     "15" : "0126",
-                     "16" : "0127",
-                     "2" : "0119"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "0000:000F",
+               "Channel 2" : "0014:0023",
+               "Channel 8" : "008C:009B",
+               "Open collector output 1" : "00E8:00F7",
+               "Open collector output 4" : "0118:0127"
             }
          },
          "Type" : "VMB4PB",
@@ -8578,85 +6650,27 @@
          "Version" : "edition 2"
       },
       "47" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "VMBEL1PIR-20 VMBEL2PIR",
          "Memory" : {
             "ModuleName" : "0678:06B7"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "001C:002B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "001C",
-                     "15" : "002A",
-                     "16" : "002B",
-                     "2" : "001D"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0030:003F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0030",
-                     "15" : "003E",
-                     "16" : "003F",
-                     "2" : "0031"
-                  }
-               },
-               "Color palette 0" : {
-                  "Memory" : "007C:008B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "007C",
-                     "15" : "008A",
-                     "16" : "008B",
-                     "2" : "007D"
-                  }
-               },
-               "Color palette 31" : {
-                  "Memory" : "02E8:02F7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "02E8",
-                     "15" : "02F6",
-                     "16" : "02F7",
-                     "2" : "02E9"
-                  }
-               },
-               "Open collector output" : {
-                  "Memory" : "0384:0393",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0384",
-                     "15" : "0392",
-                     "16" : "0393",
-                     "2" : "0385"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "0350:035F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0350",
-                     "15" : "035E",
-                     "16" : "035F",
-                     "2" : "0351"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "001C:002B",
+               "Channel 2" : "0030:003F",
+               "Color palette 0" : "007C:008B",
+               "Color palette 31" : "02E8:02F7",
+               "Open collector output" : "0384:0393",
+               "Sensor" : "0350:035F"
             }
          },
          "Type" : "VMBEL2PIR",
          "Version" : "edition 2"
       },
       "48" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "4 channel relay module with direct load connections",
          "Memory" : {
@@ -8664,68 +6678,19 @@
             "StatusAddress" : "01E3;01E4;01E5;01E6;01E7;01E8;01E9;01EA;01EB;01EC;01ED;01EE;01EF;02E3;02E4;02E5;02E6;02E7;02E8;02E9;02EA;02EB;02EC;02ED;02EE;02EF;02F0;02F1;02F2;02F3;02F4;02F5;02F6;02F7;02F8;02F9;02FA;02FB;02FC;02FD;02FE;02FF;0300;0301;0302;0303;0304;0305;0306;0307;0308;0309;030A;030B;030C;030D;030E;030F;0310;0311;0312;0313;0314;0315;0316;0317;0318;0319;031A;031B;031C;031D;031E;031F;0320;0321;0322;0323;0324;0325;0326;0327;0328;0329;032A;032B;032C;032D;032E;032F;0330;0331;0332;0333;0334;0335;0336;0337;0338;0339;033A;033B;033C;033D;033E;033F;0340;0341;0342;0343;0344;0345;0346;0347;0348;0349;034A;034B;034C;034D;034E;034F;0350;0351;0352;0353;0354;0355;0356;0357;0358;0359;035A;035B;035C;035D;035E;035F;0360;0361;0362;0363;0364;0365;0366;0367;0368;0369;036A;036B;036C;036D;036E;036F;0370;0371;0372;0373;0374;0375;0376;0377;0378;0379;037A;037B;037C;037D;037E;037F;0380;0381;0382;0383;0384;0385;0386;0387;0388;0389;038A;038B;038C;038D;038E;038F;0390;0391;0392;0393;0394;0395;0396;0397;0398;0399;039A;039B;039C;039D;039E;039F;03A0;03A1;03A2;03A3;03A4;03A5;03A6;03A7;03A8;03A9;03AA;03AB;03AC;03AD;03AE;03AF;03B0;03B1;03B2;03B3;03B4;03B5;03B6;03B7;03B8;03B9;03BA;03BB;03BC;03BD;03BE;03BF;03C0;03C1;03C2;03C3;03C4;03C5;03C6;03C7;03C8;03C9;03CA;03CB;03CC;03CD;03CE;03CF;03D0;03D1;03D2;03D3;03D4;03D5;03D6;03D7;03D8;03D9;03DA;03DB;03DC;03DD;03DE;03DF;03E0;03E1;03E2;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;03F0;03F1;03F2;03F3;03F4;03F5;03F6;03F7;03F8;03F9;03FA;03FB;03FC;03FD;03FE;03FF;0400;0401;0402;0403;0404;0405;0406;0407;0408;0409;040A;040B;040C;040D;040E;040F;0410;0411;0412;0413;0414;0415;0416;0417;0418;0419;041A;041B;041C;041D;041E;041F;0420;0421;0422;0423;0424;0425;0426;0427;0428;0429;042A;042B;042C;042D;042E;042F;0430;0431;0432;0433;0434;0435;0436;0437;0438;0439;043A;043B;043C;043D;043E;043F;0440;0441;0442;0443;0444;0445;0446;0447;0448;0449;044A;044B;044C;044D;044E;044F;0450;0451;0452;0453;0454;0455;0456;0457;0458;0459;045A;045B;045C;045D;045E;045F;0460;0461;0462;0463;0464;0465;0466;0467;0468;0469;046A;046B;046C;046D;046E;046F;0470;0471;0472;0473;0474;0475;0476;0477;0478;0479;047A;047B;047C;047D;047E;047F;0480;0481;0482;0483;0484;0485;0486;0487;0488;0489;048A;048B;048C;048D;048E;048F;0490;0491;0492;0493;0494;0495;0496;0497;0498;0499;049A;049B;049C;049D;049E;049F;04A0;04A1;04A2;04A3;04A4;04A5;04A6;04A7;04A8;04A9;04AA;04AB;04AC;04AD;04AE;04AF;04B0;04B1;04B2;04B3;04B4;04B5;04B6;04B7;04B8;04B9;04BA;04BB;04BC;04BD;04BE;04BF;04C0;04C1;04C2;04C3;04C4;04C5;04C6;04C7;04C8;04C9;04CA;04CB;04CC;04CD;04CE;04CF;04D0;04D1;04D2;04D3;04D4;04D5;04D6;04D7;04D8;04D9;04DA;04DB;04DC;04DD;04DE;04DF;04E0;04E1;04E2;04E3;04E4;04E5;04E6;04E7;04E8;04E9;04EA;04EB;04EC;04ED;04EE"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Relay channel 1" : {
-                  "Memory" : "00F0:00FF",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00F0",
-                     "15" : "00FE",
-                     "16" : "00FF",
-                     "2" : "00F1"
-                  }
-               },
-               "Relay channel 2" : {
-                  "Memory" : "01F0:01FF",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "01F0",
-                     "15" : "01FE",
-                     "16" : "01FF",
-                     "2" : "01F1"
-                  }
-               },
-               "Relay channel 3" : {
-                  "Memory" : "02F0:02FF",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "02F0",
-                     "15" : "02FE",
-                     "16" : "02FF",
-                     "2" : "02F1"
-                  }
-               },
-               "Relay channel 4" : {
-                  "Memory" : "03F0:03FF",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "03F0",
-                     "15" : "03FE",
-                     "16" : "03FF",
-                     "2" : "03F1"
-                  }
-               },
-               "Virtual relay channel 5" : {
-                  "Memory" : "04F0:04FF",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "04F0",
-                     "15" : "04FE",
-                     "16" : "04FF",
-                     "2" : "04F1"
-                  }
-               }
+            "Channel" : {
+               "Relay channel 1" : "00F0:00FF",
+               "Relay channel 2" : "01F0:01FF",
+               "Relay channel 3" : "02F0:02FF",
+               "Relay channel 4" : "03F0:03FF",
+               "Virtual relay channel 5" : "04F0:04FF"
             }
          },
          "Type" : "VMB4RYLD-10",
          "Version" : "edition 1"
       },
       "49" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "4 channel relay module with normal open contacts",
          "Memory" : {
@@ -8733,178 +6698,61 @@
             "StatusAddress" : "01E3;01E4;01E5;01E6;01E7;01E8;01E9;01EA;01EB;01EC;01ED;01EE;01EF;02E3;02E4;02E5;02E6;02E7;02E8;02E9;02EA;02EB;02EC;02ED;02EE;02EF;02F0;02F1;02F2;02F3;02F4;02F5;02F6;02F7;02F8;02F9;02FA;02FB;02FC;02FD;02FE;02FF;0300;0301;0302;0303;0304;0305;0306;0307;0308;0309;030A;030B;030C;030D;030E;030F;0310;0311;0312;0313;0314;0315;0316;0317;0318;0319;031A;031B;031C;031D;031E;031F;0320;0321;0322;0323;0324;0325;0326;0327;0328;0329;032A;032B;032C;032D;032E;032F;0330;0331;0332;0333;0334;0335;0336;0337;0338;0339;033A;033B;033C;033D;033E;033F;0340;0341;0342;0343;0344;0345;0346;0347;0348;0349;034A;034B;034C;034D;034E;034F;0350;0351;0352;0353;0354;0355;0356;0357;0358;0359;035A;035B;035C;035D;035E;035F;0360;0361;0362;0363;0364;0365;0366;0367;0368;0369;036A;036B;036C;036D;036E;036F;0370;0371;0372;0373;0374;0375;0376;0377;0378;0379;037A;037B;037C;037D;037E;037F;0380;0381;0382;0383;0384;0385;0386;0387;0388;0389;038A;038B;038C;038D;038E;038F;0390;0391;0392;0393;0394;0395;0396;0397;0398;0399;039A;039B;039C;039D;039E;039F;03A0;03A1;03A2;03A3;03A4;03A5;03A6;03A7;03A8;03A9;03AA;03AB;03AC;03AD;03AE;03AF;03B0;03B1;03B2;03B3;03B4;03B5;03B6;03B7;03B8;03B9;03BA;03BB;03BC;03BD;03BE;03BF;03C0;03C1;03C2;03C3;03C4;03C5;03C6;03C7;03C8;03C9;03CA;03CB;03CC;03CD;03CE;03CF;03D0;03D1;03D2;03D3;03D4;03D5;03D6;03D7;03D8;03D9;03DA;03DB;03DC;03DD;03DE;03DF;03E0;03E1;03E2;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;03F0;03F1;03F2;03F3;03F4;03F5;03F6;03F7;03F8;03F9;03FA;03FB;03FC;03FD;03FE;03FF;0400;0401;0402;0403;0404;0405;0406;0407;0408;0409;040A;040B;040C;040D;040E;040F;0410;0411;0412;0413;0414;0415;0416;0417;0418;0419;041A;041B;041C;041D;041E;041F;0420;0421;0422;0423;0424;0425;0426;0427;0428;0429;042A;042B;042C;042D;042E;042F;0430;0431;0432;0433;0434;0435;0436;0437;0438;0439;043A;043B;043C;043D;043E;043F;0440;0441;0442;0443;0444;0445;0446;0447;0448;0449;044A;044B;044C;044D;044E;044F;0450;0451;0452;0453;0454;0455;0456;0457;0458;0459;045A;045B;045C;045D;045E;045F;0460;0461;0462;0463;0464;0465;0466;0467;0468;0469;046A;046B;046C;046D;046E;046F;0470;0471;0472;0473;0474;0475;0476;0477;0478;0479;047A;047B;047C;047D;047E;047F;0480;0481;0482;0483;0484;0485;0486;0487;0488;0489;048A;048B;048C;048D;048E;048F;0490;0491;0492;0493;0494;0495;0496;0497;0498;0499;049A;049B;049C;049D;049E;049F;04A0;04A1;04A2;04A3;04A4;04A5;04A6;04A7;04A8;04A9;04AA;04AB;04AC;04AD;04AE;04AF;04B0;04B1;04B2;04B3;04B4;04B5;04B6;04B7;04B8;04B9;04BA;04BB;04BC;04BD;04BE;04BF;04C0;04C1;04C2;04C3;04C4;04C5;04C6;04C7;04C8;04C9;04CA;04CB;04CC;04CD;04CE;04CF;04D0;04D1;04D2;04D3;04D4;04D5;04D6;04D7;04D8;04D9;04DA;04DB;04DC;04DD;04DE;04DF;04E0;04E1;04E2;04E3;04E4;04E5;04E6;04E7;04E8;04E9;04EA;04EB;04EC;04ED;04EE"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Relay channel 1" : {
-                  "Memory" : "00F0:00FF",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00F0",
-                     "15" : "00FE",
-                     "16" : "00FF",
-                     "2" : "00F1"
-                  }
-               },
-               "Relay channel 2" : {
-                  "Memory" : "01F0:01FF",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "01F0",
-                     "15" : "01FE",
-                     "16" : "01FF",
-                     "2" : "01F1"
-                  }
-               },
-               "Relay channel 3" : {
-                  "Memory" : "02F0:02FF",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "02F0",
-                     "15" : "02FE",
-                     "16" : "02FF",
-                     "2" : "02F1"
-                  }
-               },
-               "Relay channel 4" : {
-                  "Memory" : "03F0:03FF",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "03F0",
-                     "15" : "03FE",
-                     "16" : "03FF",
-                     "2" : "03F1"
-                  }
-               },
-               "Virtual relay channel 5" : {
-                  "Memory" : "04F0:04FF",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "04F0",
-                     "15" : "04FE",
-                     "16" : "04FF",
-                     "2" : "04F1"
-                  }
-               }
+            "Channel" : {
+               "Relay channel 1" : "00F0:00FF",
+               "Relay channel 2" : "01F0:01FF",
+               "Relay channel 3" : "02F0:02FF",
+               "Relay channel 4" : "03F0:03FF",
+               "Virtual relay channel 5" : "04F0:04FF"
             }
          },
          "Type" : "VMB4RYNO-10",
          "Version" : "edition 1"
       },
       "4A" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "2 channel blind module",
          "Memory" : {
             "ModuleName" : "004C:008B"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Blind 1" : {
-                  "Memory" : "0000:000F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0000",
-                     "15" : "000E",
-                     "16" : "000F",
-                     "2" : "0001"
-                  }
-               },
-               "Blind 2" : {
-                  "Memory" : "0010:001F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0010",
-                     "15" : "001E",
-                     "16" : "001F",
-                     "2" : "0011"
-                  }
-               }
+            "Channel" : {
+               "Blind 1" : "0000:000F",
+               "Blind 2" : "0010:001F"
             }
          },
          "Type" : "VMB2BLE-10",
          "Version" : "edition 1"
       },
       "4B" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "8 channel 0 to 10 V dimmer control module",
          "Memory" : {
             "ModuleName" : "049C:04DB"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "0000:000F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0000",
-                     "15" : "000E",
-                     "16" : "000F",
-                     "2" : "0001"
-                  }
-               },
-               "Channel 8" : {
-                  "Memory" : "0070:007F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0070",
-                     "15" : "007F",
-                     "16" : "007F",
-                     "2" : "0071"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "0000:000F",
+               "Channel 8" : "0070:007F"
             }
          },
          "Type" : "VMB8DC-20",
          "Version" : "edition 3"
       },
       "4C" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "6 button interface module",
          "Memory" : {
             "ModuleName" : "03BC:03FB"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "0000:000F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0000",
-                     "15" : "000E",
-                     "16" : "000F",
-                     "2" : "0001"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0014:0023",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0014",
-                     "15" : "0022",
-                     "16" : "0023",
-                     "2" : "0015"
-                  }
-               },
-               "Channel 8" : {
-                  "Memory" : "008C:009B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "008C",
-                     "15" : "009A",
-                     "16" : "009B",
-                     "2" : "008D"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "0000:000F",
+               "Channel 2" : "0014:0023",
+               "Channel 8" : "008C:009B"
             }
          },
          "Type" : "VMB6PB-20",
@@ -8916,659 +6764,165 @@
          "Memory" : {
             "ModuleName" : "03BC:03FB"
          },
-         "MemoryMap" : {
-            "ChannelTemp" : {}
-         },
+         "MemoryMap" : {},
          "Type" : "VMBPIR-20",
          "Version" : "edition 1"
       },
       "4E" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "8 channel input module",
          "Memory" : {
             "ModuleName" : "07BC:07FB"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "00E8:00F7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00E8",
-                     "15" : "00F6",
-                     "16" : "00F7",
-                     "2" : "00E9"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0014:0023",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0014",
-                     "15" : "0022",
-                     "16" : "0023",
-                     "2" : "0015"
-                  }
-               },
-               "Channel 32" : {
-                  "Memory" : "02D8:02E7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "02D8",
-                     "15" : "02E6",
-                     "16" : "02E7",
-                     "2" : "02D9"
-                  }
-               },
-               "Channel 8" : {
-                  "Memory" : "008C:009B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "008C",
-                     "15" : "009A",
-                     "16" : "009B",
-                     "2" : "008D"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "00E8:00F7",
+               "Channel 2" : "0014:0023",
+               "Channel 32" : "02D8:02E7",
+               "Channel 8" : "008C:009B"
             }
          },
          "Type" : "VMB8IN-20",
          "Version" : "edition 2"
       },
       "52" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "VMBELO-20 Edge-lit touch panel with Oled",
          "Memory" : {
             "ModuleName" : "0FA8:0FE7"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "001C:002B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "001C",
-                     "15" : "002A",
-                     "16" : "002B",
-                     "2" : "001D"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0030:003F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0030",
-                     "15" : "003E",
-                     "16" : "003F",
-                     "2" : "0031"
-                  }
-               },
-               "Channel 32" : {
-                  "Memory" : "00A8:0297",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00A8",
-                     "15" : "0296",
-                     "16" : "0297",
-                     "2" : "00A9"
-                  }
-               },
-               "Color palette 0" : {
-                  "Memory" : "02C0:02CF",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "02C0",
-                     "15" : "02CE",
-                     "16" : "02CF",
-                     "2" : "02C1"
-                  }
-               },
-               "Color palette 31" : {
-                  "Memory" : "052C:053B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "052C",
-                     "15" : "053A",
-                     "16" : "053B",
-                     "2" : "0529"
-                  }
-               },
-               "Counter 1" : {
-                  "Memory" : "062C:063B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "062C",
-                     "15" : "063A",
-                     "16" : "063B",
-                     "2" : "062D"
-                  }
-               },
-               "Counter 8" : {
-                  "Memory" : "06B8:06C7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "06B8",
-                     "15" : "06C6",
-                     "16" : "06C7",
-                     "2" : "06B9"
-                  }
-               },
-               "Open collector output" : {
-                  "Memory" : "0618:0627",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0618",
-                     "15" : "0626",
-                     "16" : "0627",
-                     "2" : "0619"
-                  }
-               },
-               "Remote Analog sensor 1" : {
-                  "Memory" : "07BC:07CB",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "07BC",
-                     "15" : "07CA",
-                     "16" : "07CB",
-                     "2" : "07BD"
-                  }
-               },
-               "Remote Analog sensor 4" : {
-                  "Memory" : "07F8:0807",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "07F8",
-                     "15" : "0806",
-                     "16" : "0807",
-                     "2" : "07F9"
-                  }
-               },
-               "Remote Temperature sensor 1" : {
-                  "Memory" : "06CC:06DB",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "06CC",
-                     "15" : "06DA",
-                     "16" : "06DB",
-                     "2" : "06CD"
-                  }
-               },
-               "Remote Temperature sensor 12" : {
-                  "Memory" : "07A8:07B7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "07A8",
-                     "15" : "07B6",
-                     "16" : "07B7",
-                     "2" : "07A9"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "05E4:05F3",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "05E4",
-                     "15" : "05F2",
-                     "16" : "05F3",
-                     "2" : "05E5"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "001C:002B",
+               "Channel 2" : "0030:003F",
+               "Channel 32" : "00A8:0297",
+               "Color palette 0" : "02C0:02CF",
+               "Color palette 31" : "052C:053B",
+               "Counter 1" : "062C:063B",
+               "Counter 8" : "06B8:06C7",
+               "Open collector output" : "0618:0627",
+               "Remote Analog sensor 1" : "07BC:07CB",
+               "Remote Analog sensor 4" : "07F8:0807",
+               "Remote Temperature sensor 1" : "06CC:06DB",
+               "Remote Temperature sensor 12" : "07A8:07B7",
+               "Sensor" : "05E4:05F3"
             }
          },
          "Type" : "VMBELO-20",
          "Version" : "edition 2"
       },
       "53" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "VMBEL1PIR-20 VMBEL2PIR",
          "Memory" : {
             "ModuleName" : "0678:06B7"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "001C:002B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "001C",
-                     "15" : "002A",
-                     "16" : "002B",
-                     "2" : "001D"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0030:003F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0030",
-                     "15" : "003E",
-                     "16" : "003F",
-                     "2" : "0031"
-                  }
-               },
-               "Color palette 0" : {
-                  "Memory" : "007C:008B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "007C",
-                     "15" : "008A",
-                     "16" : "008B",
-                     "2" : "007D"
-                  }
-               },
-               "Color palette 31" : {
-                  "Memory" : "02E8:02F7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "02E8",
-                     "15" : "02F6",
-                     "16" : "02F7",
-                     "2" : "02E9"
-                  }
-               },
-               "Open collector output" : {
-                  "Memory" : "0384:0393",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0384",
-                     "15" : "0392",
-                     "16" : "0393",
-                     "2" : "0385"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "0350:035F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0350",
-                     "15" : "035E",
-                     "16" : "035F",
-                     "2" : "0351"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "001C:002B",
+               "Channel 2" : "0030:003F",
+               "Color palette 0" : "007C:008B",
+               "Color palette 31" : "02E8:02F7",
+               "Open collector output" : "0384:0393",
+               "Sensor" : "0350:035F"
             }
          },
          "Type" : "VMBEL1PIR-20",
          "Version" : "edition 2"
       },
       "54" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "VMBGP2-20 VMBGP4-20",
          "Memory" : {
             "ModuleName" : "06C0:06FF"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "001C:002B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "001C",
-                     "15" : "002A",
-                     "16" : "002B",
-                     "2" : "001D"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0030:003F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0030",
-                     "15" : "003E",
-                     "16" : "003F",
-                     "2" : "0031"
-                  }
-               },
-               "Channel 8" : {
-                  "Memory" : "00A8:00B7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00A8",
-                     "15" : "00B6",
-                     "16" : "00B7",
-                     "2" : "00A9"
-                  }
-               },
-               "Open collector output" : {
-                  "Memory" : "03CC:03DB",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "03CC",
-                     "15" : "03DA",
-                     "16" : "03DB",
-                     "2" : "03CD"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "0398:03A7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0398",
-                     "15" : "03A6",
-                     "16" : "03A7",
-                     "2" : "0399"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "001C:002B",
+               "Channel 2" : "0030:003F",
+               "Channel 8" : "00A8:00B7",
+               "Open collector output" : "03CC:03DB",
+               "Sensor" : "0398:03A7"
             }
          },
          "Type" : "VMBGP1-20",
          "Version" : "edition 3"
       },
       "55" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "VMBGP2-20 VMBGP4-20",
          "Memory" : {
             "ModuleName" : "06C0:06FF"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "001C:002B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "001C",
-                     "15" : "002A",
-                     "16" : "002B",
-                     "2" : "001D"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0030:003F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0030",
-                     "15" : "003E",
-                     "16" : "003F",
-                     "2" : "0031"
-                  }
-               },
-               "Channel 8" : {
-                  "Memory" : "00A8:00B7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00A8",
-                     "15" : "00B6",
-                     "16" : "00B7",
-                     "2" : "00A9"
-                  }
-               },
-               "Open collector output" : {
-                  "Memory" : "03CC:03DB",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "03CC",
-                     "15" : "03DA",
-                     "16" : "03DB",
-                     "2" : "03CD"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "0398:03A7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0398",
-                     "15" : "03A6",
-                     "16" : "03A7",
-                     "2" : "0399"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "001C:002B",
+               "Channel 2" : "0030:003F",
+               "Channel 8" : "00A8:00B7",
+               "Open collector output" : "03CC:03DB",
+               "Sensor" : "0398:03A7"
             }
          },
          "Type" : "VMBGP2-20",
          "Version" : "edition 3"
       },
       "56" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "VMBGP2-20 VMBGP4-20",
          "Memory" : {
             "ModuleName" : "06C0:06FF"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "001C:002B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "001C",
-                     "15" : "002A",
-                     "16" : "002B",
-                     "2" : "001D"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0030:003F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0030",
-                     "15" : "003E",
-                     "16" : "003F",
-                     "2" : "0031"
-                  }
-               },
-               "Channel 8" : {
-                  "Memory" : "00A8:00B7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00A8",
-                     "15" : "00B6",
-                     "16" : "00B7",
-                     "2" : "00A9"
-                  }
-               },
-               "Open collector output" : {
-                  "Memory" : "03CC:03DB",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "03CC",
-                     "15" : "03DA",
-                     "16" : "03DB",
-                     "2" : "03CD"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "0398:03A7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0398",
-                     "15" : "03A6",
-                     "16" : "03A7",
-                     "2" : "0399"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "001C:002B",
+               "Channel 2" : "0030:003F",
+               "Channel 8" : "00A8:00B7",
+               "Open collector output" : "03CC:03DB",
+               "Sensor" : "0398:03A7"
             }
          },
          "Type" : "VMBGP4-20",
          "Version" : "edition 3"
       },
       "57" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "Touch panel with Oled display",
          "Memory" : {
             "ModuleName" : "0FA8:0FE7"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "001C:002B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "001C",
-                     "15" : "002A",
-                     "16" : "002B",
-                     "2" : "001D"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0030:003F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0030",
-                     "15" : "003E",
-                     "16" : "003F",
-                     "2" : "0031"
-                  }
-               },
-               "Channel 32" : {
-                  "Memory" : "00A8:0297",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "00A8",
-                     "15" : "0296",
-                     "16" : "0297",
-                     "2" : "00A9"
-                  }
-               },
-               "Counter 1" : {
-                  "Memory" : "062C:063B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "062C",
-                     "15" : "063A",
-                     "16" : "063B",
-                     "2" : "062D"
-                  }
-               },
-               "Counter 8" : {
-                  "Memory" : "06B8:06C7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "06B8",
-                     "15" : "06C6",
-                     "16" : "06C7",
-                     "2" : "06B9"
-                  }
-               },
-               "Open collector output" : {
-                  "Memory" : "0618:0627",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0618",
-                     "15" : "0626",
-                     "16" : "0627",
-                     "2" : "0619"
-                  }
-               },
-               "Remote Analog sensor 1" : {
-                  "Memory" : "07BC:07CB",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "07BC",
-                     "15" : "07CA",
-                     "16" : "07CB",
-                     "2" : "07BD"
-                  }
-               },
-               "Remote Analog sensor 4" : {
-                  "Memory" : "07F8:0807",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "07F8",
-                     "15" : "0806",
-                     "16" : "0807",
-                     "2" : "07F9"
-                  }
-               },
-               "Remote Temperature sensor 1" : {
-                  "Memory" : "06CC:06DB",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "06CC",
-                     "15" : "06DA",
-                     "16" : "06DB",
-                     "2" : "06CD"
-                  }
-               },
-               "Remote Temperature sensor 12" : {
-                  "Memory" : "07A8:07B7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "07A8",
-                     "15" : "07B6",
-                     "16" : "07B7",
-                     "2" : "07A9"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "05E4:05F3",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "05E4",
-                     "15" : "05F2",
-                     "16" : "05F3",
-                     "2" : "05E5"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "001C:002B",
+               "Channel 2" : "0030:003F",
+               "Channel 32" : "00A8:0297",
+               "Counter 1" : "062C:063B",
+               "Counter 8" : "06B8:06C7",
+               "Open collector output" : "0618:0627",
+               "Remote Analog sensor 1" : "07BC:07CB",
+               "Remote Analog sensor 4" : "07F8:0807",
+               "Remote Temperature sensor 1" : "06CC:06DB",
+               "Remote Temperature sensor 12" : "07A8:07B7",
+               "Sensor" : "05E4:05F3"
             }
          },
          "Type" : "VMBGPO-20",
          "Version" : "edition 3"
       },
       "59" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "Outdoor PIR detector module",
          "Memory" : {},
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Sensor" : {
-                  "Memory" : "0074:0083",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0074",
-                     "15" : "0082",
-                     "16" : "0083",
-                     "2" : "0075"
-                  }
-               }
+            "Channel" : {
+               "Sensor" : "0074:0083"
             }
          },
          "Type" : "VMBPIRO-20",
@@ -9589,158 +6943,40 @@
          "Version" : "edition 1"
       },
       "5C" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "VMBEL1PIR-20 VMBEL2PIR",
          "Memory" : {
             "ModuleName" : "0678:06B7"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "001C:002B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "001C",
-                     "15" : "002A",
-                     "16" : "002B",
-                     "2" : "001D"
-                  }
-               },
-               "Channel 2" : {
-                  "Memory" : "0030:003F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0030",
-                     "15" : "003E",
-                     "16" : "003F",
-                     "2" : "0031"
-                  }
-               },
-               "Color palette 0" : {
-                  "Memory" : "007C:008B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "007C",
-                     "15" : "008A",
-                     "16" : "008B",
-                     "2" : "007D"
-                  }
-               },
-               "Color palette 31" : {
-                  "Memory" : "02E8:02F7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "02E8",
-                     "15" : "02F6",
-                     "16" : "02F7",
-                     "2" : "02E9"
-                  }
-               },
-               "Open collector output" : {
-                  "Memory" : "0384:0393",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0384",
-                     "15" : "0392",
-                     "16" : "0393",
-                     "2" : "0385"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "0350:035F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0350",
-                     "15" : "035E",
-                     "16" : "035F",
-                     "2" : "0351"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "001C:002B",
+               "Channel 2" : "0030:003F",
+               "Color palette 0" : "007C:008B",
+               "Color palette 31" : "02E8:02F7",
+               "Open collector output" : "0384:0393",
+               "Sensor" : "0350:035F"
             }
          },
          "Type" : "VMBEL2PIR-20",
          "Version" : "edition 2"
       },
       "5D" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "Motion detector with four touch buttons module",
          "Memory" : {
             "ModuleName" : "06A8:06E7"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Channel 1" : {
-                  "Memory" : "001C:002B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "001C",
-                     "15" : "002A",
-                     "16" : "002B",
-                     "2" : "001D"
-                  }
-               },
-               "Channel 4" : {
-                  "Memory" : "0058:0067",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0058",
-                     "15" : "0066",
-                     "16" : "0067",
-                     "2" : "0059"
-                  }
-               },
-               "Color palette 0" : {
-                  "Memory" : "0098:00A7",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0098",
-                     "15" : "00A6",
-                     "16" : "00A7",
-                     "2" : "0099"
-                  }
-               },
-               "Color palette 31" : {
-                  "Memory" : "0304:0313",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0304",
-                     "15" : "0312",
-                     "16" : "0313",
-                     "2" : "0305"
-                  }
-               },
-               "Open collector output" : {
-                  "Memory" : "03A0:03AF",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "03A0",
-                     "15" : "03AE",
-                     "16" : "03AF",
-                     "2" : "03A1"
-                  }
-               },
-               "Sensor" : {
-                  "Memory" : "036C:037B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "036C",
-                     "15" : "037A",
-                     "16" : "037B",
-                     "2" : "036D"
-                  }
-               }
+            "Channel" : {
+               "Channel 1" : "001C:002B",
+               "Channel 4" : "0058:0067",
+               "Color palette 0" : "0098:00A7",
+               "Color palette 31" : "0304:0313",
+               "Open collector output" : "03A0:03AF",
+               "Sensor" : "036C:037B"
             }
          },
          "Type" : "VMBEL4PIR-20",
@@ -9761,36 +6997,21 @@
          "Version" : "edition 1"
       },
       "61" : {
+         "ChannelPerName" : {},
          "Channels" : {},
          "Info" : "2 channel blind module",
          "Memory" : {
             "ModuleName" : "07BC:07FB"
          },
          "MemoryMap" : {
-            "ChannelTemp" : {
-               "Blind 1" : {
-                  "Memory" : "0000:000F",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "0000",
-                     "16" : "000F"
-                  }
-               },
-               "Blind 2" : {
-                  "Memory" : "001C:002B",
-                  "max" : "16",
-                  "min" : "1",
-                  "tmp" : {
-                     "1" : "001C",
-                     "16" : "002B"
-                  }
-               }
+            "Channel" : {
+               "Blind 1" : "0000:000F",
+               "Blind 2" : "001C:002B"
             }
          },
          "Type" : "VMB2BLE-20",
          "Version" : "edition 1"
       }
    },
-   "Version" : "20260427"
+   "Version" : "20260721"
 }

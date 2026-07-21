@@ -1,20 +1,11 @@
 {
+   "ChannelPerName" : {},
    "Channels" : {},
    "Info" : "Outdoor PIR detector module",
    "Memory" : {},
    "MemoryMap" : {
-      "ChannelTemp" : {
-         "Sensor" : {
-            "Memory" : "0074:0083",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "0074",
-               "15" : "0082",
-               "16" : "0083",
-               "2" : "0075"
-            }
-         }
+      "Channel" : {
+         "Sensor" : "0074:0083"
       }
    },
    "Type" : "VMBPIRO-20",

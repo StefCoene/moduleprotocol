@@ -33,25 +33,15 @@
    },
    "Info" : "0/1 to 10V dimmer controller module",
    "Memory" : {
+      "01" : "00F0:00FF",
+      "02" : "01F0:01FF",
+      "03" : "02F0:02FF",
+      "04" : "03F0:03FF",
       "ModuleName" : "00E0:03EF",
       "StatusAddress" : "00E0;00E1;00E2;00E3;00E4;00E5;00E6;00E7;00E8;00E9;00EA;00EB;00EC;00ED;00EE;00EF;01E0;01E1;01E2;01E3;01E4;01E5;01E6;01E7;01E8;01E9;01EA;01EB;01EC;01ED;01EE;01EF"
    },
    "MemoryMap" : {
-      "Channel" : {
-         "Dimmer 1" : {
-            "Memory" : "00F0:00FF"
-         },
-         "Dimmer 2" : {
-            "Memory" : "01F0:01FF"
-         },
-         "Dimmer 3" : {
-            "Memory" : "02F0:02FF"
-         },
-         "Dimmer 4" : {
-            "Memory" : "03F0:03FF"
-         }
-      },
-      "ChannelTemp" : {}
+      "Channel" : {}
    },
    "Type" : "VMB4DC",
    "Version" : "edition 9"

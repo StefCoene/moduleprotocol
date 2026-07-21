@@ -4,9 +4,7 @@
    "Memory" : {
       "ModuleName" : "07BC:07FB"
    },
-   "MemoryMap" : {
-      "ChannelTemp" : {}
-   },
+   "MemoryMap" : {},
    "Type" : "VMBPSUMNGR-20",
    "Version" : "edition 1"
 }

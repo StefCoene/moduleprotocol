@@ -12,15 +12,11 @@
    },
    "Info" : "Velbus dimmer for resistive or inductive load",
    "Memory" : {
+      "01" : "00F0:00FF",
       "ModuleName" : "00B0:00EF"
    },
    "MemoryMap" : {
-      "Channel" : {
-         "Dimmer" : {
-            "Memory" : "00F0:00FF"
-         }
-      },
-      "ChannelTemp" : {}
+      "Channel" : {}
    },
    "Type" : "VMBDMI",
    "Version" : "edition 2"

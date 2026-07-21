@@ -1,77 +1,18 @@
 {
+   "ChannelPerName" : {},
    "Channels" : {},
    "Info" : "VMBEL1PIR-20 VMBEL2PIR",
    "Memory" : {
       "ModuleName" : "0678:06B7"
    },
    "MemoryMap" : {
-      "ChannelTemp" : {
-         "Channel 1" : {
-            "Memory" : "001C:002B",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "001C",
-               "15" : "002A",
-               "16" : "002B",
-               "2" : "001D"
-            }
-         },
-         "Channel 2" : {
-            "Memory" : "0030:003F",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "0030",
-               "15" : "003E",
-               "16" : "003F",
-               "2" : "0031"
-            }
-         },
-         "Color palette 0" : {
-            "Memory" : "007C:008B",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "007C",
-               "15" : "008A",
-               "16" : "008B",
-               "2" : "007D"
-            }
-         },
-         "Color palette 31" : {
-            "Memory" : "02E8:02F7",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "02E8",
-               "15" : "02F6",
-               "16" : "02F7",
-               "2" : "02E9"
-            }
-         },
-         "Open collector output" : {
-            "Memory" : "0384:0393",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "0384",
-               "15" : "0392",
-               "16" : "0393",
-               "2" : "0385"
-            }
-         },
-         "Sensor" : {
-            "Memory" : "0350:035F",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "0350",
-               "15" : "035E",
-               "16" : "035F",
-               "2" : "0351"
-            }
-         }
+      "Channel" : {
+         "Channel 1" : "001C:002B",
+         "Channel 2" : "0030:003F",
+         "Color palette 0" : "007C:008B",
+         "Color palette 31" : "02E8:02F7",
+         "Open collector output" : "0384:0393",
+         "Sensor" : "0350:035F"
       }
    },
    "Type" : "VMBEL2PIR-20",

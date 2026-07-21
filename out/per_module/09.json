@@ -26,37 +26,14 @@
       }
    },
    "Info" : "2-channel Blind Control Module",
-   "Memory" : {},
+   "Memory" : {
+      "01" : "00F1:00FF",
+      "02" : "01F1:01FF"
+   },
    "MemoryMap" : {
       "Channel" : {
-         "Blind 1" : {
-            "Memory" : "00F1:00FF"
-         },
-         "Blind 2" : {
-            "Memory" : "01F1:01FF"
-         }
-      },
-      "ChannelTemp" : {
-         "Channel 1" : {
-            "Memory" : "00E0:00EE",
-            "max" : "15",
-            "min" : "1",
-            "tmp" : {
-               "1" : "00E0",
-               "15" : "00EE",
-               "2" : "00E1"
-            }
-         },
-         "Channel 2" : {
-            "Memory" : "01E0:01EE",
-            "max" : "15",
-            "min" : "1",
-            "tmp" : {
-               "1" : "01E0",
-               "15" : "01EE",
-               "2" : "01E1"
-            }
-         }
+         "Channel 1" : "00E0:00EE",
+         "Channel 2" : "01E0:01EE"
       }
    },
    "Type" : "VMB2BL",

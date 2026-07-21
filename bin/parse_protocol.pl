@@ -802,12 +802,136 @@ foreach my $ModuleType (sort keys %{$json{ModuleTypes}}) {
    $Module{Type}        = $json{ModuleTypes}{$ModuleType}{Type} ;
    %{$Module{Channels}} = %{$json{ModuleTypes}{$ModuleType}{Channels}} ;
 
-   # Memory location for Module Name
-   if ( $json{ModuleTypes}{$ModuleType}{MemoryMap} and
-        $json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp} and
-        $json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp}{Module} ) {
-      $json{ModuleTypes}{$ModuleType}{Memory}{ModuleName} = $json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp}{Module}{Memory} ;
-      delete $json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp}{Module} ;
+   # Memory locations
+   if ( $json{ModuleTypes}{$ModuleType}{MemoryMap} and $json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp} ) {
+      # Module Name
+      if ( $json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp}{Module} ) {
+         $json{ModuleTypes}{$ModuleType}{Memory}{ModuleName} = $json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp}{Module}{Memory} ;
+         delete $json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp}{Module} ;
+      }
+
+      # Channels
+      foreach my $ChannelTempName (sort keys %{$json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp}}) {
+         # Build name from our naming based on VelbusLink so we can use it to the name used in the protocol files
+         my $ChannelTempNameFix = $ChannelTempName ;
+
+         $ChannelTempNameFix =~ s/push button/Push button/ ;
+
+         # Name: 'Push button 1', pdf: 'input 1'
+         if ( $ModuleType eq "05" ) {
+            $ChannelTempNameFix =~ s/input/Push button/ ;
+         } elsif ( $ModuleType eq "2D" ) {
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+            $ChannelTempNameFix =~ s/Sensor/Temperature/ ;
+         } elsif ( $ModuleType eq "2E" ) {
+            $ChannelTempNameFix =~ s/ \d+// ;
+         } elsif ( $ModuleType eq "30" ) {
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+         } elsif ( $ModuleType eq "16" ) {
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+         } elsif ( $ModuleType eq "34" ) {
+            $ChannelTempNameFix = 'Virtual button 2' if $ChannelTempNameFix eq 'Channel 2' ;
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+         } elsif ( $ModuleType eq "35" ) {
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+
+         } elsif ( $ModuleType eq "3A" ) {
+            $ChannelTempNameFix = 'Virtual button 2' if $ChannelTempNameFix eq 'Channel 2' ;
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+         } elsif ( $ModuleType eq "3B" ) {
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+         } elsif ( $ModuleType eq "3C" ) {
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+
+         } elsif ( $ModuleType eq "3D" ) {
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+         } elsif ( $ModuleType eq "3E" ) {
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+
+         } elsif ( $ModuleType eq "38" ) {
+            $ChannelTempNameFix = 'Push button' if $ChannelTempNameFix eq 'Channel 1' ;
+            $ChannelTempNameFix = 'Virtual button' if $ChannelTempNameFix eq 'Channel 2' ;
+
+         } elsif ( $ModuleType eq "31" ) {
+            $ChannelTempNameFix = 'Frost alarm' if $ChannelTempNameFix eq 'Alarm output 1' ;
+            $ChannelTempNameFix = 'Heat alarm' if $ChannelTempNameFix eq 'Alarm output 2' ;
+            $ChannelTempNameFix = 'Rain alarm' if $ChannelTempNameFix eq 'Alarm output 3' ;
+            $ChannelTempNameFix = 'Dawn alarm' if $ChannelTempNameFix eq 'Alarm output 4' ;
+            $ChannelTempNameFix = 'Dusk alarm' if $ChannelTempNameFix eq 'Alarm output 5' ;
+            $ChannelTempNameFix = 'Sun alarm' if $ChannelTempNameFix eq 'Alarm output 6' ;
+            $ChannelTempNameFix = 'Wind alarm' if $ChannelTempNameFix eq 'Alarm output 7' ;
+            $ChannelTempNameFix = 'Storm alarm' if $ChannelTempNameFix eq 'Alarm output 8' ;
+            $ChannelTempNameFix = 'Rainfall' if $ChannelTempNameFix eq 'Rain sensor' ;
+            $ChannelTempNameFix = 'Illuminance' if $ChannelTempNameFix eq 'Light sensor' ;
+            $ChannelTempNameFix = 'Wind speed' if $ChannelTempNameFix eq 'Wind sensor' ;
+            $ChannelTempNameFix =~ s/ sensor// ;
+
+         } elsif ( $ModuleType eq "22" ) {
+            $ChannelTempNameFix =~ s/Channel/Push button/ ;
+            $ChannelTempNameFix = 'Virtual button' if $ChannelTempNameFix eq 'Push button 8' ;
+
+         } elsif ( $ModuleType eq "18" ) {
+            if (
+               $ChannelTempNameFix =~ s/Channel 3/Virtual button 1/ or
+               $ChannelTempNameFix =~ s/Channel 4/Virtual button 2/ or
+               $ChannelTempNameFix =~ s/Channel 5/Virtual button 3/ or
+               $ChannelTempNameFix =~ s/Channel 6/Virtual button 4/ or
+               $ChannelTempNameFix =~ s/Channel 7/Virtual button 5/ or
+               $ChannelTempNameFix =~ s/Channel 8/Virtual button 6/ ) {
+            } else {
+               $ChannelTempNameFix = "Push " . $ChannelTempNameFix ;
+               $ChannelTempNameFix =~ s/Channel/button/ ;
+            }
+         } elsif ( $ModuleType eq "17" ) {
+            if (
+               $ChannelTempNameFix =~ s/Channel 7/Virtual button 1/ or
+               $ChannelTempNameFix =~ s/Channel 8/Virtual button 2/ ) {
+            } else {
+               $ChannelTempNameFix = "Push " . $ChannelTempNameFix ;
+               $ChannelTempNameFix =~ s/Channel/button/ ;
+            }
+         } elsif ( $ModuleType eq "08" ) {
+            $ChannelTempNameFix =~ s/channel // ;
+         } elsif ( $ModuleType eq "0C" or $ModuleType eq "3E" ) {
+            $ChannelTempNameFix = "Temperature" if $ChannelTempNameFix eq "Sensor" ;
+         } elsif ( $ModuleType eq "10" ) {
+            $ChannelTempNameFix = "Virtual channel relay" if $ChannelTempNameFix eq "Virtual relay channel 5" ;
+            $ChannelTempNameFix =~ s/channel // ;
+
+         } elsif ( $ModuleType eq "41" ) {
+            $ChannelTempNameFix = 'Relay' if $ChannelTempNameFix eq 'Relay channel 1' ;
+            $ChannelTempNameFix = 'Virtual relay 1' if $ChannelTempNameFix eq 'Virtual relay channel 2' ;
+            $ChannelTempNameFix = 'Virtual relay 2' if $ChannelTempNameFix eq 'Virtual relay channel 3' ;
+            $ChannelTempNameFix = 'Virtual relay 3' if $ChannelTempNameFix eq 'Virtual relay channel 4' ;
+            $ChannelTempNameFix = 'Virtual relay 4' if $ChannelTempNameFix eq 'Virtual relay channel 5' ;
+
+         } elsif ( $ModuleType eq "29" ) {
+            $ChannelTempNameFix = 'Relay' if $ChannelTempNameFix eq 'Relay channel 1' ;
+            $ChannelTempNameFix = 'Virtual relay 1' if $ChannelTempNameFix eq 'Virtual relay channel 2' ;
+            $ChannelTempNameFix = 'Virtual relay 2' if $ChannelTempNameFix eq 'Virtual relay channel 3' ;
+            $ChannelTempNameFix = 'Virtual relay 3' if $ChannelTempNameFix eq 'Virtual relay channel 4' ;
+            $ChannelTempNameFix = 'Virtual relay 4' if $ChannelTempNameFix eq 'Virtual relay channel 5' ;
+         } elsif ( $ModuleType eq "1B" ) {
+            $ChannelTempNameFix = 'Relay' if $ChannelTempNameFix eq 'Relay channel 1' ;
+            $ChannelTempNameFix = 'Virtual relay 1' if $ChannelTempNameFix eq 'Virtual relay channel 2' ;
+            $ChannelTempNameFix = 'Virtual relay 2' if $ChannelTempNameFix eq 'Virtual relay channel 3' ;
+            $ChannelTempNameFix = 'Virtual relay 3' if $ChannelTempNameFix eq 'Virtual relay channel 4' ;
+            $ChannelTempNameFix = 'Virtual relay 4' if $ChannelTempNameFix eq 'Virtual relay channel 5' ;
+         } elsif ( $ModuleType eq "2C" ) {
+            $ChannelTempNameFix =~ s/ sensor// ;
+         } elsif ( $ModuleType eq "12" ) {
+            $ChannelTempNameFix =~ s/channel // ;
+         } elsif ( $ModuleType eq "11" ) {
+            $ChannelTempNameFix = "Virtual channel relay" if $ChannelTempNameFix eq "Virtual relay channel 5" ;
+            $ChannelTempNameFix =~ s/channel // ;
+         } else {
+         }
+
+         $json{ModuleTypes}{$ModuleType}{MemoryMap}{Channel}{$ChannelTempNameFix} = $json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp}{$ChannelTempName}{Memory} ;
+         delete $json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp}{$ChannelTempName} ;
+      }
+
+      delete $json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp} ;
    }
 
    foreach my $Channel (sort keys %{$json{ModuleTypes}{$ModuleType}{Channels}}) {
@@ -835,131 +959,32 @@ foreach my $ModuleType (sort keys %{$json{ModuleTypes}}) {
          print "   ModuleType: $ModuleTypem, Channel: $Channel $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Type}  /  $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Name}\n" ;
       }
 
-      my $ChannelName = $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Name} ;
-
       if ( $json{ModuleTypes}{$ModuleType}{MemoryMap} ) {
-         foreach my $ChannelTempName (sort keys %{$json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp}}) {
-            # Build name from our naming based on VelbusLink so we can use it to the name used in the protocol files
-            my $ChannelTempNameFix = $ChannelTempName ;
+         my $ChannelName = $json{ModuleTypes}{$ModuleType}{Channels}{$Channel}{Name} ;
 
-            # Name: 'Push button 1', pdf: 'input 1'
-            if ( $ModuleType eq "05" ) {
-               $ChannelTempNameFix =~ s/input/Push button/ ;
-            } elsif ( $ModuleType eq "2D" ) {
-               $ChannelTempNameFix =~ s/Channel/Push button/ ;
-               $ChannelTempNameFix =~ s/Sensor/Temperature/ ;
-            } elsif ( $ModuleType eq "2E" ) {
-               $ChannelTempNameFix =~ s/ \d+// ;
-            } elsif ( $ModuleType eq "30" ) {
-               $ChannelTempNameFix =~ s/Channel/Push button/ ;
-            } elsif ( $ModuleType eq "16" ) {
-               $ChannelTempNameFix =~ s/Channel/Push button/ ;
-            } elsif ( $ModuleType eq "34" ) {
-               $ChannelTempNameFix = 'Virtual button 2' if $ChannelTempNameFix eq 'Channel 2' ;
-               $ChannelTempNameFix =~ s/Channel/Push button/ ;
-            } elsif ( $ModuleType eq "35" ) {
-               $ChannelTempNameFix =~ s/Channel/Push button/ ;
+         if ( $json{ModuleTypes}{$ModuleType}{ChannelPerName}{$ChannelName} ) {
+            my $Channel = $json{ModuleTypes}{$ModuleType}{ChannelPerName}{$ChannelName} ;
 
-            } elsif ( $ModuleType eq "3A" ) {
-               $ChannelTempNameFix = 'Virtual button 2' if $ChannelTempNameFix eq 'Channel 2' ;
-               $ChannelTempNameFix =~ s/Channel/Push button/ ;
-            } elsif ( $ModuleType eq "3B" ) {
-               $ChannelTempNameFix =~ s/Channel/Push button/ ;
-            } elsif ( $ModuleType eq "3C" ) {
-               $ChannelTempNameFix =~ s/Channel/Push button/ ;
-
-            } elsif ( $ModuleType eq "3D" ) {
-               $ChannelTempNameFix =~ s/Channel/Push button/ ;
-            } elsif ( $ModuleType eq "3E" ) {
-               $ChannelTempNameFix =~ s/Channel/Push button/ ;
-
-            } elsif ( $ModuleType eq "38" ) {
-               $ChannelTempNameFix = 'Push button' if $ChannelTempNameFix eq 'Channel 1' ;
-               $ChannelTempNameFix = 'Virtual button' if $ChannelTempNameFix eq 'Channel 2' ;
-
-            } elsif ( $ModuleType eq "31" ) {
-               $ChannelTempNameFix = 'Frost alarm' if $ChannelTempNameFix eq 'Alarm output 1' ;
-               $ChannelTempNameFix = 'Heat alarm' if $ChannelTempNameFix eq 'Alarm output 2' ;
-               $ChannelTempNameFix = 'Rain alarm' if $ChannelTempNameFix eq 'Alarm output 3' ;
-               $ChannelTempNameFix = 'Dawn alarm' if $ChannelTempNameFix eq 'Alarm output 4' ;
-               $ChannelTempNameFix = 'Dusk alarm' if $ChannelTempNameFix eq 'Alarm output 5' ;
-               $ChannelTempNameFix = 'Sun alarm' if $ChannelTempNameFix eq 'Alarm output 6' ;
-               $ChannelTempNameFix = 'Wind alarm' if $ChannelTempNameFix eq 'Alarm output 7' ;
-               $ChannelTempNameFix = 'Storm alarm' if $ChannelTempNameFix eq 'Alarm output 8' ;
-               $ChannelTempNameFix = 'Rainfall' if $ChannelTempNameFix eq 'Rain sensor' ;
-               $ChannelTempNameFix = 'Illuminance' if $ChannelTempNameFix eq 'Light sensor' ;
-               $ChannelTempNameFix = 'Wind speed' if $ChannelTempNameFix eq 'Wind sensor' ;
-               $ChannelTempNameFix =~ s/ sensor// ;
-
-            } elsif ( $ModuleType eq "22" ) {
-               $ChannelTempNameFix =~ s/Channel/Push button/ ;
-               $ChannelTempNameFix = 'Virtual button' if $ChannelTempNameFix eq 'Push button 8' ;
-
-            } elsif ( $ModuleType eq "18" ) {
-               if (
-                  $ChannelTempNameFix =~ s/Channel 3/Virtual button 1/ or
-                  $ChannelTempNameFix =~ s/Channel 4/Virtual button 2/ or
-                  $ChannelTempNameFix =~ s/Channel 5/Virtual button 3/ or
-                  $ChannelTempNameFix =~ s/Channel 6/Virtual button 4/ or
-                  $ChannelTempNameFix =~ s/Channel 7/Virtual button 5/ or
-                  $ChannelTempNameFix =~ s/Channel 8/Virtual button 6/ ) {
-               } else {
-                  $ChannelTempNameFix = "Push " . $ChannelTempNameFix ;
-                  $ChannelTempNameFix =~ s/Channel/button/ ;
-               }
-            } elsif ( $ModuleType eq "17" ) {
-               if (
-                  $ChannelTempNameFix =~ s/Channel 7/Virtual button 1/ or
-                  $ChannelTempNameFix =~ s/Channel 8/Virtual button 2/ ) {
-               } else {
-                  $ChannelTempNameFix = "Push " . $ChannelTempNameFix ;
-                  $ChannelTempNameFix =~ s/Channel/button/ ;
-               }
-            } elsif ( $ModuleType eq "08" ) {
-               $ChannelTempNameFix =~ s/channel // ;
-            } elsif ( $ModuleType eq "0C" ) {
-               $ChannelTempNameFix = "Temperature" if $ChannelTempNameFix eq "Sensor" ;
-            } elsif ( $ModuleType eq "10" ) {
-               $ChannelTempNameFix = "Virtual channel relay" if $ChannelTempNameFix eq "Virtual relay channel 5" ;
-               $ChannelTempNameFix =~ s/channel // ;
-
-            } elsif ( $ModuleType eq "41" ) {
-               $ChannelTempNameFix = 'Relay' if $ChannelTempNameFix eq 'Relay channel 1' ;
-               $ChannelTempNameFix = 'Virtual relay 1' if $ChannelTempNameFix eq 'Virtual relay channel 2' ;
-               $ChannelTempNameFix = 'Virtual relay 2' if $ChannelTempNameFix eq 'Virtual relay channel 3' ;
-               $ChannelTempNameFix = 'Virtual relay 3' if $ChannelTempNameFix eq 'Virtual relay channel 4' ;
-               $ChannelTempNameFix = 'Virtual relay 4' if $ChannelTempNameFix eq 'Virtual relay channel 5' ;
-
-            } elsif ( $ModuleType eq "29" ) {
-               $ChannelTempNameFix = 'Relay' if $ChannelTempNameFix eq 'Relay channel 1' ;
-               $ChannelTempNameFix = 'Virtual relay 1' if $ChannelTempNameFix eq 'Virtual relay channel 2' ;
-               $ChannelTempNameFix = 'Virtual relay 2' if $ChannelTempNameFix eq 'Virtual relay channel 3' ;
-               $ChannelTempNameFix = 'Virtual relay 3' if $ChannelTempNameFix eq 'Virtual relay channel 4' ;
-               $ChannelTempNameFix = 'Virtual relay 4' if $ChannelTempNameFix eq 'Virtual relay channel 5' ;
-            } elsif ( $ModuleType eq "1B" ) {
-               $ChannelTempNameFix = 'Relay' if $ChannelTempNameFix eq 'Relay channel 1' ;
-               $ChannelTempNameFix = 'Virtual relay 1' if $ChannelTempNameFix eq 'Virtual relay channel 2' ;
-               $ChannelTempNameFix = 'Virtual relay 2' if $ChannelTempNameFix eq 'Virtual relay channel 3' ;
-               $ChannelTempNameFix = 'Virtual relay 3' if $ChannelTempNameFix eq 'Virtual relay channel 4' ;
-               $ChannelTempNameFix = 'Virtual relay 4' if $ChannelTempNameFix eq 'Virtual relay channel 5' ;
-            } elsif ( $ModuleType eq "2C" ) {
-               $ChannelTempNameFix =~ s/ sensor// ;
-            } elsif ( $ModuleType eq "12" ) {
-               $ChannelTempNameFix =~ s/channel // ;
-            } elsif ( $ModuleType eq "11" ) {
-               $ChannelTempNameFix = "Virtual channel relay" if $ChannelTempNameFix eq "Virtual relay channel 5" ;
-               $ChannelTempNameFix =~ s/channel // ;
-            } else {
+            if ( $json{ModuleTypes}{$ModuleType}{MemoryMap}{Channel}{$ChannelName} ) {
+               $json{ModuleTypes}{$ModuleType}{Memory}{$Channel} = $json{ModuleTypes}{$ModuleType}{MemoryMap}{Channel}{$ChannelName} ;
+               delete $json{ModuleTypes}{$ModuleType}{MemoryMap}{Channel}{$ChannelName} ;
             }
-
-            if ( lc($ChannelName) eq lc($ChannelTempNameFix) ) {
-               $json{ModuleTypes}{$ModuleType}{MemoryMap}{Channel}{$ChannelName}{Memory} = $json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp}{$ChannelTempName}{Memory} ;
-               delete $json{ModuleTypes}{$ModuleType}{MemoryMap}{ChannelTemp}{$ChannelTempName} ;
-               last ;
-            }
+         } else {
+            print "ModuleType=$ModuleType: No Channel number found for $ChannelName\n" ;
          }
       }
    }
+
+if ( $json{ModuleTypes}{$ModuleType}{MemoryMap} and $json{ModuleTypes}{$ModuleType}{MemoryMap}{Channel} ) {
+my $print ;
+foreach my $Channel (sort keys %{$json{ModuleTypes}{$ModuleType}{MemoryMap}{Channel}}) {
+print "ModuleType=$ModuleType: Channel=$Channel\n" ;
+$print = 1 ;
+}
+print Dumper \%{$json{ModuleTypes}{$ModuleType}{ChannelPerName}} if $print ;
+print "\n" ;
+}
+
 
    if ( defined $json{ModuleTypes}{$ModuleType}{Memory} ) {
       if ( defined $json{ModuleTypes}{$ModuleType}{Memory}{ModuleName} ) {

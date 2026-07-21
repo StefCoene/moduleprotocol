@@ -52,35 +52,18 @@
       }
    },
    "Info" : "LCD module",
-   "Memory" : {},
+   "Memory" : {
+      "01" : "0000:000E",
+      "02" : "0010:001E",
+      "03" : "0020:002E",
+      "04" : "0030:003E",
+      "05" : "0040:004E",
+      "06" : "0050:005E",
+      "07" : "0060:006E",
+      "08" : "0070:007E"
+   },
    "MemoryMap" : {
-      "Channel" : {
-         "Push button 1" : {
-            "Memory" : "0000:000E"
-         },
-         "Push button 2" : {
-            "Memory" : "0010:001E"
-         },
-         "Push button 3" : {
-            "Memory" : "0020:002E"
-         },
-         "Push button 4" : {
-            "Memory" : "0030:003E"
-         },
-         "Push button 5" : {
-            "Memory" : "0040:004E"
-         },
-         "Push button 6" : {
-            "Memory" : "0050:005E"
-         },
-         "Push button 7" : {
-            "Memory" : "0060:006E"
-         },
-         "Push button 8" : {
-            "Memory" : "0070:007E"
-         }
-      },
-      "ChannelTemp" : {}
+      "Channel" : {}
    },
    "Type" : "VMB4PD",
    "Version" : "edition 2"

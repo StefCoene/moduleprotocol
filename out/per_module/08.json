@@ -32,91 +32,22 @@
       }
    },
    "Info" : "4 channel relay module",
-   "Memory" : {},
+   "Memory" : {
+      "01" : "00F0:00FF",
+      "02" : "01F0:01FF",
+      "03" : "02F0:02FF",
+      "04" : "03F0:03FF"
+   },
    "MemoryMap" : {
       "Channel" : {
-         "Relay 1" : {
-            "Memory" : "00F0:00FF"
-         },
-         "Relay 2" : {
-            "Memory" : "01F0:01FF"
-         },
-         "Relay 3" : {
-            "Memory" : "02F0:02FF"
-         },
-         "Relay 4" : {
-            "Memory" : "03F0:03FF"
-         }
-      },
-      "ChannelTemp" : {
-         "Local Push button channel 1" : {
-            "Memory" : "00E0:00EE",
-            "max" : "15",
-            "min" : "1",
-            "tmp" : {
-               "1" : "00E0",
-               "15" : "00EE"
-            }
-         },
-         "Local Push button channel 2" : {
-            "Memory" : "01E0:01EE",
-            "max" : "15",
-            "min" : "1",
-            "tmp" : {
-               "1" : "01E0",
-               "15" : "01EE"
-            }
-         },
-         "Local Push button channel 3" : {
-            "Memory" : "02E0:02EE",
-            "max" : "15",
-            "min" : "1",
-            "tmp" : {
-               "1" : "02E0",
-               "15" : "02EE"
-            }
-         },
-         "Local Push button channel 4" : {
-            "Memory" : "03E0:03EE",
-            "max" : "15",
-            "min" : "1",
-            "tmp" : {
-               "1" : "03E0",
-               "15" : "03EE"
-            }
-         },
-         "Push button channel 1" : {
-            "Memory" : "00E1:00E1",
-            "max" : "2",
-            "min" : "2",
-            "tmp" : {
-               "2" : "00E1"
-            }
-         },
-         "Push button channel 2" : {
-            "Memory" : "01E1:01E1",
-            "max" : "2",
-            "min" : "2",
-            "tmp" : {
-               "2" : "01E1"
-            }
-         },
-         "Push button channel 3" : {
-            "Memory" : "02E1:02E1",
-            "max" : "2",
-            "min" : "2",
-            "tmp" : {
-               "2" : "02E1"
-            }
-         },
-         "Push button channel 4" : {
-            "Memory" : "03E1:03E1",
-            "max" : "2",
-            "min" : "2",
-            "tmp" : {
-               "2" : "03E1"
-            }
-         }
+         "Local Push button 1" : "00E0:00EE",
+         "Local Push button 2" : "01E0:01EE",
+         "Local Push button 3" : "02E0:02EE",
+         "Local Push button 4" : "03E0:03EE",
+         "Push button 1" : "00E1:00E1",
+         "Push button 2" : "01E1:01E1",
+         "Push button 3" : "02E1:02E1",
+         "Push button 4" : "03E1:03E1"
       }
    },
    "Type" : "VMB4RY",

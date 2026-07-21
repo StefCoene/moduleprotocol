@@ -76,6 +76,18 @@
    },
    "Info" : "Meteo station",
    "Memory" : {
+      "01" : "0000:000F",
+      "02" : "0010:001F",
+      "03" : "0020:002F",
+      "04" : "0030:003F",
+      "05" : "0040:004F",
+      "06" : "0050:005F",
+      "07" : "0060:006F",
+      "08" : "0070:007F",
+      "10" : "03B0:03BF",
+      "11" : "00C0:00CF",
+      "12" : "00D0:00DF",
+      "13" : "00E0:00EF",
       "ModuleName" : "03C0:03FF",
       "SensorName" : {
          "10" : "03B0-03BF",
@@ -86,45 +98,7 @@
       "StatusAddress" : "03C0;03C1;03C2;03C3;03C4;03C5;03C6;03C7;03C8;03C9;03CA;03CB;03CC;03CD;03CE;03CF;03D0;03D1;03D2;03D3;03D4;03D5;03D6;03D7;03D8;03D9;03DA;03DB;03DC;03DD;03DE;03DF;03E0;03E1;03E2;03E3;03E4;03E5;03E6;03E7;03E8;03E9;03EA;03EB;03EC;03ED;03EE;03EF;03F0;03F1;03F2;03F3;03F4;03F5;03F6;03F7;03F8;03F9;03FA;03FB;03FC;03FD;03FE;03FF;03B0;03B1;03B2;03B3;03B4;03B5;03B6;03B7;03B8;03B9;03BA;03BB;03BC;03BD;03BE;03BF;00C0;00C1;00C2;00C3;00C4;00C5;00C6;00C7;00C8;00C9;00CA;00CB;00CC;00CD;00CE;00CF;00D0;00D1;00D2;00D3;00D4;00D5;00D6;00D7;00D8;00D9;00DA;00DB;00DC;00DD;00DE;00DF;00E0;00E1;00E2;00E3;00E4;00E5;00E6;00E7;00E8;00E9;00EA;00EB;00EC;00ED;00EE;00EF"
    },
    "MemoryMap" : {
-      "Channel" : {
-         "Dawn alarm" : {
-            "Memory" : "0030:003F"
-         },
-         "Dusk alarm" : {
-            "Memory" : "0040:004F"
-         },
-         "Frost alarm" : {
-            "Memory" : "0000:000F"
-         },
-         "Heat alarm" : {
-            "Memory" : "0010:001F"
-         },
-         "Illuminance" : {
-            "Memory" : "00D0:00DF"
-         },
-         "Rain alarm" : {
-            "Memory" : "0020:002F"
-         },
-         "Rainfall" : {
-            "Memory" : "00C0:00CF"
-         },
-         "Storm alarm" : {
-            "Memory" : "0070:007F"
-         },
-         "Sun alarm" : {
-            "Memory" : "0050:005F"
-         },
-         "Temperature" : {
-            "Memory" : "03B0:03BF"
-         },
-         "Wind alarm" : {
-            "Memory" : "0060:006F"
-         },
-         "Wind speed" : {
-            "Memory" : "00E0:00EF"
-         }
-      },
-      "ChannelTemp" : {}
+      "Channel" : {}
    },
    "TemperatureChannel" : "10",
    "Type" : "VMBMETEO",

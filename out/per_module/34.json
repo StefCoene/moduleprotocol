@@ -117,74 +117,18 @@
    },
    "Info" : "VMBEL2-20 VMBEL4",
    "Memory" : {
+      "01" : "001C:002B",
+      "02" : "0030:003F",
       "ModuleName" : "06C0:06FF",
       "StatusAddress" : "06C0;06C1;06C2;06C3;06C4;06C5;06C6;06C7;06C8;06C9;06CA;06CB;06CC;06CD;06CE;06CF"
    },
    "MemoryMap" : {
       "Channel" : {
-         "Push button 1" : {
-            "Memory" : "001C:002B"
-         },
-         "Virtual button 2" : {
-            "Memory" : "0030:003F"
-         }
-      },
-      "ChannelTemp" : {
-         "Channel 8" : {
-            "Memory" : "00A8:00B7",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "00A8",
-               "15" : "00B6",
-               "16" : "00B7",
-               "2" : "00A9"
-            }
-         },
-         "Color palette 0" : {
-            "Memory" : "00C8:00D7",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "00C8",
-               "15" : "00D6",
-               "16" : "00D7",
-               "2" : "00C9"
-            }
-         },
-         "Color palette 31" : {
-            "Memory" : "0334:0343",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "0334",
-               "15" : "0342",
-               "16" : "0343",
-               "2" : "0335"
-            }
-         },
-         "Open collector output" : {
-            "Memory" : "03CC:03DB",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "03CC",
-               "15" : "03DA",
-               "16" : "03DB",
-               "2" : "03CD"
-            }
-         },
-         "Sensor" : {
-            "Memory" : "0398:03A7",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "0398",
-               "15" : "03A6",
-               "16" : "03A7",
-               "2" : "0399"
-            }
-         }
+         "Color palette 0" : "00C8:00D7",
+         "Color palette 31" : "0334:0343",
+         "Open collector output" : "03CC:03DB",
+         "Push button 8" : "00A8:00B7",
+         "Sensor" : "0398:03A7"
       }
    },
    "TemperatureChannel" : "09",

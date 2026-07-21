@@ -19,35 +19,13 @@
    },
    "Info" : "Blind Control Module",
    "Memory" : {
+      "01" : "0071:007F",
       "ModuleName" : "0070:007F"
    },
    "MemoryMap" : {
       "Channel" : {
-         "Blind" : {
-            "Memory" : "0071:007F"
-         }
-      },
-      "ChannelTemp" : {
-         "Local Down Push button" : {
-            "Memory" : "0060:006E",
-            "max" : "15",
-            "min" : "1",
-            "tmp" : {
-               "1" : "0060",
-               "15" : "006E",
-               "2" : "0061"
-            }
-         },
-         "Local Up Push button" : {
-            "Memory" : "0050:005E",
-            "max" : "15",
-            "min" : "1",
-            "tmp" : {
-               "1" : "0050",
-               "15" : "005E",
-               "2" : "0061"
-            }
-         }
+         "Local Down Push button" : "0060:006E",
+         "Local Up Push button" : "0050:005E"
       }
    },
    "Type" : "VMB1BL",

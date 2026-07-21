@@ -1,55 +1,16 @@
 {
+   "ChannelPerName" : {},
    "Channels" : {},
    "Info" : "8 channel input module",
    "Memory" : {
       "ModuleName" : "07BC:07FB"
    },
    "MemoryMap" : {
-      "ChannelTemp" : {
-         "Channel 1" : {
-            "Memory" : "00E8:00F7",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "00E8",
-               "15" : "00F6",
-               "16" : "00F7",
-               "2" : "00E9"
-            }
-         },
-         "Channel 2" : {
-            "Memory" : "0014:0023",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "0014",
-               "15" : "0022",
-               "16" : "0023",
-               "2" : "0015"
-            }
-         },
-         "Channel 32" : {
-            "Memory" : "02D8:02E7",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "02D8",
-               "15" : "02E6",
-               "16" : "02E7",
-               "2" : "02D9"
-            }
-         },
-         "Channel 8" : {
-            "Memory" : "008C:009B",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "008C",
-               "15" : "009A",
-               "16" : "009B",
-               "2" : "008D"
-            }
-         }
+      "Channel" : {
+         "Channel 1" : "00E8:00F7",
+         "Channel 2" : "0014:0023",
+         "Channel 32" : "02D8:02E7",
+         "Channel 8" : "008C:009B"
       }
    },
    "Type" : "VMB8IN-20",

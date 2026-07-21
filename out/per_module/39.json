@@ -5,9 +5,7 @@
       "ModuleName" : "0000:003F",
       "StatusAddress" : "0000"
    },
-   "MemoryMap" : {
-      "ChannelTemp" : {}
-   },
+   "MemoryMap" : {},
    "Type" : "VMBSIG",
    "Version" : "edition 3"
 }

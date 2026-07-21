@@ -53,36 +53,18 @@
    },
    "Info" : "8 channel RF receiver module",
    "Memory" : {
+      "01" : "0000:000F",
+      "02" : "0010:001F",
+      "03" : "0020:002F",
+      "04" : "0030:003F",
+      "05" : "0040:004F",
+      "06" : "0050:005F",
+      "07" : "0060:006F",
+      "08" : "0070:007F",
       "ModuleName" : "03C0:03FF"
    },
    "MemoryMap" : {
-      "Channel" : {
-         "Push button 1" : {
-            "Memory" : "0000:000F"
-         },
-         "Push button 2" : {
-            "Memory" : "0010:001F"
-         },
-         "Push button 3" : {
-            "Memory" : "0020:002F"
-         },
-         "Push button 4" : {
-            "Memory" : "0030:003F"
-         },
-         "Push button 5" : {
-            "Memory" : "0040:004F"
-         },
-         "Push button 6" : {
-            "Memory" : "0050:005F"
-         },
-         "Push button 7" : {
-            "Memory" : "0060:006F"
-         },
-         "Push button 8" : {
-            "Memory" : "0070:007F"
-         }
-      },
-      "ChannelTemp" : {}
+      "Channel" : {}
    },
    "Type" : "VMBRFR8S",
    "Version" : "edition 2"

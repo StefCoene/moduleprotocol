@@ -4,9 +4,7 @@
    "Memory" : {
       "ModuleName" : "03BC:03FB"
    },
-   "MemoryMap" : {
-      "ChannelTemp" : {}
-   },
+   "MemoryMap" : {},
    "Type" : "VMBPIR-20",
    "Version" : "edition 1"
 }

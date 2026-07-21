@@ -1,29 +1,14 @@
 {
+   "ChannelPerName" : {},
    "Channels" : {},
    "Info" : "2 channel blind module",
    "Memory" : {
       "ModuleName" : "07BC:07FB"
    },
    "MemoryMap" : {
-      "ChannelTemp" : {
-         "Blind 1" : {
-            "Memory" : "0000:000F",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "0000",
-               "16" : "000F"
-            }
-         },
-         "Blind 2" : {
-            "Memory" : "001C:002B",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "001C",
-               "16" : "002B"
-            }
-         }
+      "Channel" : {
+         "Blind 1" : "0000:000F",
+         "Blind 2" : "001C:002B"
       }
    },
    "Type" : "VMB2BLE-20",

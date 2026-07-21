@@ -116,62 +116,16 @@
    },
    "Info" : "VMBEL1PIR-20 VMBEL2PIR",
    "Memory" : {
+      "01" : "001C:002B",
+      "02" : "0030:003F",
       "ModuleName" : "0678:06B7"
    },
    "MemoryMap" : {
       "Channel" : {
-         "Push button" : {
-            "Memory" : "001C:002B"
-         },
-         "Virtual button" : {
-            "Memory" : "0030:003F"
-         }
-      },
-      "ChannelTemp" : {
-         "Color palette 0" : {
-            "Memory" : "007C:008B",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "007C",
-               "15" : "008A",
-               "16" : "008B",
-               "2" : "007D"
-            }
-         },
-         "Color palette 31" : {
-            "Memory" : "02E8:02F7",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "02E8",
-               "15" : "02F6",
-               "16" : "02F7",
-               "2" : "02E9"
-            }
-         },
-         "Open collector output" : {
-            "Memory" : "0384:0393",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "0384",
-               "15" : "0392",
-               "16" : "0393",
-               "2" : "0385"
-            }
-         },
-         "Sensor" : {
-            "Memory" : "0350:035F",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "0350",
-               "15" : "035E",
-               "16" : "035F",
-               "2" : "0351"
-            }
-         }
+         "Color palette 0" : "007C:008B",
+         "Color palette 31" : "02E8:02F7",
+         "Open collector output" : "0384:0393",
+         "Sensor" : "0350:035F"
       }
    },
    "TemperatureChannel" : "09",

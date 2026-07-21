@@ -42,31 +42,17 @@
    },
    "Info" : "1 channel relay module",
    "Memory" : {
+      "01" : "00F0:00FF",
+      "02" : "01F0:01FF",
+      "03" : "02F0:02FF",
+      "04" : "03F0:03FF",
+      "05" : "04F0:04FF",
+      "06" : "00EA:02ED",
       "ModuleName" : "00DD:04E8",
       "StatusAddress" : "00DD;00DE;00DF;00E0;00E1;00E2;00E3;00E4;00E5;00E6;00E7;00E8;00E9;01DD;01DE;01DF;01E0;01E1;01E2;01E3;01E4;01E5;01E6;01E7;01E8;01E9;02DD;02DE;02DF;02E0;02E1;02E2;02E3;02E4;02E5;02E6;02E7;02E8;02E9;03DD;03DE;03DF;03E0;03E1;03E2;03E3;03E4;03E5;03E6;03E7;03E8;03E9;04DD;04DE;04DF;04E0;04E1;04E2;04E3;04E4;04E5;04E6;04E7;04E8"
    },
    "MemoryMap" : {
-      "Channel" : {
-         "Input button" : {
-            "Memory" : "00EA:02ED"
-         },
-         "Relay" : {
-            "Memory" : "00F0:00FF"
-         },
-         "Virtual relay 1" : {
-            "Memory" : "01F0:01FF"
-         },
-         "Virtual relay 2" : {
-            "Memory" : "02F0:02FF"
-         },
-         "Virtual relay 3" : {
-            "Memory" : "03F0:03FF"
-         },
-         "Virtual relay 4" : {
-            "Memory" : "04F0:04FF"
-         }
-      },
-      "ChannelTemp" : {}
+      "Channel" : {}
    },
    "Type" : "VMB1RYS",
    "Version" : "edition 1"

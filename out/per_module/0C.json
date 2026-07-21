@@ -10,14 +10,11 @@
       }
    },
    "Info" : "Temperature Sensor Module",
-   "Memory" : {},
+   "Memory" : {
+      "01" : "00F0:00FF"
+   },
    "MemoryMap" : {
-      "Channel" : {
-         "Temperature" : {
-            "Memory" : "00F0:00FF"
-         }
-      },
-      "ChannelTemp" : {}
+      "Channel" : {}
    },
    "TemperatureChannel" : "01",
    "Thermostat" : "yes",

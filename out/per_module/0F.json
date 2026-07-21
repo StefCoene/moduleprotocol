@@ -11,25 +11,12 @@
       }
    },
    "Info" : "PWM LED strip dimmer module",
-   "Memory" : {},
+   "Memory" : {
+      "01" : "00F0:00FF"
+   },
    "MemoryMap" : {
       "Channel" : {
-         "Dimmer" : {
-            "Memory" : "00F0:00FF"
-         }
-      },
-      "ChannelTemp" : {
-         "Local Dim push button" : {
-            "Memory" : "00E0:00EF",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "00E0",
-               "15" : "00EE",
-               "16" : "00EF",
-               "2" : "00E1"
-            }
-         }
+         "Local Dim Push button" : "00E0:00EF"
       }
    },
    "Type" : "VMB1LED",

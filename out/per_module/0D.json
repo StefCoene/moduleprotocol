@@ -1,38 +1,15 @@
 {
+   "ChannelPerName" : {},
    "Channels" : {},
    "Info" : "VMB4RYNO-20 VMB1RYS-20",
    "Memory" : {
       "ModuleName" : "07BC:07FB"
    },
    "MemoryMap" : {
-      "ChannelTemp" : {
-         "Channel 1" : {
-            "Memory" : "0000:000F",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "0000",
-               "16" : "000F"
-            }
-         },
-         "Channel 7" : {
-            "Memory" : "0078:0087",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "0078",
-               "16" : "0087"
-            }
-         },
-         "Channel 8" : {
-            "Memory" : "008C:009B",
-            "max" : "16",
-            "min" : "1",
-            "tmp" : {
-               "1" : "008C",
-               "16" : "009B"
-            }
-         }
+      "Channel" : {
+         "Channel 1" : "0000:000F",
+         "Channel 7" : "0078:0087",
+         "Channel 8" : "008C:009B"
       }
    },
    "Type" : "VMB4RYLD-20",
