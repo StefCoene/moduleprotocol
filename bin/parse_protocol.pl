@@ -307,7 +307,7 @@ foreach my $file (sort `ls txt/protocol*.txt`) {
                my $max = $MemoryMap{ChannelTemp}{$ChannelName}{max} ;
                $MemoryMap{ChannelTemp}{$ChannelName}{Memory} = "$MemoryMap{ChannelTemp}{$ChannelName}{tmp}{$min}:$MemoryMap{ChannelTemp}{$ChannelName}{tmp}{$max}" ;
             } else {
-               print "   ERRRO: File $file: $ChannelName found but no Memory or min and/or max\n" ;
+               print "   Error: File $file: $ChannelName found but no Memory or min and/or max\n" ;
             }
          }
       }
