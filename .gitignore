@@ -1,0 +1,14 @@
+# Editor / OS
+*.swp
+*.swo
+*~
+
+# Scratch- en outputmappen van de analysescripts in bin/
+bin/out/
+bin/txt/
+
+# Gegenereerde output van bin/*.py (analyse van externe velbus-aio JSON)
+bin/*.json
+
+# Losse werkkopie van de parser
+bin/*_clean
